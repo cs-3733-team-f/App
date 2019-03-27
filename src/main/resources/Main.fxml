@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXNodesList?>
 <?import com.jfoenix.controls.JFXTabPane?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
@@ -30,7 +31,7 @@
                             <children>
                                 <JFXButton fx:id="zoomIn" buttonType="RAISED" layoutX="800.0" layoutY="650.0" mnemonicParsing="false" onMouseClicked="#floorOneMapZoomIn" prefHeight="40" prefWidth="40" style="-fx-text-fill:WHITE;-fx-background-color:#3f8cff;-fx-font-size:14px;" text="+" />
                                 <JFXButton fx:id="zoomOut" buttonType="RAISED" layoutX="800.0" layoutY="700.0" mnemonicParsing="false" onMouseClicked="#floorOneMapZoomOut" prefHeight="40" prefWidth="40" style="-fx-text-fill:WHITE;-fx-background-color:#3f8cff;-fx-font-size:14px;" text="-" />
-                                <AnchorPane fx:id="panMap" onMouseDragged="#floorOneMapOnMouseDragged" onMousePressed="#floorOneMapOnMousePressed" onScroll="#floorOneMapScroll" onZoomFinished="#floorOneMapZoomDone" onZoom="#floorOneMapZoom" prefHeight="400.0" prefWidth="400.0">
+                                <AnchorPane fx:id="panMap" onMouseDragged="#floorOneMapOnMouseDragged" onMousePressed="#floorOneMapOnMousePressed" onScroll="#floorOneMapScroll" onZoom="#floorOneMapZoom" onZoomFinished="#floorOneMapZoomDone" prefHeight="400.0" prefWidth="400.0">
                                     <children>
                                         <ImageView fx:id="floorOneMap" blendMode="MULTIPLY" fitHeight="820.0" fitWidth="1154.0" layoutX="50.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-2.0">
                                             <image>
@@ -91,8 +92,12 @@
                           </Label>
                      <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="40.0">
                         <children>
-                           <JFXButton fx:id="settingsButton" style="-fx-text-fill: WHITE; -fx-background-color: #3f8cff; -fx-font-size: 14px;" text="Settings" />
-                           <JFXButton fx:id="logoutButton" onMouseClicked="#logOut" style="-fx-text-fill: WHITE; -fx-background-color: #3f8cff; -fx-font-size: 14px;" text="Logout" />
+                            <JFXNodesList fx:id="nodesList" layoutX="300.0" layoutY="300.0" prefHeight="4.0" prefWidth="30.0" style="-fx-background-color: #3f8cff; -fx-text-fill: WHITE; -fx-font-size: 14px;">
+                                    <JFXButton fx:id="settingsButton" style="-fx-text-fill: WHITE; -fx-background-color: #3f8cff; -fx-font-size: 14px;" text="Options" />
+                                <JFXButton fx:id="settings2Button" style="-fx-text-fill: WHITE; -fx-background-color: #3f8cff; -fx-font-size: 14px;" text="Settings" />
+
+                                <JFXButton fx:id="logoutButton" onMouseClicked="#logOut" style="-fx-text-fill: WHITE; -fx-background-color: #3f8cff; -fx-font-size: 14px;" text="Logout" />
+                            </JFXNodesList>
                         </children>
                      </HBox>
                   </children>

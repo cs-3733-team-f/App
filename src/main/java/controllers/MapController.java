@@ -1,6 +1,7 @@
 package controllers;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXNodesList;
 import helpers.Constants;
 import javafx.fxml.FXML;
 import javafx.scene.control.Tooltip;
@@ -25,6 +26,15 @@ public class MapController {
     @FXML
     JFXButton logoutButton;
 
+    @FXML
+    JFXButton settings2Button;
+
+    @FXML
+    JFXNodesList nodesList;
+
+
+
+
     /**
      * Map
      */
@@ -47,6 +57,25 @@ public class MapController {
         // Set tooltip for sidemenu buttons
         settingsButton.setTooltip(new Tooltip(Constants.SETTINGS_BUTTON_TOOLTIP));
         logoutButton.setTooltip(new Tooltip(Constants.LOGOUT_BUTTON_TOOLTIP));
+       // settings2Button.setTooltip(new Tooltip(Constants.SETTINGS2_BUTTON_TOOLTIP));
+
+
+        JFXButton btnMenu = settingsButton;
+
+        JFXButton btnOption2 = new JFXButton("Settings");
+
+        JFXButton btnCollapse = new JFXButton("<<");
+        btnCollapse.setTooltip(new Tooltip("Collapse menu"));
+        //btnCollapse.setOnAction(e->nodesList.animateList(false));
+
+        nodesList.setSpacing(10);
+
+       // nodesList.addAnimatedNode(settingsButton);
+      //  nodesList.addAnimatedNode(btnOption2);
+      //  nodesList.addAnimatedNode(logoutButton);
+
+       // nodesList.addAnimatedNode(btnCollapse);
+
 
         // Set icons for sidemenu buttons
 //        settingsButton.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.COG));
