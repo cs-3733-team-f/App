@@ -31,6 +31,10 @@ public class Constants {
     public static String SETTINGS_BUTTON_TOOLTIP = "Access user settings";
     public static String LOGOUT_BUTTON_TOOLTIP = "Logout";
 
+    public static String LABEL_NODE_ERROR = "You should specify a node type using the dropdown menu";
+    public static String BUTTON_UPDATE_NODE_ERROR = "OK";
+
+
     public static enum NodeType {
         BATH, CONF, DEPT, ELEV, EXIT, HALL, INFO, LABS, REST, RETL, SERV, STAI
     }

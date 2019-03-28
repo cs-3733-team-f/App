@@ -19,6 +19,11 @@ import java.util.HashMap;
 public class ScreenController {
 
     private static HashMap<String, String> screenMap = new HashMap<>();
+
+    public static Stage getStage() {
+        return stage;
+    }
+
     private static Stage stage;
 
     public ScreenController(Stage stage) {
