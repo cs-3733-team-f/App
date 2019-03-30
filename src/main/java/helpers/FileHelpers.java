@@ -1,5 +1,7 @@
 package helpers;
 
+import com.sun.tools.internal.jxc.ap.Const;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -69,6 +71,15 @@ public class FileHelpers {
         InputStream in = FileHelpers.class.getResourceAsStream(Constants.CSV_EDGES);
 
         return in;
+    }
+
+    public static File getIntroVideoFile() {
+        File file = new File(
+                FileHelpers.class.getProtectionDomain().getCodeSource().getLocation()
+                        + Constants.INTRO_VIDEO
+        );
+
+        return file;
     }
 
 }
