@@ -1,18 +1,14 @@
 package controllers;
 
-import javafx.beans.binding.Bindings;
-import javafx.beans.property.DoubleProperty;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import javafx.scene.media.MediaView;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import models.map.Location;
 
-import java.io.File;
 import java.net.URL;
 import java.util.HashMap;
 
@@ -49,9 +45,10 @@ public class ScreenController {
         this.addScreen("regMain","/RegMain.fxml");
         this.addScreen("login","/Login.fxml");
         this.addScreen("main","/Main.fxml");
-        this.addScreen("popUp","/PopUp.fxml");
+        this.addScreen("edit", "/Edit.fxml");
         this.addScreen("download", "/Download.fxml");
         this.addScreen("downloaded", "/Downloaded.fxml");
+        this.addScreen("info", "/Info.fxml");
 
     }
 
@@ -68,7 +65,7 @@ public class ScreenController {
     }
 
     public static void deactivate() {
-        stage.hide();
+        stage.close();
     }
 
     private static void addStyles(Scene scene) {
@@ -100,7 +97,7 @@ public class ScreenController {
         stage.show();
     }
 
-    public static void activate(String name, Location loc) throws Exception {
+    public static void popUp(String name, Location loc) throws Exception {
 
         stage = new Stage();
 
@@ -109,8 +106,8 @@ public class ScreenController {
 
         FXMLLoader loader = new FXMLLoader(url);
         Parent root = loader.load();
-
         PopUpController pc = loader.getController();
+
         pc.setLoc(loc);
 
         // Init scene
@@ -121,8 +118,17 @@ public class ScreenController {
 
         stage.setTitle(Character.toUpperCase(name.charAt(0)) + name.substring(1));
         stage.setScene(s);
-        stage.setResizable(true);
-
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.initModality(Modality.APPLICATION_MODAL);
         stage.show();
+    }
+
+
+    /**
+     * Closes out of a current window with selected
+     * @param n Node from the window the logout is from
+     */
+    public static void logOut(Node n) {
+        ((Stage) n.getScene().getWindow()).close();
     }
 }
