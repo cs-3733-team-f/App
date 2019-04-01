@@ -3,6 +3,7 @@ package controllers;
 import com.jfoenix.controls.JFXComboBox;
 import database.Database;
 import helpers.Constants;
+import helpers.MapHelpers;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -10,13 +11,17 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import models.map.Location;
 
+import java.awt.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class EditController extends PopUpController implements Initializable {
+
+    private String selectedFloor = "1", selectedBuilding = "Tower";
 
     public JFXComboBox cmbNodeType;
     public String BATH;
@@ -42,6 +47,8 @@ public class EditController extends PopUpController implements Initializable {
         ScreenController.deactivate();
     }
 
+
+
     public void goBack(MouseEvent event) throws Exception{
        // ((Stage) (((Node) event.getSource()).getScene().getWindow())).close();
         event.consume();
@@ -54,8 +61,28 @@ public class EditController extends PopUpController implements Initializable {
         ScreenController.deactivate();
     }
 
+    public Location chooseLocation(MouseEvent event) throws Exception {
+        Point selectedPoint = new Point((int)event.getX(), (int)event.getY());
+        Point nodeCoordinate = MapHelpers.mapPointToMapCoordinates(selectedPoint);
+        Circle circ = MapHelpers.generateNode(nodeCoordinate);
+//        Point nodeDisplayCoordinate = MapHelpers.mapPointToMapCoordinates()
+        Location loc = new Location(null, nodeCoordinate.x, nodeCoordinate.y,
+                this.selectedFloor, this.selectedBuilding, Constants.NodeType.HALL,
+                "RECENT_ADDITION", "RECENT_ADDITION");
+        circ.setOnMouseClicked(evt -> {
+            try {
+                evt.consume();
+                ScreenController.popUp("edit", loc);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        return loc;
+    }
+
+
     public void setLoc(Location loc) {
-        this.loc = loc;
+        this.loc =  loc;
         switch (loc.getNodeType()) {
             case BATH:
                 cmbNodeType.setValue(BATH);
