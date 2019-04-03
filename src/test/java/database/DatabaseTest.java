@@ -3,12 +3,14 @@ package database;
 import helpers.FileHelpers;
 import models.map.Edge;
 import models.map.Location;
+import models.room.Book;
 import models.room.Room;
 import models.sanitation.SanitationRequest;
 import org.junit.Before;
 import org.junit.Test;
 
 import javax.xml.crypto.Data;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -205,16 +207,19 @@ public class DatabaseTest {
         Location newLoc = new Location("AHALL00201",1608,2596,"1","BTM",HALL,"Hall","Hall");
 
         Room newRoom = Database.getRoomByID(newLoc.getNodeID());
+        Date newDate1 = new Date(2019, 10, 16, 5, 9, 24)
 
-        assertTrue(newRoom.getRoomID()==newLoc.getNodeID());
+        Date newDate2 = new Date(2019, 10, 16, 5, 58, 24)
 
+        Book theBooking = new Book(10, "123123", 100, newDate1, newDate2);
 
-    }
-
-    @Test
-    public void getBookings() {
 
     }
+//
+//    @Test
+//    public void getBookings() {
+//
+//    }
 
 //    @Test
 //    public void getDeletedLocations() {
