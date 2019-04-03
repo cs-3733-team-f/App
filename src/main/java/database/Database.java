@@ -834,7 +834,7 @@ public class Database {
     /**
      * Returns a list of users
      */
-    public List<User> getUsers() {
+    public static List<User> getUsers() {
         try {
 
             Statement statement;

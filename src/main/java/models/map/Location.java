@@ -90,4 +90,17 @@ public class Location {
     public boolean deleteCurrNode() {
         return Database.deleteLocation(this);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Location) {
+            if(((Location) obj).getNodeID().equals(this.getNodeID())){
+                return true;
+            }else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
 }
