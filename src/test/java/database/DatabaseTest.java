@@ -4,6 +4,7 @@ import helpers.Constants;
 import helpers.FileHelpers;
 import models.map.Edge;
 import models.map.Location;
+import models.room.Book;
 import models.room.Room;
 import models.sanitation.SanitationRequest;
 import models.user.User;
@@ -11,6 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import javax.xml.crypto.Data;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -18,6 +20,7 @@ import static helpers.Constants.NodeType.HALL;
 import static org.junit.Assert.*;
 
 public class DatabaseTest {
+
 
 
     @Before
@@ -28,6 +31,7 @@ public class DatabaseTest {
         if (!Database.databaseExists()) {
             CSVParser.parse(FileHelpers.getNodesCSV(), FileHelpers.getEdgesCSV());
         }
+
     }
 
     @Test
@@ -67,10 +71,8 @@ public class DatabaseTest {
 
     @Test
     public void getLocationsByID() {
-
         Location newLoc = new Location("AHALL00201", 1608, 2596, "1", "BTM", HALL, "Hall", "Hall");
         HashMap<String, Location> locations = Database.getLocations();
-
         assertTrue(Database.getLocationByID(newLoc.getNodeID()).equals(newLoc));
     }
 
@@ -93,6 +95,9 @@ public class DatabaseTest {
                 testEnd = e.getEnd();
             }
         }
+        assertEquals(newEdg.getEdgeID(), testEdge.getEdgeID());
+        assertEquals(newEdg.getStart().getNodeID(), testEdge.getStart().getNodeID());
+        assertEquals(newEdg.getEnd().getNodeID(), testEdge.getEnd().getNodeID());
     }
 
     @Test
@@ -205,7 +210,11 @@ public class DatabaseTest {
     public void getBookByRoomID() {
         Location newLoc = new Location("AHALL00201", 1608, 2596, "1", "BTM", HALL, "Hall", "Hall");
         Room newRoom = Database.getRoomByID(newLoc.getNodeID());
-        assertTrue(newRoom.getRoomID() == newLoc.getNodeID());
+        Date newDate1 = new Date(2019, 10, 16, 5, 9, 24);
+
+        Date newDate2 = new Date(2019, 10, 16, 5, 58, 24);
+
+        Book theBooking = new Book(10, "123123", 100, newDate1, newDate2);
     }
 
     @Test
@@ -230,4 +239,49 @@ public class DatabaseTest {
         }
         assertTrue(f);
     }
+//
+//    @Test
+//    public void getBookings() {
+//
+//    }
+
+//    @Test
+//    public void getDeletedLocations() {
+//        HashMap<String, Location> getDL = new HashMap<>();
+//        getDL = Database.getDeletedLocations();
+//        System.out.println(getDL);
+//    }
+
+//    @Test NOT BEING USED
+//    public void removeSanitationRequest() {
+//        Location newLoc = new Location("AHALL00201",1608,2596,"1","BTM",HALL,"Hall","Hall");
+//
+//        SanitationRequest request = new SanitationRequest(
+//                newLoc,
+//                SanitationRequest.Priority.valueOf("HIGH"),
+//                "DiRtY"
+//        );
+//
+//        boolean F=false;
+//        Database.addSanitationRequest(request);
+//        List<SanitationRequest> lstReqs = Database.getSanitationRequests();
+//        Database.removeSanitationRequest(request);
+//        for(SanitationRequest E :lstReqs){
+//            if (E.getDescription().equals(request.getDescription())){
+//                F=true;
+//            }
+//        }
+//        assertFalse(F);
+//
+//    }
+//    @Test
+//    public void updateEdge() {
+//        Location AHALL00202 = new Location("AHALL00202", 1500, 2600, "2", "BTM", HALL, "Hall", "Hall");
+//        Location AHALL00312 = new Location("AHALL00302", 1500, 2700, "2", "BTM", HALL, "Hall", "Hall");
+//        Edge newEdg = new Edge("AHALL00202_AHALL00302", AHALL00312, AHALL00202);
+//
+//        assertTrue(Database.updateEdge(newEdg));
+//    }
+
+
 }

@@ -475,7 +475,6 @@ public class Database {
             statement = connection.prepareStatement(
                     "SELECT * FROM " + Constants.BOOK_TABLE + " WHERE ROOMID=?"
             );
-            //TODO: right parameter?
             statement.setString(1, roomID);
 
             ResultSet resultSet = statement.executeQuery();
