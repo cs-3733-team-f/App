@@ -1,6 +1,7 @@
 package controllers;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTabPane;
 import controllers.MapController;
 import database.Database;
 import helpers.Constants;
@@ -14,8 +15,10 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.PropertyValueFactory;
 import map.MapDisplay;
+import models.map.Location;
 import models.sanitation.SanitationRequest;
 
+import javax.xml.crypto.Data;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -31,6 +34,8 @@ public class CustodianMapController extends MapController {
     public TableColumn<SanitationRequest,String> tblDescription;
 
     public JFXButton btnMarkDone;
+    public JFXButton btnNavigate;
+    public JFXTabPane tabFloorPane;
 
     ObservableList<SanitationRequest> spills = FXCollections.observableArrayList();
 
@@ -42,6 +47,7 @@ public class CustodianMapController extends MapController {
 
         tblData.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             btnMarkDone.setDisable(false);
+            btnNavigate.setDisable(false);
             updateBtn();
         });
 
@@ -64,6 +70,17 @@ public class CustodianMapController extends MapController {
     private void updateSanitation() {
         List<SanitationRequest> lstReqs = Database.getSanitationRequests();
         spills.addAll(lstReqs);
+    }
+
+    public void navigateTo(){
+
+        //Location start = Database.getKioskLoc();
+        Location end = tblData.getSelectionModel().getSelectedItem().getLocationObj();
+        //map.navigate(start,end);
+
+        //String floor = start.getFloor();
+        //tabFloorPane.getSelectionModel().select(floor);
+
     }
 
     public void markDone(){
