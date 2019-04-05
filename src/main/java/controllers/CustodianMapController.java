@@ -28,7 +28,7 @@ public class CustodianMapController extends MapController {
     public TableColumn<SanitationRequest,String> tblStatus;
     public TableColumn<SanitationRequest,String> tblDescription;
     public TableColumn<SanitationRequest,String> tblRequester;
-    public TableColumn<SanitationRequest,String> tblRequestTime;
+    public TableColumn<SanitationRequest,String> tblClaimTime;
     public TableColumn<SanitationRequest,String> tblServicer;
     public TableColumn<SanitationRequest,String> tblServiceTime;
 
@@ -84,6 +84,13 @@ public class CustodianMapController extends MapController {
 
         HashMap<String, Location> locations = Database.getLocations();
 
+
+
+//        for (locations.Entry<String, Object> entry : map.entrySet()) {
+//            String key = entry.getKey();
+//            Object value = entry.getValue();
+//            // ...
+//        }
 
        
         //

@@ -101,7 +101,7 @@
                             <TableColumn fx:id="tblStatus" prefWidth="100.0" text="Status" />
                             <TableColumn fx:id="tblDescription" prefWidth="350.0" text="Description" />
                             <TableColumn fx:id="tblRequester" prefWidth="100.0" text="Requester" />
-                            <TableColumn fx:id="tblRequestTime" prefWidth="100.0" text="Request Time" />
+                            <TableColumn fx:id="tblClaimTime" prefWidth="100.0" text="Time Claimed" />
                             <TableColumn fx:id="tblServicer" prefWidth="100.0" text="Servicer" />
                             <TableColumn fx:id="tblServiceTime" prefWidth="100.0" text="Service Time" />
 
@@ -127,12 +127,12 @@
                               <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                            </padding>
                         </ButtonBar>
-                        <SplitMenuButton mnemonicParsing="false" text="SplitMenuButton">
-                          <items>
-                            <MenuItem mnemonicParsing="false" text="Action 1" />
-                            <MenuItem mnemonicParsing="false" text="Action 2" />
-                          </items>
-                        </SplitMenuButton>
+                        <!--<SplitMenuButton mnemonicParsing="false" text="SplitMenuButton">-->
+                          <!--<items>-->
+                            <!--<MenuItem mnemonicParsing="false" text="Action 1" />-->
+                            <!--<MenuItem mnemonicParsing="false" text="Action 2" />-->
+                          <!--</items>-->
+                        <!--</SplitMenuButton>-->
                      </children>
                   </VBox>
                </content></Tab>
