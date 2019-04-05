@@ -2,10 +2,16 @@ package controllers;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
+import database.Database;
 import helpers.Constants;
+import helpers.UIHelpers;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.input.MouseEvent;
 import models.map.Location;
+import org.omg.DynamicAny.DynArray;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -27,13 +33,19 @@ public class EditController extends PopUpController implements Initializable {
     public String SERV;
     public String STAI;
 
-    public JFXButton bookingButton;
+//    public JFXButton bookingButton;
 
     public void updateNode(MouseEvent event) {
         event.consume();
         String value = (String) cmbNodeType.getValue();
         String nType = value.substring(0, value.indexOf(':'));
         loc.setNodeType(Constants.NodeType.valueOf(nType));
+        if (loc.getNodeID() == null) {
+            loc.setNodeID(Database.addNewLocation(loc));
+            System.out.println(loc.getNodeID());
+        }
+        VisualRealtimeController.updateCircle(loc.getNodeCircle(),
+                UIHelpers.updateCircleForNodeType(loc));
         ScreenController.deactivate();
     }
 
@@ -52,12 +64,13 @@ public class EditController extends PopUpController implements Initializable {
     public void goBack(MouseEvent event) throws Exception{
        // ((Stage) (((Node) event.getSource()).getScene().getWindow())).close();
         event.consume();
+        //if(loc.getNodeID() == null) Database.addNewLocation(loc);
         ScreenController.deactivate();
     }
 
     public void deleteNode(MouseEvent event) {
         event.consume();
-       // loc.deleteCurrNode();
+        loc.deleteCurrNode();
         ScreenController.deactivate();
     }
 
@@ -103,7 +116,7 @@ public class EditController extends PopUpController implements Initializable {
 
                 // Set button visibility to true since a conference room node
                 // is selected and the room can be booked
-                bookingButton.setVisible(true);
+//                bookingButton.setVisible(true);
 
                 break;
             default:
@@ -114,6 +127,6 @@ public class EditController extends PopUpController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+//        bookingButton.setText(Constants.BOOKING_BUTTON_TEXT);
     }
 }

@@ -5,6 +5,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.shape.Line;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -36,7 +37,10 @@ public class ScreenController {
     public void initializeScreens(Stage stage) throws Exception {
 
         // Initialize screen controller to switch between different scenes
+        // Logo displays the animated Fuchsia Fauns Logo
         this.addScreen("logo","/Logo.fxml");
+
+        // Welcome is the kiosk welcome screen
         this.addScreen("welcome","/Welcome.fxml");
         this.addScreen("user-map", "/UserMap.fxml");
         this.addScreen("login","/Login.fxml");
@@ -51,6 +55,9 @@ public class ScreenController {
         this.addScreen("directions", "/Directions.fxml");
         this.addScreen("custodian-map", "/CustodianMap.fxml");
         this.addScreen("custodian-info", "/CustodianInfo.fxml");
+
+        // Booking window
+        this.addScreen("book-room", "/BookingWindow.fxml");
 
     }
 

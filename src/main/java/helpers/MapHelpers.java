@@ -1,8 +1,18 @@
 package helpers;
 
+import controllers.ScreenController;
+import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import map.MapDisplay;
+import models.map.Edge;
+import models.map.Location;
+
+import java.awt.*;
 
 public class MapHelpers {
 
@@ -24,6 +34,42 @@ public class MapHelpers {
                 viewport.getMinY() + yProportion * viewport.getHeight());
     }
 
+    public static Point mapPointToMapCoordinates(Point p) {
 
-
+        Point n = new Point(
+                (int) ((p.x / MapDisplay.getScale()) + MapDisplay.getxShift()),
+                (int) ((p.y / MapDisplay.getScale() + MapDisplay.getyShift()))
+        );
+        return n;
+    }
+    public static Circle generateNode(Point target) {
+        Circle circle = new Circle((target.x - MapDisplay.getxShift()) * MapDisplay.getScale(),
+                (target.y - MapDisplay.getyShift()) * MapDisplay.getScale()
+                , MapDisplay.getLocRadius(), Color.WHITE);
+        circle.setStroke(Color.BLACK);
+        circle.setStrokeWidth(MapDisplay.getLocWidth());
+//        circle.setOnMouseClicked(new EventHandler<MouseEvent>() {
+//            @Override
+//            public void handle(MouseEvent event) {
+//                try {
+//                    event.consume();
+//                    ScreenController.popUp("info", loc);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
+        return circle;
+    }
+    public static Edge generateEdge(Location loc1, Location loc2) {
+        Edge e = new Edge(null, loc1, loc2);
+        e.setEdgeID(MapHelpers.generateEdgeID(e, Constants.START_FIRST));
+        return e;
+    }
+    public static String generateEdgeID(Edge edge, boolean startFirst) {
+        String nodeID1 = edge.getStart().getNodeID();
+        String nodeID2 = edge.getEnd().getNodeID();
+        return startFirst ? nodeID1 + "_" + nodeID2
+                : nodeID2 + "_" + nodeID1;
+    }
 }
