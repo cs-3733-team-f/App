@@ -103,7 +103,7 @@ public class CustodianMapController extends MapController {
 
         if (selected.getServicer() != null) {
             selected.setServicer(UserHelpers.getCurrentUser());
-        }else if{
+        }else{
             selected.setServicer(null);
         }
         updateClaimBtn();
