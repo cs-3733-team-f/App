@@ -349,6 +349,28 @@ public class Database {
 
     }
 
+    public static boolean deleteBooking(Book book) {
+
+        try {
+
+            PreparedStatement statement;
+            statement = connection.prepareStatement(
+                    "DELETE FROM " + Constants.BOOK_TABLE +
+                            " WHERE BOOKINGID=?"
+            );
+
+            statement.setInt(1, book.getBookingID());
+
+            return statement.execute();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+            return false;
+        }
+
+    }
+
     /**
      * Creates user based off of database
      */
