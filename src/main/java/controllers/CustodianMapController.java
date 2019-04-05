@@ -2,14 +2,11 @@ package controllers;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTabPane;
-import controllers.MapController;
 import database.Database;
 import helpers.Constants;
-import helpers.SpillModel;
+import helpers.UserHelpers;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Tooltip;
@@ -18,11 +15,9 @@ import map.MapDisplay;
 import models.map.Location;
 import models.sanitation.SanitationRequest;
 
-import javax.xml.crypto.Data;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
-import java.util.ResourceBundle;
+import java.sql.Timestamp;
 
 public class CustodianMapController extends MapController {
 
@@ -31,11 +26,16 @@ public class CustodianMapController extends MapController {
     public TableColumn<SanitationRequest,String> tblLocation;
     public TableColumn<SanitationRequest,String> tblPriority;
     public TableColumn<SanitationRequest,String> tblStatus;
-    public TableColumn<SanitationRequest,String> tblUser;
     public TableColumn<SanitationRequest,String> tblDescription;
+    public TableColumn<SanitationRequest,String> tblRequester;
+    public TableColumn<SanitationRequest,String> tblRequestTime;
+    public TableColumn<SanitationRequest,String> tblServicer;
+    public TableColumn<SanitationRequest,String> tblServiceTime;
+
 
     public JFXButton btnMarkDone;
     public JFXButton btnNavigate;
+    public JFXButton btnClaim;
     public JFXTabPane tabFloorPane;
 
     ObservableList<SanitationRequest> spills = FXCollections.observableArrayList();
@@ -46,11 +46,16 @@ public class CustodianMapController extends MapController {
         initSanitation();
         updateSanitation();
 
-        tblData.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+        tblData.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {// only enable btns if item selected
             btnMarkDone.setDisable(false);
             btnNavigate.setDisable(false);
-            updateBtn();
         });
+        SanitationRequest selected = tblData.getSelectionModel().getSelectedItem();
+        if(selected.getServicer==null||selected.getServicer().equals(UserHelpers.getCurrentUser())) {//only enable claiming if unclaimed
+            btnClaim.setDisable(false);
+        }else{
+            btnClaim.setDisable(true);
+        }
 
     }
 
@@ -64,7 +69,7 @@ public class CustodianMapController extends MapController {
         tblPriority.setCellValueFactory(new PropertyValueFactory<>("Priority"));
         tblStatus.setCellValueFactory(new PropertyValueFactory<>("Status"));
         tblDescription.setCellValueFactory(new PropertyValueFactory<>("Description"));
-        tblUser.setCellValueFactory(new PropertyValueFactory<>("User"));
+        //tblUser.setCellValueFactory(new PropertyValueFactory<>("User"));
         tblData.setItems(spills);
     }
 
@@ -92,13 +97,31 @@ public class CustodianMapController extends MapController {
 
     }
 
+    public void claimJob(){
+
+        SanitationRequest selected = tblData.getSelectionModel().getSelectedItem();
+
+        if (selected.getServicer() != null) {
+            selected.setServicer(UserHelpers.getCurrentUser());
+        }else if{
+            selected.setServicer(null);
+        }
+        updateClaimBtn();
+
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+
+        selected.setClaimedTime(timestamp);
+
+
+    }
+
     public void markDone(){
         SanitationRequest selected = tblData.getSelectionModel().getSelectedItem();
-        if (selected.getUser().equals("")) {
-            selected.setUser("user_temp");
-        } else {
-            selected.setUser("");
-        }
+//        if (selected.getUser().equals("")) {
+//            selected.setUser("user_temp");
+//        } else {
+//            selected.setUser("");
+//        }
         if (selected.getStatusObj() == SanitationRequest.Status.COMPLETE) {
             selected.setStatus(SanitationRequest.Status.INCOMPLETE);
         } else {
@@ -106,11 +129,23 @@ public class CustodianMapController extends MapController {
         }
         Database.editSanitationRequest(selected);
         tblData.refresh();
-        updateBtn();
+
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+
+        selected.setCompletedTime(timestamp);
+        updateMarkDoneBtn();
     }
 
-    private void updateBtn() {
+    private void updateMarkDoneBtn() {
         if (tblData.getSelectionModel().getSelectedItem().getStatusObj() == SanitationRequest.Status.COMPLETE) {
+            btnClaim.setText("Un-Claim");
+        } else {
+            btnClaim.setText("Claim");
+        }
+    }
+
+    private void updateClaimBtn() {
+        if (tblData.getSelectionModel().getSelectedItem().getServicer()==null) {
             btnMarkDone.setText("Mark Incomplete");
         } else {
             btnMarkDone.setText("Mark Complete");
