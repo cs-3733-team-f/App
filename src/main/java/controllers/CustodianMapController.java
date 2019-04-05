@@ -3,6 +3,7 @@ package controllers;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTabPane;
 import database.Database;
+import database.SanitationTable;
 import helpers.Constants;
 import helpers.UserHelpers;
 import javafx.collections.FXCollections;
@@ -51,7 +52,7 @@ public class CustodianMapController extends MapController {
             btnNavigate.setDisable(false);
         });
         SanitationRequest selected = tblData.getSelectionModel().getSelectedItem();
-        if(selected.getServicer==null||selected.getServicer().equals(UserHelpers.getCurrentUser())) {//only enable claiming if unclaimed
+        if(selected.getServicer()==null||selected.getServicer().equals(UserHelpers.getCurrentUser())) {//only enable claiming if unclaimed
             btnClaim.setDisable(false);
         }else{
             btnClaim.setDisable(true);
@@ -74,7 +75,7 @@ public class CustodianMapController extends MapController {
     }
 
     private void updateSanitation() {
-        List<SanitationRequest> lstReqs = Database.getSanitationRequests();
+        List<SanitationRequest> lstReqs = SanitationTable.getSanitationRequests();
         spills.addAll(lstReqs);
     }
 
@@ -82,7 +83,7 @@ public class CustodianMapController extends MapController {
         
         String locID;
 
-        HashMap<String, Location> locations = Database.getLocations();
+        //HashMap<String, Location> locations = Database.getLocations();
 
 
 
@@ -96,7 +97,7 @@ public class CustodianMapController extends MapController {
         //
 
         //Location start = Database.getLocationbyID();
-        Location end = tblData.getSelectionModel().getSelectedItem().getLocationObj();
+        Location end = tblData.getSelectionModel().getSelectedItem().getLocation();
         //map.navigate(start,end);
 
         //String floor = start.getFloor();
@@ -129,12 +130,12 @@ public class CustodianMapController extends MapController {
 //        } else {
 //            selected.setUser("");
 //        }
-        if (selected.getStatusObj() == SanitationRequest.Status.COMPLETE) {
+        if (selected.getStatus() == SanitationRequest.Status.COMPLETE) {
             selected.setStatus(SanitationRequest.Status.INCOMPLETE);
         } else {
             selected.setStatus(SanitationRequest.Status.COMPLETE);
         }
-        Database.editSanitationRequest(selected);
+        SanitationTable.editSanitationRequest(selected);
         tblData.refresh();
 
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
@@ -144,7 +145,7 @@ public class CustodianMapController extends MapController {
     }
 
     private void updateMarkDoneBtn() {
-        if (tblData.getSelectionModel().getSelectedItem().getStatusObj() == SanitationRequest.Status.COMPLETE) {
+        if (tblData.getSelectionModel().getSelectedItem().getStatus() == SanitationRequest.Status.COMPLETE) {
             btnClaim.setText("Un-Claim");
         } else {
             btnClaim.setText("Claim");
