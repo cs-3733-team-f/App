@@ -20,6 +20,7 @@ import models.sanitation.SanitationRequest;
 
 import javax.xml.crypto.Data;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -73,8 +74,16 @@ public class CustodianMapController extends MapController {
     }
 
     public void navigateTo(){
+        
+        String locID;
 
-        //Location start = Database.getKioskLoc();
+        HashMap<String, Location> locations = Database.getLocations();
+
+
+       
+        //
+
+        //Location start = Database.getLocationbyID();
         Location end = tblData.getSelectionModel().getSelectedItem().getLocationObj();
         //map.navigate(start,end);
 
