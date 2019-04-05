@@ -55,6 +55,7 @@ public class DatabaseTest {
         HashMap<String, Location> locations = Database.getLocations();
 
 
+
         // check that all fields are equal to the original after being added and and pulled from the database
 
         assertTrue(newLoc.getBuilding().equals((locations.get(newLoc.getNodeID())).getBuilding()));
