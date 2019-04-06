@@ -81,6 +81,11 @@ public class CustodianMapController extends MapController {
         tblStatus.setCellValueFactory(new PropertyValueFactory<>("Status"));
         tblDescription.setCellValueFactory(new PropertyValueFactory<>("Description"));
         //tblUser.setCellValueFactory(new PropertyValueFactory<>("User"));
+        tblRequester.setCellValueFactory(new PropertyValueFactory<>("Requester"));
+        tblClaimTime.setCellValueFactory(new PropertyValueFactory<>("ClaimedTime"));
+        tblServiceTime.setCellValueFactory(new PropertyValueFactory<>("CompletedTime"));
+        tblServicer.setCellValueFactory(new PropertyValueFactory<>("Servicer"));
+
         tblData.setItems(spills);
     }
 
