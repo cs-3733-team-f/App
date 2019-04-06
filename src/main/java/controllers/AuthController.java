@@ -41,14 +41,14 @@ public class AuthController {
 
         Constants.Auth authType = authenticate(emailField.getText(), passwordField.getText());
 
+        currentlyAuthenticatedUsers++; // Moved because the employee user in the database has ID starting at 1, NOT 0
+
         // Email field is empty in this case
         if(authType == Constants.Auth.USER) {
             currentUser = new User(currentlyAuthenticatedUsers, "user", "", authType);
         } else {
             currentUser = new User(currentlyAuthenticatedUsers, emailField.getText(), passwordField.getText(), authType);
         }
-
-        currentlyAuthenticatedUsers++;
 
         currentUser.create();
 

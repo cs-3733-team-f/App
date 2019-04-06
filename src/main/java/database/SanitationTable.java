@@ -33,9 +33,9 @@ public class SanitationTable {
                             "priority VARCHAR(10), " +
                             "status VARCHAR(100), " +
                             "description VARCHAR(100), " +
-                            "requesterID VARCHAR(100) REFERENCES " + Constants.USERS_TABLE + "(userID), " +
+                            "requesterID INT REFERENCES " + Constants.USERS_TABLE + "(userID), " +
                             "requestTime TIMESTAMP, " +
-                            "servicerID VARCHAR(100) REFERENCES " + Constants.USERS_TABLE + "(userID), " +
+                            "servicerID INT REFERENCES " + Constants.USERS_TABLE + "(userID), " +
                             "claimedTime TIMESTAMP, " +
                             "completedTime TIMESTAMP, " +
                             "CONSTRAINT priority_enum CHECK (priority in ('LOW', 'MEDIUM', 'HIGH')), " +
@@ -61,7 +61,6 @@ public class SanitationTable {
         String description = request.getDescription();
         int requesterID = request.getRequester().getUserID();
         Timestamp requestTime = request.getRequestTime();
-
         User requester = request.getRequester();
 
         try {
