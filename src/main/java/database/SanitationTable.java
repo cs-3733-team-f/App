@@ -90,6 +90,24 @@ public class SanitationTable {
     }
 
     /**
+     * Deletes sanitation request with same ID as given request.
+     * @return Boolean indicating if request was deleted.
+     */
+    public static boolean deleteSanitationRequest(SanitationRequest request) {
+        int requestID = request.getRequestID();
+        try {
+            PreparedStatement statement = Database.getConnection().prepareStatement(
+                    "DELETE FROM " + Constants.SANITATION_TABLE + " WHERE requestID=?");
+            statement.setInt(1, requestID);
+            return statement.execute();
+        } catch (SQLException exception) {
+            System.out.println("Failed to delete sanitation request with ID: " + requestID);
+            exception.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
      * @brief Attempts to drop sanitation table.
      * @return Boolean indicating success of table drop.
      */
