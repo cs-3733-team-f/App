@@ -12,6 +12,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import map.MapDisplay;
 import models.map.Location;
 import models.sanitation.SanitationRequest;
@@ -19,6 +20,8 @@ import models.sanitation.SanitationRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.sql.Timestamp;
+
+import static controllers.VisualRealtimeController.panMap;
 
 public class CustodianMapController extends MapController {
 
@@ -42,8 +45,15 @@ public class CustodianMapController extends MapController {
     ObservableList<SanitationRequest> spills = FXCollections.observableArrayList();
 
     public void initialize() {
+
+
         toolTip();
-        MapDisplay.displayCust(panMap, "1");
+
+        MapDisplay.displayAdmin(new AnchorPane[] {panFloorL2, panFloorL1, panFloor1, panFloor2, panFloor3});
+        VisualRealtimeController.setPanMap(panFloor1);
+
+//        toolTip();
+//        MapDisplay.displayCust(panMap, "1");
         initSanitation();
         updateSanitation();
 
