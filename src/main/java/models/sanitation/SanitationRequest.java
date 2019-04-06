@@ -108,7 +108,7 @@ public class SanitationRequest implements Comparable<SanitationRequest> {
      * @brief Compares sanitation requests based on priority then request timestamp
      */
     public int compareTo(SanitationRequest request) {
-        int priorityCmp = priorityToInt().compareTo(request.priorityToInt();
+        int priorityCmp = priorityToInt().compareTo(request.priorityToInt());
         if (priorityCmp == 0) {
             return requestTime.compareTo(request.requestTime);
         } else {
