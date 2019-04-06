@@ -33,9 +33,9 @@ public class SanitationTable {
                             "priority VARCHAR(10), " +
                             "status VARCHAR(100), " +
                             "description VARCHAR(100), " +
-                            "requesterID VARCHAR(100) REFERENCES " + Constants.USERS_TABLE + "(userID), " +
+                            "requesterID INT REFERENCES " + Constants.USERS_TABLE + "(userID), " +
                             "requestTime TIMESTAMP, " +
-                            "servicerID VARCHAR(100) REFERENCES " + Constants.USERS_TABLE + "(userID), " +
+                            "servicerID INT REFERENCES " + Constants.USERS_TABLE + "(userID), " +
                             "claimedTime TIMESTAMP, " +
                             "completedTime TIMESTAMP, " +
                             "CONSTRAINT priority_enum CHECK (priority in ('LOW', 'MEDIUM', 'HIGH')), " +
@@ -61,7 +61,6 @@ public class SanitationTable {
         String description = request.getDescription();
         int requesterID = request.getRequester().getUserID();
         Timestamp requestTime = request.getRequestTime();
-
         User requester = request.getRequester();
 
         try {
@@ -85,6 +84,24 @@ public class SanitationTable {
             System.out.println("Sanitation Request (" + description + ") could not be added.");
             exception.printStackTrace();
             System.out.println();
+            return false;
+        }
+    }
+
+    /**
+     * Deletes sanitation request with same ID as given request.
+     * @return Boolean indicating if request was deleted.
+     */
+    public static boolean deleteSanitationRequest(SanitationRequest request) {
+        int requestID = request.getRequestID();
+        try {
+            PreparedStatement statement = Database.getConnection().prepareStatement(
+                    "DELETE FROM " + Constants.SANITATION_TABLE + " WHERE requestID=?");
+            statement.setInt(1, requestID);
+            return statement.execute();
+        } catch (SQLException exception) {
+            System.out.println("Failed to delete sanitation request with ID: " + requestID);
+            exception.printStackTrace();
             return false;
         }
     }
