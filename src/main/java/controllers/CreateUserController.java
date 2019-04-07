@@ -1,6 +1,7 @@
 package controllers;
 
 import com.jfoenix.controls.JFXButton;
+import controllers.map.AdminMapController;
 import database.UserTable;
 import helpers.Constants;
 import javafx.collections.FXCollections;
@@ -13,7 +14,7 @@ import models.user.User;
 
 import java.util.List;
 
-public class CreateUserController extends AdminMapController{
+public class CreateUserController extends AdminMapController {
 
     public JFXButton btnBookSelected;
 

@@ -347,7 +347,6 @@ public class LocationTable {
     public static String addNewLocation(Location loc) {
         String locID = Database.generateUniqueNodeID(loc);
         loc.setNodeID(locID);
-        loc.addCurrNode();
         return locID;
     }
 }

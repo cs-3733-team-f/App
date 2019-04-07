@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import com.jfoenix.controls.JFXTabPane?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import net.kurobako.gesturefx.GesturePane?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controllers.map.MapController"
+            prefHeight="400.0" prefWidth="600.0"
+            AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+
+    <AnchorPane fx:id="tabAnchor" layoutX="0.0" layoutY="0.0" prefHeight="700.0" prefWidth="1200.0"
+                AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <JFXTabPane prefHeight="700.0" prefWidth="1200.0" side="RIGHT" tabClosingPolicy="UNAVAILABLE"
+                    AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <tabs>
+                <Tab style="-fx-background-color: #022D5A;" text="Floor 3">
+                    <content>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                            <children>
+                                <GesturePane fx:id="panFloor3" prefHeight="200.0" prefWidth="200.0"
+                                             AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                    <content>
+                                        <AnchorPane layoutX="0.0" layoutY="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                            <ImageView fitHeight="1620.0" fitWidth="2581.0" layoutX="1000.0" layoutY="-350.0" pickOnBounds="true" preserveRatio="true">
+                                                <image>
+                                                    <Image url="@images/Original/03_thethirdfloor.png"/>
+                                                </image>
+                                            </ImageView>
+                                        </AnchorPane>
+                                    </content>
+                                </GesturePane>
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+                <Tab style="-fx-background-color: #022D5A;" text="Floor 2">
+                    <content>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                            <children>
+                                <GesturePane fx:id="panFloor2" prefHeight="200.0" prefWidth="200.0"
+                                             AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                    <content>
+                                        <AnchorPane>
+                                            <ImageView fitHeight="1620.0" fitWidth="2581.0" layoutX="1000.0" layoutY="-350.0" pickOnBounds="true" preserveRatio="true">
+                                                <image>
+                                                    <Image url="@images/Original/02_thesecondfloor.png"/>
+                                                </image>
+                                            </ImageView>
+                                        </AnchorPane>
+                                    </content>
+                                </GesturePane>
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+                <Tab style="-fx-background-color: #022D5A;" text="Floor 1">
+                    <content>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                            <children>
+                                <GesturePane fx:id="panFloor1" prefHeight="200.0" prefWidth="200.0"
+                                             AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                    <content>
+                                        <AnchorPane>
+                                            <ImageView fitHeight="1620.0" fitWidth="2581.0" layoutX="1000.0" layoutY="-350.0" pickOnBounds="true" preserveRatio="true">
+                                                <image>
+                                                    <Image url="@images/Original/01_thefirstfloor.png"/>
+                                                </image>
+                                            </ImageView>
+                                        </AnchorPane>
+                                    </content>
+                                </GesturePane>
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+                <Tab style="-fx-background-color: #022D5A;" text="Floor L1">
+                    <content>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                            <children>
+                                <GesturePane fx:id="panFloorL1" prefHeight="200.0" prefWidth="200.0"
+                                             AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                    <content>
+                                        <AnchorPane>
+                                            <ImageView fitHeight="1620.0" fitWidth="2581.0" layoutX="1000.0" layoutY="-350.0" pickOnBounds="true" preserveRatio="true">
+                                                <image>
+                                                    <Image url="@images/Original/00_thelowerlevel1.png"/>
+                                                </image>
+                                            </ImageView>
+                                        </AnchorPane>
+                                    </content>
+                                </GesturePane>
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+                <Tab style="-fx-background-color: #022D5A;" text="Floor L2">
+                    <content>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                            <children>
+                                <GesturePane fx:id="panFloorL2" prefHeight="200.0" prefWidth="200.0"
+                                             AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                    <content>
+                                        <AnchorPane>
+                                            <ImageView fitHeight="1620.0" fitWidth="2581.0" layoutX="1000.0" layoutY="-350.0" pickOnBounds="true" preserveRatio="true">
+                                                <image>
+                                                    <Image url="@images/Original/00_thelowerlevel2.png"/>
+                                                </image>
+                                            </ImageView>
+                                        </AnchorPane>
+                                    </content>
+                                </GesturePane>
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+            </tabs>
+        </JFXTabPane>
+    </AnchorPane>
+</AnchorPane>

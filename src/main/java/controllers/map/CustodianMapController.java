@@ -1,26 +1,19 @@
-package controllers;
+package controllers.map;
 
 import com.jfoenix.controls.JFXButton;
-import controllers.MapController;
-import database.Database;
 import database.SanitationTable;
 import helpers.Constants;
-import helpers.SpillModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.AnchorPane;
 import map.MapDisplay;
 import models.sanitation.SanitationRequest;
+import net.kurobako.gesturefx.GesturePane;
 
-import java.net.URL;
 import java.util.List;
-import java.util.ResourceBundle;
 
 public class CustodianMapController extends MapController {
 
@@ -38,7 +31,7 @@ public class CustodianMapController extends MapController {
 
     public void initialize() {
         toolTip();
-        MapDisplay.displayCust(new AnchorPane[] {panFloorL2, panFloorL1, panFloor1, panFloor2, panFloor3});
+        MapDisplay.displayCust(new GesturePane[] {panFloorL2, panFloorL1, panFloor1, panFloor2, panFloor3});
         initSanitation();
         updateSanitation();
 

@@ -1,18 +1,13 @@
-package controllers;
+package controllers.popup;
 
-import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
-import database.Database;
+import controllers.ScreenController;
+import controllers.popup.PopUpController;
 import database.LocationTable;
 import helpers.Constants;
-import helpers.UIHelpers;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.input.MouseEvent;
 import models.map.Location;
-import org.omg.DynamicAny.DynArray;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -45,8 +40,6 @@ public class EditController extends PopUpController implements Initializable {
             loc.setNodeID(LocationTable.addNewLocation(loc));
             System.out.println(loc.getNodeID());
         }
-        VisualRealtimeController.updateCircle(loc.getNodeCircle(),
-                UIHelpers.updateCircleForNodeType(loc));
         ScreenController.deactivate();
     }
 
@@ -66,12 +59,6 @@ public class EditController extends PopUpController implements Initializable {
        // ((Stage) (((Node) event.getSource()).getScene().getWindow())).close();
         event.consume();
         //if(loc.getNodeID() == null) Database.addNewLocation(loc);
-        ScreenController.deactivate();
-    }
-
-    public void deleteNode(MouseEvent event) {
-        event.consume();
-        loc.deleteCurrNode();
         ScreenController.deactivate();
     }
 

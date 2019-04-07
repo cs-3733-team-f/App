@@ -1,20 +1,25 @@
-package controllers;
+package controllers.map;
 
 import com.jfoenix.controls.JFXButton;
+import controllers.ScreenController;
 import helpers.Constants;
-import javafx.scene.control.Tooltip;
+import javafx.fxml.Initializable;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import jiconfont.icons.font_awesome.FontAwesome;
 import jiconfont.javafx.IconFontFX;
 import jiconfont.javafx.IconNode;
 import map.MapDisplay;
+import net.kurobako.gesturefx.GesturePane;
+
+import java.net.URL;
+import java.util.ResourceBundle;
 
 public class UserMapController extends MapController {
     public JFXButton btnSettings;
 
-    public void initialize() {
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
         IconFontFX.register(FontAwesome.getIconFont());
 
         IconNode icon = new IconNode(FontAwesome.COG);
@@ -22,9 +27,6 @@ public class UserMapController extends MapController {
         icon.setFill(Color.WHITE);
         btnSettings.setText("");
         btnSettings.setGraphic(icon);
-
-        toolTip();
-        MapDisplay.displayUser(new AnchorPane[] {panFloorL2, panFloorL1, panFloor1, panFloor2, panFloor3});
     }
 
     @Override
@@ -32,10 +34,5 @@ public class UserMapController extends MapController {
         event.consume();
         ScreenController.logOut(btnReturn);
         ScreenController.activate(Constants.Routes.WELCOME);
-    }
-
-    void toolTip() {
-        btnSettings.setTooltip(new Tooltip(Constants.SETTINGS_BUTTON_TOOLTIP));
-        btnReturn.setTooltip(new Tooltip(Constants.EXIT_BUTTON_TOOLTIP));
     }
 }

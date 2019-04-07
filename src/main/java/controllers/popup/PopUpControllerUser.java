@@ -1,4 +1,4 @@
-package controllers;
+package controllers.popup;
 
 import javafx.fxml.Initializable;
 import javafx.scene.layout.AnchorPane;

@@ -1,5 +1,8 @@
 package controllers;
 
+import controllers.popup.DirectionsController;
+import controllers.popup.PopUpController;
+import controllers.popup.PopUpControllerUser;
 import helpers.Constants;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -12,6 +15,7 @@ import javafx.stage.StageStyle;
 import models.map.Location;
 import models.map.Map;
 import models.user.User;
+import net.kurobako.gesturefx.GesturePane;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -121,7 +125,7 @@ public class ScreenController {
         displayPopUp(root);
     }
 
-    public static void popUp(Constants.Routes route, Location loc, Map map, AnchorPane[] panes) throws Exception {
+    public static void popUp(Constants.Routes route, Location loc, Map map, GesturePane[] panes) throws Exception {
         stage = new Stage();
         URL url = routeToURL(route);
 
@@ -136,7 +140,7 @@ public class ScreenController {
         displayPopUp(root);
     }
 
-    public static void popUp(Constants.Routes route, Location loc1, Location loc2, Map map, AnchorPane[] panes) throws Exception {
+    public static void popUp(Constants.Routes route, Location loc1, Location loc2, Map map, GesturePane[] panes) throws Exception {
         stage = new Stage();
         URL url = routeToURL(route);
 

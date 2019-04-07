@@ -1,6 +1,8 @@
-package controllers;
+package controllers.popup;
 
 import com.jfoenix.controls.JFXButton;
+import controllers.ScreenController;
+import controllers.popup.PopUpController;
 import helpers.Constants;
 import helpers.DatabaseHelpers;
 import javafx.fxml.Initializable;

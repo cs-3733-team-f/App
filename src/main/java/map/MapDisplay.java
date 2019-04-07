@@ -2,7 +2,6 @@ package map;
 
 import controllers.ScreenController;
 import helpers.Constants;
-import helpers.UIHelpers;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
@@ -14,6 +13,8 @@ import jiconfont.javafx.IconNode;
 import models.map.Edge;
 import models.map.Location;
 import models.map.Map;
+import net.kurobako.gesturefx.GesturePane;
+
 import java.util.HashMap;
 
 public class MapDisplay {
@@ -34,7 +35,7 @@ public class MapDisplay {
     /**
      * Display the graph on a map for the default user (no halls, info boxes)
      */
-    public static void displayUser(AnchorPane[] panes) {
+    public static void displayUser(GesturePane[] panes) {
         Map map = MapParser.parse();
         displayNodesUser(map, panes);
     }
@@ -43,7 +44,7 @@ public class MapDisplay {
      * Display the graph of a map for employees (halls, info boxes with spill reporting)
      * @param panes
      */
-    public static void displayEmployee(AnchorPane[] panes) {
+    public static void displayEmployee(GesturePane[] panes) {
         Map map = MapParser.parse();
         displayNodesEmployee(map, panes);
     }
@@ -52,7 +53,7 @@ public class MapDisplay {
      * Display the graph on a map for the admin (halls, edit boxes)
      * @param panes
      */
-    public static void displayAdmin(AnchorPane[] panes) {
+    public static void displayAdmin(GesturePane[] panes) {
         Map map = MapParser.parse();
         displayEdges(map, panes);
         displayNodesAdmin(map, panes);
@@ -62,12 +63,12 @@ public class MapDisplay {
      * Display the graph on a map for the custodian (no halls)
      * @param panes
      */
-    public static void displayCust(AnchorPane[] panes) {
+    public static void displayCust(GesturePane[] panes) {
         Map map = MapParser.parse();
         displayNodesCust(map, panes);
     }
 
-    private static void displayNodesUser(Map map, AnchorPane[] panes) {
+    private static void displayNodesUser(Map map, GesturePane[] panes) {
         IconFontFX.register(FontAwesome.getIconFont());
 
         HashMap<String, Location> lstLocations = map.getAllLocations();
@@ -93,12 +94,13 @@ public class MapDisplay {
                         e.printStackTrace();
                     }
                 });
-                findPane(panes, loc.getFloor()).getChildren().add(circle);
+
+                System.out.println(findPane(panes, loc.getFloor()).getContent());
             }
         }
     }
 
-    private static void displayNodesCust(Map map, AnchorPane[] panes) {
+    private static void displayNodesCust(Map map, GesturePane[] panes) {
         HashMap<String, Location> lstLocations = map.getAllLocations();
         for (Location loc : lstLocations.values()) {
             if (loc.getNodeType() != Constants.NodeType.HALL) {
@@ -115,12 +117,12 @@ public class MapDisplay {
                         e.printStackTrace();
                     }
                 });
-                findPane(panes, loc.getFloor()).getChildren().add(circle);
+                //findPane(panes, loc.getFloor()).getChildren().add(circle);
             }
         }
     }
 
-    private static void displayNodesEmployee(Map map, AnchorPane[] panes) {
+    private static void displayNodesEmployee(Map map, GesturePane[] panes) {
         HashMap<String, Location> lstLocations = map.getAllLocations();
         for (Location loc : lstLocations.values()) {
             if (loc.getNodeType() != Constants.NodeType.HALL) {
@@ -137,12 +139,12 @@ public class MapDisplay {
                         e.printStackTrace();
                     }
                 });
-                findPane(panes, loc.getFloor()).getChildren().add(circle);
+                //findPane(panes, loc.getFloor()).getChildren().add(circle);
             }
         }
     }
 
-    private static void displayNodesAdmin(Map map, AnchorPane[] panes) {
+    private static void displayNodesAdmin(Map map, GesturePane[] panes) {
         HashMap<String, Location> lstLocations = map.getAllLocations();
         for (Location loc : lstLocations.values()) {
             double xLoc = scaleX(loc.getxCord());
@@ -155,13 +157,11 @@ public class MapDisplay {
             }
             circle.setStroke(nodeOutline);
             circle.setStrokeWidth(locWidth);
-            UIHelpers.setAdminNodeClickEvent(circle, loc);
-            loc.setNodeCircle(circle);
-            findPane(panes, loc.getFloor()).getChildren().add(circle);
+            //findPane(panes, loc.getFloor()).getChildren().add(circle);
         }
     }
 
-    private static void displayEdges(Map map, AnchorPane[] panes) {
+    private static void displayEdges(Map map, GesturePane[] panes) {
         HashMap<String, Edge> lstEdges = map.getAllEdges();
         for (Edge edge : lstEdges.values()) {
             Location start = edge.getStart();
@@ -174,12 +174,12 @@ public class MapDisplay {
                 Line line = new Line(x1, y1, x2, y2);
                 line.setStroke(edgeFill);
                 line.setStrokeWidth(edgeWidth);
-                findPane(panes, start.getFloor()).getChildren().add(line);
+                //findPane(panes, start.getFloor()).getChildren().add(line);
             }
         }
     }
 
-    private static AnchorPane findPane(AnchorPane[] panes, String floor) {
+    private static GesturePane findPane(GesturePane[] panes, String floor) {
         switch (floor) {
             case "L2":
                 return panes[0];

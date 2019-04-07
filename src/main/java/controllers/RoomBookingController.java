@@ -3,8 +3,8 @@ package controllers;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTimePicker;
+import controllers.map.EmployeeMapController;
 import database.BookTable;
-import database.Database;
 import database.LocationTable;
 import database.RoomTable;
 import helpers.DatabaseHelpers;
@@ -25,7 +25,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RoomBookingController extends EmployeeMapController{
+public class RoomBookingController extends EmployeeMapController {
 
     /**
      * FXML

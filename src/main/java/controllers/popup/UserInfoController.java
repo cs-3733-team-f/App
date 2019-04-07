@@ -1,6 +1,8 @@
-package controllers;
+package controllers.popup;
 
 import com.jfoenix.controls.JFXButton;
+import controllers.ScreenController;
+import controllers.popup.PopUpController;
 import helpers.Constants;
 import helpers.DatabaseHelpers;
 import javafx.fxml.Initializable;
@@ -11,7 +13,7 @@ import models.map.Location;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class CustodianInfoController extends PopUpController implements Initializable {
+public class UserInfoController extends PopUpController implements Initializable {
     public Label lblNodeID;
     public Label lblLocation;
     public Label lblFloor;
@@ -23,8 +25,8 @@ public class CustodianInfoController extends PopUpController implements Initiali
     public JFXButton btnDirections;
     public JFXButton btnCancel;
 
-    private static boolean bolSelectedCust = false;
-    private static Location locSelectedCust;
+    private static boolean bolSelectedUser = false;
+    private static Location locSelectedUser;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -49,15 +51,15 @@ public class CustodianInfoController extends PopUpController implements Initiali
     }
 
     private void checkSelected() throws Exception {
-        if (bolSelectedCust) { // Two locations
-            if (!loc.equals(locSelectedCust)) {
-                ScreenController.popUp(Constants.Routes.DIRECTIONS, loc, locSelectedCust, map, panes);
+        if (bolSelectedUser) { // Two locations
+            if (!loc.equals(locSelectedUser)) {
+                ScreenController.popUp(Constants.Routes.DIRECTIONS, loc, locSelectedUser, map, panes);
             }
-            locSelectedCust = null;
-            bolSelectedCust = false;
+            locSelectedUser = null;
+            bolSelectedUser = false;
         } else { // One location
-            locSelectedCust = loc;
-            bolSelectedCust = true;
+            locSelectedUser = loc;
+            bolSelectedUser = true;
         }
     }
 
