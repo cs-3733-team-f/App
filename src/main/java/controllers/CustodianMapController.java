@@ -47,10 +47,10 @@ public class CustodianMapController extends MapController {
     public void initialize() {
 
 
-        toolTip();
 
-        MapDisplay.displayAdmin(new AnchorPane[] {panFloorL2, panFloorL1, panFloor1, panFloor2, panFloor3});
+        MapDisplay.displayCust(new AnchorPane[] {panFloorL2, panFloorL1, panFloor1, panFloor2, panFloor3});
         VisualRealtimeController.setPanMap(panFloor1);
+        toolTip();
 
 //        toolTip();
 //        MapDisplay.displayCust(panMap, "1");
@@ -62,6 +62,7 @@ public class CustodianMapController extends MapController {
             btnNavigate.setDisable(false);
         });
         SanitationRequest selected = tblData.getSelectionModel().getSelectedItem();
+        if(selected!=null)
         if(selected.getServicer()==null||selected.getServicer().equals(UserHelpers.getCurrentUser())) {//only enable claiming if unclaimed
             btnClaim.setDisable(false);
         }else{
@@ -85,13 +86,14 @@ public class CustodianMapController extends MapController {
         tblClaimTime.setCellValueFactory(new PropertyValueFactory<>("ClaimedTime"));
         tblServiceTime.setCellValueFactory(new PropertyValueFactory<>("CompletedTime"));
         tblServicer.setCellValueFactory(new PropertyValueFactory<>("Servicer"));
-
+        System.out.println(spills.toString());
         tblData.setItems(spills);
     }
 
     private void updateSanitation() {
         List<SanitationRequest> lstReqs = SanitationTable.getSanitationRequests();
-        spills.addAll(lstReqs);
+        if(lstReqs!=null)
+         spills.addAll(lstReqs);
     }
 
     public void navigateTo(){
