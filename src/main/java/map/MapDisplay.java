@@ -3,10 +3,14 @@ package map;
 import controllers.ScreenController;
 import helpers.Constants;
 import helpers.UIHelpers;
+import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import jiconfont.icons.font_awesome.FontAwesome;
+import jiconfont.javafx.IconFontFX;
+import jiconfont.javafx.IconNode;
 import models.map.Edge;
 import models.map.Location;
 import models.map.Map;
@@ -62,12 +66,16 @@ public class MapDisplay {
     }
 
     private static void displayNodesUser(Map map, AnchorPane[] panes) {
+        IconFontFX.register(FontAwesome.getIconFont());
+
         HashMap<String, Location> lstLocations = map.getAllLocations();
         for (Location loc : lstLocations.values()) {
             if (loc.getNodeType() != Constants.NodeType.HALL) {
                 double xLoc = scaleX(loc.getxCord());
                 double yLoc = scaleY(loc.getyCord());
                 Circle circle = new Circle(xLoc, yLoc, locRadius, nodeFill);
+                IconNode icon = new IconNode();
+
                 circle.setStroke(nodeOutline);
                 circle.setStrokeWidth(locWidth);
                 circle.setOnMouseClicked(event -> {
@@ -177,6 +185,36 @@ public class MapDisplay {
             default:
                 return panes[4];
         }
+    }
+
+    private static IconNode getIcon(Constants.NodeType nodeType) {
+        switch (nodeType) {
+            case BATH:
+                break;
+            case CONF:
+                break;
+            case DEPT:
+                break;
+            case ELEV:
+                break;
+            case EXIT:
+                break;
+            case HALL:
+                break;
+            case INFO:
+                break;
+            case LABS:
+                break;
+            case REST:
+                break;
+            case RETL:
+                break;
+            case SERV:
+                break;
+            default:
+                break;
+        }
+        return null;
     }
 
     public static double scaleX(double x) {
