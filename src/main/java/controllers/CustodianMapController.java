@@ -16,6 +16,7 @@ import javafx.scene.layout.AnchorPane;
 import map.MapDisplay;
 import models.map.Location;
 import models.sanitation.SanitationRequest;
+import models.user.User;
 
 import java.util.HashMap;
 import java.util.List;
@@ -58,9 +59,23 @@ public class CustodianMapController extends MapController {
         updateSanitation();
 
         tblData.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {// only enable btns if item selected
-            btnMarkDone.setDisable(false);
+
+            /*
+            if(selected.getServicer()==null||selected.getServicer().equals(UserHelpers.getCurrentUser())) {
+                btnClaim.setDisable(false);
+           }else{
+                btnClaim.setDisable(true);
+            }
+            if(selected.getServicer()!=null && selected.getServicer().equals(UserHelpers.getCurrentUser())) {
+                btnMarkDone.setDisable(false);
+            }else{
+                btnMarkDone.setDisable(true);
+            }
+            */
+
+
             btnNavigate.setDisable(false);
-            btnClaim.setDisable(false);
+
         });
         SanitationRequest selected = tblData.getSelectionModel().getSelectedItem();
         if(selected!=null)
@@ -125,6 +140,18 @@ public class CustodianMapController extends MapController {
 
     public void tblClick(){
         updateClaimBtn();
+        updateAllBTNS();
+    }
+
+    public void updateAllBTNS(){
+
+        SanitationRequest selected = tblData.getSelectionModel().getSelectedItem();
+        User servicer = selected.getServicer();
+        boolean btnClaimEnabled = servicer == null || (servicer.equals(UserHelpers.getCurrentUser())&& selected.getStatus() == SanitationRequest.Status.INCOMPLETE);
+        btnClaim.setDisable(!btnClaimEnabled);
+        boolean btnMarkDoneEnabled = servicer != null && servicer.equals(UserHelpers.getCurrentUser());
+        btnMarkDone.setDisable(!btnMarkDoneEnabled);
+
     }
     public void claimJob(){
 
@@ -152,6 +179,7 @@ public class CustodianMapController extends MapController {
 
         updateClaimBtn();
 
+        updateAllBTNS();
 
         tblData.refresh();
 
@@ -175,6 +203,7 @@ public class CustodianMapController extends MapController {
         SanitationTable.editSanitationRequest(selected);
         tblData.refresh();
 
+        updateAllBTNS();
 
         updateMarkDoneBtn();
     }
