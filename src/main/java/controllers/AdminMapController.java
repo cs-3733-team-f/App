@@ -198,6 +198,7 @@ public class AdminMapController extends MapController {
     public void deleteSanitationRequest(){
         SanitationRequest selected = tblData.getSelectionModel().getSelectedItem();
         SanitationTable.deleteSanitationRequest(selected);
+        updateSanitation();
         tblData.refresh();
     }
 
@@ -244,8 +245,9 @@ public class AdminMapController extends MapController {
 
     private void updateSanitation() {
         List<SanitationRequest> lstReqs = SanitationTable.getSanitationRequests();
-        if(lstReqs!=null)
-            spills.addAll(lstReqs);
+        if(lstReqs != null) {
+            spills.setAll(lstReqs);
+        }
     }
 }
 

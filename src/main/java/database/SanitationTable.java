@@ -184,9 +184,7 @@ public class SanitationTable {
         // Get updated data from request
         int requestID = request.getRequestID();
         String status = request.getStatus().name();
-        int servicerID=-1;
-        if(request.getServicer()!=null){
-        servicerID = request.getServicer().getUserID();}
+        User servicer = request.getServicer();
         Timestamp claimedTime = request.getClaimedTime();
         Timestamp completedTime = request.getCompletedTime();
 
@@ -198,7 +196,8 @@ public class SanitationTable {
                             " SET status=?, servicerID=?, claimedTime=?, completedTime=? WHERE requestID=?"
             );
             statement.setString(1, status);
-            statement.setInt(2, servicerID);
+            if (servicer == null) statement.setNull(2, java.sql.Types.INTEGER);
+            else statement.setInt(2, servicer.getUserID());
             statement.setTimestamp(3, claimedTime);
             statement.setTimestamp(4, completedTime);
             statement.setInt(5, requestID);
