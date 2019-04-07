@@ -50,7 +50,7 @@ public class ScreenController {
         this.addScreen(Constants.Routes.USER_INFO, "/UserInfo.fxml");
         this.addScreen(Constants.Routes.EMPLOYEE_INFO, "/EmployeeInfo.fxml");
         this.addScreen(Constants.Routes.EMPLOYEE_MAP, "/EmployeeMap.fxml");
-        this.addScreen(Constants.Routes.SANITATION_REQUEST, "/SanitationRequest.fxml");
+        this.addScreen(Constants.Routes.SANITATION_REQUEST, "/requests/SanitationRequest.fxml");
         this.addScreen(Constants.Routes.DIRECTIONS, "/Directions.fxml");
         this.addScreen(Constants.Routes.CUSTODIAN_MAP, "/CustodianMap.fxml");
         this.addScreen(Constants.Routes.CUSTODIAN_INFO, "/CustodianInfo.fxml");

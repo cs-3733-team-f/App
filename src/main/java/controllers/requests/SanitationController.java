@@ -2,10 +2,12 @@
  * @brief Controller for submitting sanitation requests.
  */
 
-package controllers;
+package controllers.requests;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
+import controllers.PopUpController;
+import controllers.ScreenController;
 import database.SanitationTable;
 import javafx.scene.input.MouseEvent;
 import models.map.Location;
