@@ -45,20 +45,6 @@ public class CustodianInfoController extends PopUpController implements Initiali
     public void btnDirections_OnClick(MouseEvent event) throws Exception {
         event.consume();
         ScreenController.deactivate();
-        checkSelected();
-    }
-
-    private void checkSelected() throws Exception {
-        if (bolSelectedCust) { // Two locations
-            if (!loc.equals(locSelectedCust)) {
-                ScreenController.popUp(Constants.Routes.DIRECTIONS, loc, locSelectedCust, map, panes);
-            }
-            locSelectedCust = null;
-            bolSelectedCust = false;
-        } else { // One location
-            locSelectedCust = loc;
-            bolSelectedCust = true;
-        }
     }
 
     public void btnCancel_OnClick(MouseEvent event) {

@@ -10,6 +10,7 @@ import javafx.scene.shape.Line;
 import models.map.Edge;
 import models.map.Location;
 import models.map.Map;
+
 import java.util.HashMap;
 
 public class MapDisplay {
@@ -28,9 +29,9 @@ public class MapDisplay {
     /**
      * Display the graph on a map for the default user (no halls, info boxes)
      */
-    public static void displayUser(AnchorPane[] panes) {
+    public static void displayUser(AnchorPane[] panes, AnchorPane panDirections) {
         Map map = MapParser.parse();
-        displayNodesUser(map, panes);
+        displayNodesUser(map, panes, panDirections);
     }
 
     /**
@@ -61,7 +62,7 @@ public class MapDisplay {
         displayNodesCust(map, panes);
     }
 
-    private static void displayNodesUser(Map map, AnchorPane[] panes) {
+    private static void displayNodesUser(Map map, AnchorPane[] panes, AnchorPane panDirections) {
         HashMap<String, Location> lstLocations = map.getAllLocations();
         for (Location loc : lstLocations.values()) {
             if (loc.getNodeType() != Constants.NodeType.HALL) {
@@ -73,7 +74,7 @@ public class MapDisplay {
                 circle.setOnMouseClicked(event -> {
                     try {
                         event.consume();
-                        ScreenController.popUp(Constants.Routes.USER_INFO, loc, map, panes);
+                        ScreenController.popUp(Constants.Routes.USER_INFO, loc, map, panes, panDirections);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

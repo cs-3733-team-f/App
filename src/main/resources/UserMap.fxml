@@ -149,18 +149,18 @@
                                     </tabs>
                                 </JFXTabPane>
                         <children>
-                           <AnchorPane fx:id="panDirections" layoutX="810.0" layoutY="200.0" prefHeight="124.0" prefWidth="345.0" style="-fx-background-color: #ffffff; -fx-background-radius: 10 10 10 10; -fx-border-width: 1px 1px 1px 1px; -fx-border-color: #022D5A; -fx-border-radius: 10;" AnchorPane.rightAnchor="47.0" AnchorPane.topAnchor="200.0">
+                           <AnchorPane fx:id="panDirections" visible="false" layoutX="810.0" layoutY="200.0" prefHeight="124.0" prefWidth="200" style="-fx-background-color: #ffffff; -fx-background-radius: 10 10 10 10; -fx-border-width: 1px 1px 1px 1px; -fx-border-color: #022D5A; -fx-border-radius: 10;" AnchorPane.rightAnchor="47.0" AnchorPane.topAnchor="200.0">
                               <children>
-                                 <VBox layoutX="4.0" layoutY="4.0" prefHeight="131.0" prefWidth="339.0" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0">
+                                 <VBox layoutX="4.0" layoutY="4.0" prefHeight="131.0" prefWidth="200" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0">
                                     <children>
-                                       <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="73.0" prefWidth="339.0" text="Directions" textAlignment="CENTER" textFill="#022d5a">
+                                       <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="73.0" prefWidth="150" text="Directions" textAlignment="CENTER" textFill="#022d5a">
                                           <font>
                                              <Font size="24.0" />
                                           </font>
                                        </Label>
-                                       <HBox alignment="TOP_CENTER" prefHeight="34.0" prefWidth="341.0" spacing="15.0">
+                                       <HBox alignment="TOP_CENTER" prefHeight="34.0" prefWidth="200" spacing="15.0">
                                           <children>
-                                             <Label fx:id="lblDirections" prefHeight="33.0" prefWidth="297.0" text="Direction Info" textFill="#022d5a" />
+                                             <Label fx:id="lblDirections" prefHeight="33.0" prefWidth="150" text="Direction Info" textFill="#022d5a" />
                                           </children>
                                        </HBox>
                                     </children>
@@ -168,19 +168,18 @@
                               </children>
                            </AnchorPane>
                         </children></AnchorPane>
-                            <AnchorPane fx:id="outerProfilePane" layoutX="260.0" layoutY="15.0" prefHeight="160.0" prefWidth="341.0" AnchorPane.rightAnchor="47.0" AnchorPane.topAnchor="15.0">
-                                <AnchorPane fx:id="profilePane" layoutX="5.0" layoutY="14.0" prefHeight="124.0" prefWidth="345.0" style="-fx-background-color: #ffffff; -fx-background-radius: 10 10 10 10; -fx-border-width: 1px 1px 1px 1px; -fx-border-color: #022D5A; -fx-border-radius: 10;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                            <AnchorPane fx:id="outerProfilePane" layoutX="260.0" layoutY="15.0" prefHeight="160.0" prefWidth="200" AnchorPane.rightAnchor="47.0" AnchorPane.topAnchor="15.0">
+                                <AnchorPane fx:id="profilePane" layoutX="5.0" layoutY="14.0" prefHeight="124.0" prefWidth="200" style="-fx-background-color: #ffffff; -fx-background-radius: 10 10 10 10; -fx-border-width: 1px 1px 1px 1px; -fx-border-color: #022D5A; -fx-border-radius: 10;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                     <children>
-                                        <VBox layoutX="4.0" layoutY="4.0" prefHeight="131.0" prefWidth="339.0" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0">
+                                        <VBox layoutX="4.0" layoutY="4.0" prefHeight="131.0" prefWidth="200" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0">
                                             <children>
-                                                <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="73.0" prefWidth="339.0" text="Welcome User!" textAlignment="CENTER" textFill="#022D5A">
+                                                <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="73.0" prefWidth="200" text="Welcome User!" textAlignment="CENTER" textFill="#022D5A">
                                                     <font>
                                                         <Font name="Moon Bold" size="24.0" />
                                                     </font>
                                                 </Label>
-                                                <HBox alignment="TOP_CENTER" prefHeight="34.0" prefWidth="341.0" spacing="15.0">
+                                                <HBox alignment="TOP_CENTER" prefHeight="34.0" prefWidth="200" spacing="15.0">
                                                     <children>
-                                                        <JFXButton fx:id="btnSettings" buttonType="RAISED" prefHeight="60.0" prefWidth="150.0" style="-fx-text-fill: WHITE; -fx-font-size: 24px;" text="Settings" />
                                                         <JFXButton fx:id="btnReturn" buttonType="RAISED" onMouseClicked="#logOut" prefHeight="60.0" prefWidth="150.0" style="-fx-text-fill: WHITE; -fx-font-size: 24px;" text="Exit" />
                                                     </children>
                                                 </HBox>

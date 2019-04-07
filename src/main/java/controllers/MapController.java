@@ -2,6 +2,7 @@ package controllers;
 
 import com.jfoenix.controls.JFXButton;
 import helpers.Constants;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
@@ -15,8 +16,8 @@ public abstract class MapController {
     public AnchorPane panFloor1;
     public AnchorPane panFloorL1;
     public AnchorPane panFloorL2;
-//    public JFXButton zoomIn;
-//    public JFXButton zoomOut;
+    public AnchorPane panDirections;
+    public Label lblDirections;
 
     protected double sceneX, sceneY;
     protected double translateX, translateY;

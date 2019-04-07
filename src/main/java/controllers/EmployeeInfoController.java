@@ -58,22 +58,8 @@ public class EmployeeInfoController extends PopUpController implements Initializ
         }
     }
 
-    private void checkSelected() throws Exception {
-        if (bolSelectedEmp) { // Two locations
-            if (!loc.equals(locSelectedEmp)) {
-                ScreenController.popUp(Constants.Routes.DIRECTIONS, loc, locSelectedEmp, map, panes);
-            }
-            locSelectedEmp = null;
-            bolSelectedEmp = false;
-        } else { // One location
-            locSelectedEmp = loc;
-            bolSelectedEmp = true;
-        }
-    }
-
     public void btnDirections_OnClick(MouseEvent mouseEvent) throws Exception {
         mouseEvent.consume();
         ScreenController.deactivate();
-        checkSelected();
     }
 }

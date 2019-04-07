@@ -8,11 +8,10 @@ import javafx.scene.layout.AnchorPane;
 import map.MapDisplay;
 
 public class UserMapController extends MapController {
-    public JFXButton btnSettings;
 
     public void initialize() {
         toolTip();
-        MapDisplay.displayUser(new AnchorPane[] {panFloorL2, panFloorL1, panFloor1, panFloor2, panFloor3});
+        MapDisplay.displayUser(new AnchorPane[] {panFloorL2, panFloorL1, panFloor1, panFloor2, panFloor3}, panDirections);
     }
 
     @Override
@@ -23,7 +22,6 @@ public class UserMapController extends MapController {
     }
 
     void toolTip() {
-        btnSettings.setTooltip(new Tooltip(Constants.SETTINGS_BUTTON_TOOLTIP));
         btnReturn.setTooltip(new Tooltip(Constants.EXIT_BUTTON_TOOLTIP));
     }
 }
