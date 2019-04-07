@@ -125,6 +125,7 @@ public class SanitationRequest implements Comparable<SanitationRequest> {
     public Location getLocation() {
         return location;
     }
+    public String getLocationShortName(){return location.getShortName();}
     public Priority getPriority() {
         return priority;
     }
@@ -137,6 +138,7 @@ public class SanitationRequest implements Comparable<SanitationRequest> {
     public User getRequester() {
         return requester;
     }
+    public String getRequesterUserName(){return requester.getUsername();}
     public Timestamp getRequestTime() {
         return requestTime;
     }

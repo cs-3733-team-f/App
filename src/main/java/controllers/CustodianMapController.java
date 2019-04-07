@@ -77,12 +77,12 @@ public class CustodianMapController extends MapController {
     }
 
     private void initSanitation(){
-        tblLocation.setCellValueFactory(new PropertyValueFactory<>("Location"));
+        tblLocation.setCellValueFactory(new PropertyValueFactory<>("LocationShortName"));
         tblPriority.setCellValueFactory(new PropertyValueFactory<>("Priority"));
         tblStatus.setCellValueFactory(new PropertyValueFactory<>("Status"));
         tblDescription.setCellValueFactory(new PropertyValueFactory<>("Description"));
         //tblUser.setCellValueFactory(new PropertyValueFactory<>("User"));
-        tblRequester.setCellValueFactory(new PropertyValueFactory<>("Requester"));
+        tblRequester.setCellValueFactory(new PropertyValueFactory<>("RequesterUserName"));
         tblClaimTime.setCellValueFactory(new PropertyValueFactory<>("ClaimedTime"));
         tblServiceTime.setCellValueFactory(new PropertyValueFactory<>("CompletedTime"));
         tblServicer.setCellValueFactory(new PropertyValueFactory<>("Servicer"));
