@@ -3,6 +3,7 @@ package controllers;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTabPane;
 import database.Database;
+import database.LocationTable;
 import database.SanitationTable;
 import helpers.Constants;
 import helpers.UserHelpers;
@@ -14,6 +15,7 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import map.MapDisplay;
+import map.PathFinder;
 import models.map.Location;
 import models.sanitation.SanitationRequest;
 import models.user.User;
@@ -41,7 +43,8 @@ public class CustodianMapController extends MapController {
     public JFXButton btnMarkDone;
     public JFXButton btnNavigate;
     public JFXButton btnClaim;
-    public JFXTabPane tabFloorPane;
+    public JFXTabPane tabMenu;
+    //public JFXTab tabPathFinder;
 
     ObservableList<SanitationRequest> spills = FXCollections.observableArrayList();
 
@@ -128,13 +131,16 @@ public class CustodianMapController extends MapController {
 
        
         //
+        //Location start= LocationTable.getLocationByID("");
 
         //Location start = Database.getLocationbyID();
         Location end = tblData.getSelectionModel().getSelectedItem().getLocation();
         //map.navigate(start,end);
 
-        //String floor = start.getFloor();
-        //tabFloorPane.getSelectionModel().select(floor);
+
+        //PathFinder.findPath(start,end);
+        String floor = end.getFloor();
+        tabMenu.getSelectionModel().select(0);
 
     }
 

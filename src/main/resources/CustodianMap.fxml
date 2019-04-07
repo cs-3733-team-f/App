@@ -27,10 +27,10 @@
             prefWidth="1200.0" stylesheets="@css/colorScheme.css" xmlns="http://javafx.com/javafx/8.0.171"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CustodianMapController">
     <children>
-        <JFXTabPane prefHeight="700.0" prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0"
+        <JFXTabPane fx:id="tabMenu" prefHeight="700.0" prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0"
                     AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <tabs>
-                <Tab style="-fx-background-color: #022D5A;" text="Pathfinder">
+                <Tab fx:id="tabPathFinder" style="-fx-background-color: #022D5A;" text="Pathfinder">
                     <AnchorPane fx:id="outerTabAnchor" layoutX="0.0" layoutY="0.0" prefHeight="700.0"
                                 prefWidth="1200.0">
                         <children>
