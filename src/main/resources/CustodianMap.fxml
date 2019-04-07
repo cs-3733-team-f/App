@@ -37,7 +37,7 @@
                             <AnchorPane fx:id="tabAnchor" layoutX="0.0" layoutY="0.0" prefHeight="700.0"
                                         prefWidth="1200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
                                         AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                <JFXTabPane prefHeight="700.0" prefWidth="1200.0" side="RIGHT"
+                                <JFXTabPane fx:id="floorMenu" prefHeight="700.0" prefWidth="1200.0" side="RIGHT"
                                             tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0"
                                             AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
                                             AnchorPane.topAnchor="0.0">

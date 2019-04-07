@@ -44,6 +44,7 @@ public class CustodianMapController extends MapController {
     public JFXButton btnNavigate;
     public JFXButton btnClaim;
     public JFXTabPane tabMenu;
+    public JFXTabPane floorMenu;
     //public JFXTab tabPathFinder;
 
     ObservableList<SanitationRequest> spills = FXCollections.observableArrayList();
@@ -140,7 +141,22 @@ public class CustodianMapController extends MapController {
 
         //PathFinder.findPath(start,end);
         String floor = end.getFloor();
+        int floorIndex=3;
+        if(floor.equals("1")){
+            floorIndex=3;
+        }else if(floor.equals("2")){
+            floorIndex=1;
+        }else if (floor.equals("3")){
+            floorIndex=0;
+        }else if (floor.equals("L1")){
+            floorIndex=3;
+        }else if (floor.equals(("L2"))){
+            floorIndex=4;
+        }
+
         tabMenu.getSelectionModel().select(0);
+        floorMenu.getSelectionModel().select(floorIndex);
+
 
     }
 
