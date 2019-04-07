@@ -3,7 +3,7 @@ package map;
 import controllers.ScreenController;
 import helpers.Constants;
 import helpers.UIHelpers;
-import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -17,7 +17,7 @@ import models.map.Map;
 import java.util.HashMap;
 
 public class MapDisplay {
-    private final static double locRadius = 7.5;
+    private final static double CIRCLE_SIZE = 20;
     private final static double hallRadius = 2.5;
     private final static double locWidth = 2.0;
     private final static double edgeWidth = 1.5;
@@ -28,6 +28,8 @@ public class MapDisplay {
     private final static Color hallFill = Color.GRAY;
     private final static Color nodeOutline = Color.BLACK;
     private final static Color edgeFill = Color.BLACK;
+
+    private final static int ICON_SIZE = 15;
 
     /**
      * Display the graph on a map for the default user (no halls, info boxes)
@@ -73,14 +75,19 @@ public class MapDisplay {
             if (loc.getNodeType() != Constants.NodeType.HALL) {
                 double xLoc = scaleX(loc.getxCord());
                 double yLoc = scaleY(loc.getyCord());
-                Circle circle = new Circle(xLoc, yLoc, locRadius, nodeFill);
-                IconNode icon = new IconNode();
-
-                circle.setStroke(nodeOutline);
-                circle.setStrokeWidth(locWidth);
+                Button circle = new Button();
+                circle.setMinWidth(CIRCLE_SIZE);
+                circle.setMinHeight(CIRCLE_SIZE);
+                circle.setMaxWidth(CIRCLE_SIZE);
+                circle.setMaxHeight(CIRCLE_SIZE);
+                circle.setTranslateX(xLoc);
+                circle.setTranslateY(yLoc);
+                circle.setGraphic(getIcon(loc.getNodeType()));
+                circle.setStyle("-fx-focus-color: black;");
                 circle.setOnMouseClicked(event -> {
                     try {
                         event.consume();
+                        panes[0].requestFocus();
                         ScreenController.popUp(Constants.Routes.USER_INFO, loc, map, panes);
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -97,7 +104,7 @@ public class MapDisplay {
             if (loc.getNodeType() != Constants.NodeType.HALL) {
                 double xLoc = scaleX(loc.getxCord());
                 double yLoc = scaleY(loc.getyCord());
-                Circle circle = new Circle(xLoc, yLoc, locRadius, nodeFill);
+                Circle circle = new Circle(xLoc, yLoc, CIRCLE_SIZE, nodeFill);
                 circle.setStroke(nodeOutline);
                 circle.setStrokeWidth(locWidth);
                 circle.setOnMouseClicked(event -> {
@@ -119,7 +126,7 @@ public class MapDisplay {
             if (loc.getNodeType() != Constants.NodeType.HALL) {
                 double xLoc = scaleX(loc.getxCord());
                 double yLoc = scaleY(loc.getyCord());
-                Circle circle = new Circle(xLoc, yLoc, locRadius, nodeFill);
+                Circle circle = new Circle(xLoc, yLoc, CIRCLE_SIZE, nodeFill);
                 circle.setStroke(nodeOutline);
                 circle.setStrokeWidth(locWidth);
                 circle.setOnMouseClicked(event -> {
@@ -142,7 +149,7 @@ public class MapDisplay {
             double yLoc = scaleY(loc.getyCord());
             Circle circle;
             if (loc.getNodeType() != Constants.NodeType.HALL) {
-                circle = new Circle(xLoc, yLoc, locRadius, nodeFill);
+                circle = new Circle(xLoc, yLoc, CIRCLE_SIZE, nodeFill);
             } else {
                 circle = new Circle(xLoc, yLoc, hallRadius, hallFill);
             }
@@ -188,33 +195,48 @@ public class MapDisplay {
     }
 
     private static IconNode getIcon(Constants.NodeType nodeType) {
+        IconNode icon;
         switch (nodeType) {
             case BATH:
+                icon = new IconNode(FontAwesome.BATH);
                 break;
             case CONF:
+                icon = new IconNode(FontAwesome.BATH);
                 break;
             case DEPT:
+                icon = new IconNode(FontAwesome.BATH);
                 break;
             case ELEV:
+                icon = new IconNode(FontAwesome.BATH);
                 break;
             case EXIT:
+                icon = new IconNode(FontAwesome.BATH);
                 break;
             case HALL:
+                icon = new IconNode(FontAwesome.BATH);
                 break;
             case INFO:
+                icon = new IconNode(FontAwesome.BATH);
                 break;
             case LABS:
+                icon = new IconNode(FontAwesome.BATH);
                 break;
             case REST:
+                icon = new IconNode(FontAwesome.BATH);
                 break;
             case RETL:
+                icon = new IconNode(FontAwesome.BATH);
                 break;
             case SERV:
+                icon = new IconNode(FontAwesome.BATH);
                 break;
             default:
+                icon = new IconNode(FontAwesome.BATH);
                 break;
         }
-        return null;
+        icon.setFill(Color.GRAY);
+        icon.setIconSize(ICON_SIZE);
+        return icon;
     }
 
     public static double scaleX(double x) {
@@ -234,7 +256,7 @@ public class MapDisplay {
     }
 
     public static double getLocRadius() {
-        return locRadius;
+        return CIRCLE_SIZE;
     }
 
     public static double getHallRadius() {
