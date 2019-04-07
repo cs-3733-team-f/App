@@ -125,7 +125,10 @@ public class SanitationRequest implements Comparable<SanitationRequest> {
     public Location getLocation() {
         return location;
     }
-    public String getLocationShortName(){return location.getShortName();}
+    public String getLocationShortName(){
+        if(location==null)return null;
+        return location.getShortName();
+        }
     public Priority getPriority() {
         return priority;
     }
@@ -138,7 +141,13 @@ public class SanitationRequest implements Comparable<SanitationRequest> {
     public User getRequester() {
         return requester;
     }
-    public String getRequesterUserName(){return requester.getUsername();}
+    public String getRequesterUserName(){
+        if(requester==null)return null;
+        return requester.getUsername();}
+    public String getServicerUserName(){
+        if (servicer == null) return null;
+        return servicer.getUsername();
+    }
     public Timestamp getRequestTime() {
         return requestTime;
     }
@@ -157,6 +166,6 @@ public class SanitationRequest implements Comparable<SanitationRequest> {
     public void setServicer(User servicer) {
         this.servicer = servicer;
     }
-    public void setClaimedTime(Timestamp serviceTime) { this.claimedTime = claimedTime; }
+    public void setClaimedTime(Timestamp serviceTime) { this.claimedTime = serviceTime; }
     public void setCompletedTime(Timestamp completedTime) { this.completedTime = completedTime; }
 }

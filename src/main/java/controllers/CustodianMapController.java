@@ -60,6 +60,7 @@ public class CustodianMapController extends MapController {
         tblData.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {// only enable btns if item selected
             btnMarkDone.setDisable(false);
             btnNavigate.setDisable(false);
+            btnClaim.setDisable(false);
         });
         SanitationRequest selected = tblData.getSelectionModel().getSelectedItem();
         if(selected!=null)
@@ -85,7 +86,7 @@ public class CustodianMapController extends MapController {
         tblRequester.setCellValueFactory(new PropertyValueFactory<>("RequesterUserName"));
         tblClaimTime.setCellValueFactory(new PropertyValueFactory<>("ClaimedTime"));
         tblServiceTime.setCellValueFactory(new PropertyValueFactory<>("CompletedTime"));
-        tblServicer.setCellValueFactory(new PropertyValueFactory<>("Servicer"));
+        tblServicer.setCellValueFactory(new PropertyValueFactory<>("ServicerUserName"));
         System.out.println(spills.toString());
         tblData.setItems(spills);
     }
@@ -122,21 +123,37 @@ public class CustodianMapController extends MapController {
 
     }
 
+    public void tblClick(){
+        updateClaimBtn();
+    }
     public void claimJob(){
 
         SanitationRequest selected = tblData.getSelectionModel().getSelectedItem();
 
+//        if (selected.getServicer() != null) {
+//        }else{
+//            selected.setServicer(null);
+//        }
+
+
         if (selected.getServicer() != null) {
+           //if(selected.getServicerUserName().equals(UserHelpers.getCurrentUser())){
+               selected.setServicer(null);
+               selected.setClaimedTime(null);
+           //}
+
+        } else {
             selected.setServicer(UserHelpers.getCurrentUser());
-        }else{
-            selected.setServicer(null);
+            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+            selected.setClaimedTime(timestamp);
         }
+
+        SanitationTable.editSanitationRequest(selected);
+
         updateClaimBtn();
 
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
-        selected.setClaimedTime(timestamp);
-
+        tblData.refresh();
 
     }
 
@@ -149,31 +166,32 @@ public class CustodianMapController extends MapController {
 //        }
         if (selected.getStatus() == SanitationRequest.Status.COMPLETE) {
             selected.setStatus(SanitationRequest.Status.INCOMPLETE);
+            selected.setCompletedTime(null);
         } else {
             selected.setStatus(SanitationRequest.Status.COMPLETE);
+            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+            selected.setCompletedTime(timestamp);
         }
         SanitationTable.editSanitationRequest(selected);
         tblData.refresh();
 
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
-        selected.setCompletedTime(timestamp);
         updateMarkDoneBtn();
     }
 
     private void updateMarkDoneBtn() {
         if (tblData.getSelectionModel().getSelectedItem().getStatus() == SanitationRequest.Status.COMPLETE) {
-            btnClaim.setText("Un-Claim");
+            btnMarkDone.setText("Mark Incomplete");
         } else {
-            btnClaim.setText("Claim");
+            btnMarkDone.setText("Mark Complete");
         }
     }
 
     private void updateClaimBtn() {
-        if (tblData.getSelectionModel().getSelectedItem().getServicer()==null) {
-            btnMarkDone.setText("Mark Incomplete");
+        if (tblData.getSelectionModel().getSelectedItem().getServicer()!=null) {
+            btnClaim.setText("Un-Claim");
         } else {
-            btnMarkDone.setText("Mark Complete");
+            btnClaim.setText("Claim");
         }
     }
 }

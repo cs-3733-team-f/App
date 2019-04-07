@@ -28,10 +28,12 @@ import models.map.Location;
 import models.sanitation.SanitationRequest;
 
 import java.awt.*;
+import java.util.List;
 
 public class AdminMapController extends MapController {
     public JFXButton btnDownload;
     public JFXButton btnBooking;
+
 
     public TableView<SanitationRequest> tblData;
     public TableColumn<SanitationRequest,String> tblLocation;
@@ -44,6 +46,9 @@ public class AdminMapController extends MapController {
     public TableColumn<SanitationRequest,String> tblServiceTime;
 
     ObservableList<SanitationRequest> spills = FXCollections.observableArrayList();
+
+    public JFXButton btnDelete;
+
 
 
     private static boolean enableAddNode = false;
@@ -116,6 +121,11 @@ public class AdminMapController extends MapController {
 
     public void initialize() {
         // Set tooltip
+
+        initSanitation();
+        updateSanitation();
+
+
         toolTip();
 
         MapDisplay.displayAdmin(new AnchorPane[] {panFloorL2, panFloorL1, panFloor1, panFloor2, panFloor3});
@@ -139,6 +149,12 @@ public class AdminMapController extends MapController {
 
             }
         });
+
+        tblData.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {// only enable btns if item selected
+            btnDelete.setDisable(false);
+
+        });
+
     }
 
     void toolTip() {
@@ -179,23 +195,10 @@ public class AdminMapController extends MapController {
 //
 //    }
 
-
-    private void initSanitation(){
-        tblLocation.setCellValueFactory(new PropertyValueFactory<>("Location"));
-        tblPriority.setCellValueFactory(new PropertyValueFactory<>("Priority"));
-        tblStatus.setCellValueFactory(new PropertyValueFactory<>("Status"));
-        tblDescription.setCellValueFactory(new PropertyValueFactory<>("Description"));
-        //tblUser.setCellValueFactory(new PropertyValueFactory<>("User"));
-        tblRequester.setCellValueFactory(new PropertyValueFactory<>("Requester"));
-        tblClaimTime.setCellValueFactory(new PropertyValueFactory<>("ClaimedTime"));
-        tblServiceTime.setCellValueFactory(new PropertyValueFactory<>("CompletedTime"));
-        tblServicer.setCellValueFactory(new PropertyValueFactory<>("Servicer"));
-        System.out.println(spills.toString());
-        tblData.setItems(spills);
-    }
     public void deleteSanitationRequest(){
         SanitationRequest selected = tblData.getSelectionModel().getSelectedItem();
         SanitationTable.deleteSanitationRequest(selected);
+        tblData.refresh();
     }
 
 
@@ -224,4 +227,25 @@ public class AdminMapController extends MapController {
         translateX = ((AnchorPane) event.getSource()).getTranslateX();
         translateY = ((AnchorPane) event.getSource()).getTranslateY();
     }
+
+    private void initSanitation(){
+        tblLocation.setCellValueFactory(new PropertyValueFactory<>("LocationShortName"));
+        tblPriority.setCellValueFactory(new PropertyValueFactory<>("Priority"));
+        tblStatus.setCellValueFactory(new PropertyValueFactory<>("Status"));
+        tblDescription.setCellValueFactory(new PropertyValueFactory<>("Description"));
+        //tblUser.setCellValueFactory(new PropertyValueFactory<>("User"));
+        tblRequester.setCellValueFactory(new PropertyValueFactory<>("RequesterUserName"));
+        tblClaimTime.setCellValueFactory(new PropertyValueFactory<>("ClaimedTime"));
+        tblServiceTime.setCellValueFactory(new PropertyValueFactory<>("CompletedTime"));
+        tblServicer.setCellValueFactory(new PropertyValueFactory<>("ServicerUserName"));
+        System.out.println(spills.toString());
+        tblData.setItems(spills);
+    }
+
+    private void updateSanitation() {
+        List<SanitationRequest> lstReqs = SanitationTable.getSanitationRequests();
+        if(lstReqs!=null)
+            spills.addAll(lstReqs);
+    }
 }
+

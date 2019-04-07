@@ -184,7 +184,9 @@ public class SanitationTable {
         // Get updated data from request
         int requestID = request.getRequestID();
         String status = request.getStatus().name();
-        int servicerID = request.getServicer().getUserID();
+        int servicerID=-1;
+        if(request.getServicer()!=null){
+        servicerID = request.getServicer().getUserID();}
         Timestamp claimedTime = request.getClaimedTime();
         Timestamp completedTime = request.getCompletedTime();
 

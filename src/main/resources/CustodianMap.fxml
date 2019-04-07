@@ -226,7 +226,7 @@
                     <content>
                         <VBox>
                             <children>
-                                <TableView fx:id="tblData" prefHeight="629.0" prefWidth="1163.0">
+                                <TableView fx:id="tblData" prefHeight="629.0" onMouseClicked="#tblClick" prefWidth="1163.0">
                                     <columns>
                                         <TableColumn fx:id="tblLocation" prefWidth="250.0" text="Location" />
                                         <TableColumn fx:id="tblPriority" prefWidth="75.0" text="Priority" />

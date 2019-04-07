@@ -157,7 +157,7 @@
                                 </TableView>
                                 <ButtonBar minHeight="-Infinity" prefHeight="71.0" prefWidth="1099.0" VBox.vgrow="ALWAYS">
                                     <buttons>
-                                        <JFXButton fx:id="btnDelete" disable="true" onMouseClicked="#deleteSanitationRequest" text="Navigate" textFill="WHITE">
+                                        <JFXButton fx:id="btnDelete" disable="true" onMouseClicked="#deleteSanitationRequest" text="Delete" textFill="WHITE">
                                             <font>
                                                 <Font size="22.0" />
                                             </font></JFXButton>
