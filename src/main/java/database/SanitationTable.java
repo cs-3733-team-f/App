@@ -2,8 +2,7 @@ package database;
 
 import helpers.Constants;
 import models.map.Location;
-import models.sanitation.SanitationRequest;
-
+import models.requests.SanitationRequest;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;

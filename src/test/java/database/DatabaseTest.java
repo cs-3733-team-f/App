@@ -1,14 +1,12 @@
 package database;
 
-import helpers.FileHelpers;
 import models.map.Edge;
 import models.map.Location;
 import models.room.Room;
-import models.sanitation.SanitationRequest;
+import models.requests.SanitationRequest;
 import org.junit.Before;
 import org.junit.Test;
 
-import javax.xml.crypto.Data;
 import java.util.HashMap;
 import java.util.List;
 
