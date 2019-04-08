@@ -31,18 +31,18 @@
             <JFXComboBox fx:id="cmbItem" focusColor="#022d5a" labelFloat="true" prefHeight="27.0" prefWidth="339.0" promptText="Item" unFocusColor="BLACK">
                <items>
                   <FXCollections fx:factory="observableArrayList">
-                     <String fx:id="LOW" fx:value="LOW" />
-                     <String fx:id="MEDIUM" fx:value="MEDIUM" />
-                     <String fx:id="HIGH" fx:value="HIGH" />
+                     <String fx:id="FLOWERS" fx:value="Flowers" />
+                     <String fx:id="CHOCOLATE" fx:value="Chocolate" />
+                     <String fx:id="STUFFEDBEAR" fx:value="Stuffed Bear" />
                   </FXCollections>
                </items>
             </JFXComboBox>
             <JFXComboBox fx:id="cmbSize" focusColor="#022d5a" labelFloat="true" layoutX="40.0" layoutY="157.0" prefHeight="27.0" prefWidth="339.0" promptText="Size" unFocusColor="BLACK">
                <items>
                   <FXCollections fx:factory="observableArrayList">
-                     <String fx:id="LOW1" fx:value="LOW" />
-                     <String fx:id="MEDIUM1" fx:value="MEDIUM" />
-                     <String fx:id="HIGH1" fx:value="HIGH" />
+                     <String fx:id="SMALL" fx:value="Small" />
+                     <String fx:id="MEDIUM" fx:value="Medium" />
+                     <String fx:id="LARGE" fx:value="Large" />
                   </FXCollections>
                </items>
             </JFXComboBox>
@@ -62,7 +62,7 @@
                   <Insets left="30.0" right="30.0" />
                </padding>
             </JFXTextField>
-            <JFXTextField fx:id="txtSinder" layoutX="10.0" layoutY="367.0" prefHeight="25.0" prefWidth="332.0" promptText="Sender">
+            <JFXTextField fx:id="txtSender" layoutX="10.0" layoutY="367.0" prefHeight="25.0" prefWidth="332.0" promptText="Sender">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>

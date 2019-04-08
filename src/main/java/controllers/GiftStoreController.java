@@ -3,28 +3,35 @@
  */
 
 package controllers;
+
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
-import database.Database;
 import database.SanitationTable;
-import javafx.beans.value.ChangeListener;
-import javafx.fxml.Initializable;
 import javafx.scene.input.MouseEvent;
 import models.map.Location;
 import models.sanitation.SanitationRequest;
+
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class SanitationController extends PopUpController {
+public class GiftStoreController extends PopUpController {
 
     public JFXComboBox cmbPriority;
     public JFXTextField txtDescription;
     public JFXButton submitBTN;
-    public String LOW;
+    public JFXComboBox cmbItem;
+    public JFXComboBox cmbSize;
+    public JFXTextField txtRecipient;
+    public JFXTextField txtMessage;
+    public JFXTextField txtSender;
+    public String FLOWERS;
+    public String CHOCOLATE;
+    public String STUFFEDBEAR;
+    public String SMALL;
     public String MEDIUM;
-    public String HIGH;
+    public String LARGE;
+
 
     /**
      * @brief Sends sanitation request to database.
