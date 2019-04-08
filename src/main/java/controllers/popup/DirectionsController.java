@@ -58,16 +58,16 @@ public class DirectionsController extends PopUpController implements Initializab
     public void btnGo_OnClick(MouseEvent event) {
         event.consume();
 
-        for (GesturePane pane : panes) {
-//            List<Node> lstNodes1 = new ArrayList<>();
-//            for (Node n : pane.getChildren()) {
-//                if (n instanceof Line) {
-//                    lstNodes1.add(n);
-//                }
-//            }
-//            for (Node n : lstNodes1) {
-//                pane.getChildren().remove(n);
-//            }
+        for (AnchorPane pane : panes) {
+            List<Node> lstNodes1 = new ArrayList<>();
+            for (Node n : pane.getChildren()) {
+                if (n instanceof Line) {
+                    lstNodes1.add(n);
+                }
+            }
+            for (Node n : lstNodes1) {
+                pane.getChildren().remove(n);
+            }
         }
 
         Stack<SubPath> path = PathFinder.findPath(loc, loc2);
@@ -122,17 +122,17 @@ public class DirectionsController extends PopUpController implements Initializab
                 );
                 timeline.setCycleCount(Timeline.INDEFINITE);
                 timeline.play();
-//                if (loc1.getFloor().equals("L2") && loc2.getFloor().equals("L2")) {
-//                    panes[0].getChildren().add(1, line);
-//                } else if (loc1.getFloor().equals("L1") && loc2.getFloor().equals("L1")) {
-//                    panes[1].getChildren().add(1, line);
-//                } else if (loc1.getFloor().equals("1") && loc2.getFloor().equals("1")) {
-//                    panes[2].getChildren().add(1, line);
-//                } else if (loc1.getFloor().equals("2") && loc2.getFloor().equals("2")) {
-//                    panes[3].getChildren().add(1, line);
-//                } else {
-//                    panes[4].getChildren().add(1, line);
-//                }
+                if (loc1.getFloor().equals("L2") && loc2.getFloor().equals("L2")) {
+                    panes[0].getChildren().add(1, line);
+                } else if (loc1.getFloor().equals("L1") && loc2.getFloor().equals("L1")) {
+                    panes[1].getChildren().add(1, line);
+                } else if (loc1.getFloor().equals("1") && loc2.getFloor().equals("1")) {
+                    panes[2].getChildren().add(1, line);
+                } else if (loc1.getFloor().equals("2") && loc2.getFloor().equals("2")) {
+                    panes[3].getChildren().add(1, line);
+                } else {
+                    panes[4].getChildren().add(1, line);
+                }
             }
         }
         ScreenController.deactivate();

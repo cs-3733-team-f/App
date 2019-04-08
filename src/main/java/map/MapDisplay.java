@@ -35,7 +35,7 @@ public class MapDisplay {
     /**
      * Display the graph on a map for the default user (no halls, info boxes)
      */
-    public static void displayUser(GesturePane[] panes) {
+    public static void displayUser(AnchorPane[] panes) {
         Map map = MapParser.parse();
         displayNodesUser(map, panes);
     }
@@ -44,7 +44,7 @@ public class MapDisplay {
      * Display the graph of a map for employees (halls, info boxes with spill reporting)
      * @param panes
      */
-    public static void displayEmployee(GesturePane[] panes) {
+    public static void displayEmployee(AnchorPane[] panes) {
         Map map = MapParser.parse();
         displayNodesEmployee(map, panes);
     }
@@ -53,7 +53,7 @@ public class MapDisplay {
      * Display the graph on a map for the admin (halls, edit boxes)
      * @param panes
      */
-    public static void displayAdmin(GesturePane[] panes) {
+    public static void displayAdmin(AnchorPane[] panes) {
         Map map = MapParser.parse();
         displayEdges(map, panes);
         displayNodesAdmin(map, panes);
@@ -63,12 +63,12 @@ public class MapDisplay {
      * Display the graph on a map for the custodian (no halls)
      * @param panes
      */
-    public static void displayCust(GesturePane[] panes) {
+    public static void displayCust(AnchorPane[] panes) {
         Map map = MapParser.parse();
         displayNodesCust(map, panes);
     }
 
-    private static void displayNodesUser(Map map, GesturePane[] panes) {
+    private static void displayNodesUser(Map map, AnchorPane[] panes) {
         IconFontFX.register(FontAwesome.getIconFont());
 
         HashMap<String, Location> lstLocations = map.getAllLocations();
@@ -94,21 +94,26 @@ public class MapDisplay {
                         e.printStackTrace();
                     }
                 });
-
-                System.out.println(findPane(panes, loc.getFloor()).getContent());
+                findPane(panes, loc.getFloor()).getChildren().add(circle);
             }
         }
     }
 
-    private static void displayNodesCust(Map map, GesturePane[] panes) {
+    private static void displayNodesCust(Map map, AnchorPane[] panes) {
         HashMap<String, Location> lstLocations = map.getAllLocations();
         for (Location loc : lstLocations.values()) {
             if (loc.getNodeType() != Constants.NodeType.HALL) {
                 double xLoc = scaleX(loc.getxCord());
                 double yLoc = scaleY(loc.getyCord());
-                Circle circle = new Circle(xLoc, yLoc, CIRCLE_SIZE, nodeFill);
-                circle.setStroke(nodeOutline);
-                circle.setStrokeWidth(locWidth);
+                Button circle = new Button();
+                circle.setMinWidth(CIRCLE_SIZE);
+                circle.setMinHeight(CIRCLE_SIZE);
+                circle.setMaxWidth(CIRCLE_SIZE);
+                circle.setMaxHeight(CIRCLE_SIZE);
+                circle.setTranslateX(xLoc);
+                circle.setTranslateY(yLoc);
+                circle.setGraphic(getIcon(loc.getNodeType()));
+                circle.setStyle("-fx-focus-color: black;");
                 circle.setOnMouseClicked(event -> {
                     try {
                         event.consume();
@@ -117,20 +122,26 @@ public class MapDisplay {
                         e.printStackTrace();
                     }
                 });
-                //findPane(panes, loc.getFloor()).getChildren().add(circle);
+                findPane(panes, loc.getFloor()).getChildren().add(circle);
             }
         }
     }
 
-    private static void displayNodesEmployee(Map map, GesturePane[] panes) {
+    private static void displayNodesEmployee(Map map, AnchorPane[] panes) {
         HashMap<String, Location> lstLocations = map.getAllLocations();
         for (Location loc : lstLocations.values()) {
             if (loc.getNodeType() != Constants.NodeType.HALL) {
                 double xLoc = scaleX(loc.getxCord());
                 double yLoc = scaleY(loc.getyCord());
-                Circle circle = new Circle(xLoc, yLoc, CIRCLE_SIZE, nodeFill);
-                circle.setStroke(nodeOutline);
-                circle.setStrokeWidth(locWidth);
+                Button circle = new Button();
+                circle.setMinWidth(CIRCLE_SIZE);
+                circle.setMinHeight(CIRCLE_SIZE);
+                circle.setMaxWidth(CIRCLE_SIZE);
+                circle.setMaxHeight(CIRCLE_SIZE);
+                circle.setTranslateX(xLoc);
+                circle.setTranslateY(yLoc);
+                circle.setGraphic(getIcon(loc.getNodeType()));
+                circle.setStyle("-fx-focus-color: black;");
                 circle.setOnMouseClicked(event -> {
                     try {
                         event.consume();
@@ -139,29 +150,38 @@ public class MapDisplay {
                         e.printStackTrace();
                     }
                 });
-                //findPane(panes, loc.getFloor()).getChildren().add(circle);
+                findPane(panes, loc.getFloor()).getChildren().add(circle);
             }
         }
     }
 
-    private static void displayNodesAdmin(Map map, GesturePane[] panes) {
+    private static void displayNodesAdmin(Map map, AnchorPane[] panes) {
         HashMap<String, Location> lstLocations = map.getAllLocations();
         for (Location loc : lstLocations.values()) {
             double xLoc = scaleX(loc.getxCord());
             double yLoc = scaleY(loc.getyCord());
-            Circle circle;
+            Button circle = new Button();
+
+            circle.setTranslateX(xLoc);
+            circle.setTranslateY(yLoc);
+            circle.setGraphic(getIcon(loc.getNodeType()));
+            circle.setStyle("-fx-focus-color: black;");
             if (loc.getNodeType() != Constants.NodeType.HALL) {
-                circle = new Circle(xLoc, yLoc, CIRCLE_SIZE, nodeFill);
+                circle.setMinWidth(CIRCLE_SIZE);
+                circle.setMinHeight(CIRCLE_SIZE);
+                circle.setMaxWidth(CIRCLE_SIZE);
+                circle.setMaxHeight(CIRCLE_SIZE);
             } else {
-                circle = new Circle(xLoc, yLoc, hallRadius, hallFill);
+                circle.setMinWidth(CIRCLE_SIZE / 2);
+                circle.setMinHeight(CIRCLE_SIZE / 2);
+                circle.setMaxWidth(CIRCLE_SIZE / 2);
+                circle.setMaxHeight(CIRCLE_SIZE / 2);
             }
-            circle.setStroke(nodeOutline);
-            circle.setStrokeWidth(locWidth);
-            //findPane(panes, loc.getFloor()).getChildren().add(circle);
+            findPane(panes, loc.getFloor()).getChildren().add(circle);
         }
     }
 
-    private static void displayEdges(Map map, GesturePane[] panes) {
+    private static void displayEdges(Map map, AnchorPane[] panes) {
         HashMap<String, Edge> lstEdges = map.getAllEdges();
         for (Edge edge : lstEdges.values()) {
             Location start = edge.getStart();
@@ -174,12 +194,12 @@ public class MapDisplay {
                 Line line = new Line(x1, y1, x2, y2);
                 line.setStroke(edgeFill);
                 line.setStrokeWidth(edgeWidth);
-                //findPane(panes, start.getFloor()).getChildren().add(line);
+                findPane(panes, start.getFloor()).getChildren().add(line);
             }
         }
     }
 
-    private static GesturePane findPane(GesturePane[] panes, String floor) {
+    private static AnchorPane findPane(AnchorPane[] panes, String floor) {
         switch (floor) {
             case "L2":
                 return panes[0];
@@ -235,7 +255,11 @@ public class MapDisplay {
                 break;
         }
         icon.setFill(Color.GRAY);
-        icon.setIconSize(ICON_SIZE);
+        if (nodeType != Constants.NodeType.HALL) {
+            icon.setIconSize(ICON_SIZE);
+        } else {
+            icon.setIconSize(ICON_SIZE / 4);
+        }
         return icon;
     }
 

@@ -4,19 +4,13 @@ import javafx.scene.layout.AnchorPane;
 import map.MapDisplay;
 import net.kurobako.gesturefx.GesturePane;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
 public class EmployeeMapController extends MapController {
 
-//    public JFXButton btnSettings;
-//    public JFXButton btnReturn;
-
-    public void initialize() {
-        toolTip();
-        MapDisplay.displayEmployee(new GesturePane[] {panFloorL2, panFloorL1, panFloor1, panFloor2, panFloor3});
-
-    }
-
-    void toolTip() {
-        //btnSettings.setTooltip(new Tooltip(Constants.SETTINGS_BUTTON_TOOLTIP));
-       // btnReturn.setTooltip(new Tooltip(Constants.LOGOUT_BUTTON_TOOLTIP));
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        MapDisplay.displayEmployee(new AnchorPane[] {panFloorL2, panFloorL1, panFloor1, panFloor2, panFloor3});
     }
 }

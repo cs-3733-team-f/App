@@ -13,7 +13,7 @@ public abstract class PopUpController implements Initializable {
 
     protected Location loc;
     protected Map map;
-    protected GesturePane[] panes;
+    protected AnchorPane[] panes;
 
     public abstract void setLoc(Location loc);
 
@@ -21,7 +21,7 @@ public abstract class PopUpController implements Initializable {
         this.map = map;
     };
 
-    public void setPanes(GesturePane[] panes) {
+    public void setPanes(AnchorPane[] panes) {
         this.panes = panes;
     }
 }

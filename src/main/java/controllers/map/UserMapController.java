@@ -5,6 +5,7 @@ import controllers.ScreenController;
 import helpers.Constants;
 import javafx.fxml.Initializable;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import jiconfont.icons.font_awesome.FontAwesome;
 import jiconfont.javafx.IconFontFX;
@@ -27,6 +28,8 @@ public class UserMapController extends MapController {
         icon.setFill(Color.WHITE);
         btnSettings.setText("");
         btnSettings.setGraphic(icon);
+
+        MapDisplay.displayUser(new AnchorPane[] {panFloorL2, panFloorL1, panFloor1, panFloor2, panFloor3});
     }
 
     @Override

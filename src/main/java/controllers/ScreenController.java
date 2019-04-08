@@ -125,7 +125,7 @@ public class ScreenController {
         displayPopUp(root);
     }
 
-    public static void popUp(Constants.Routes route, Location loc, Map map, GesturePane[] panes) throws Exception {
+    public static void popUp(Constants.Routes route, Location loc, Map map, AnchorPane[] panes) throws Exception {
         stage = new Stage();
         URL url = routeToURL(route);
 
@@ -140,7 +140,7 @@ public class ScreenController {
         displayPopUp(root);
     }
 
-    public static void popUp(Constants.Routes route, Location loc1, Location loc2, Map map, GesturePane[] panes) throws Exception {
+    public static void popUp(Constants.Routes route, Location loc1, Location loc2, Map map, AnchorPane[] panes) throws Exception {
         stage = new Stage();
         URL url = routeToURL(route);
 
@@ -174,6 +174,7 @@ public class ScreenController {
     }
 
     private static URL routeToURL(Constants.Routes route) throws MalformedURLException {
+        System.out.println(route.name());
         return new URL(ScreenController.class.getResource(screenMap.get(route.name())).toString().replaceAll("%20", " "));
     }
 }
