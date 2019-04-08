@@ -2,6 +2,7 @@ package database;
 
 import helpers.Constants;
 import helpers.DatabaseHelpers;
+import models.map.Edge;
 import models.map.Location;
 import models.room.Room;
 
@@ -364,5 +365,40 @@ public class LocationTable {
                     c.getDBFormattedFloor();
         }
         return id;
+    }
+
+    public static ArrayList<Edge> getEdgesByID(String locationID) {
+        try {
+
+            PreparedStatement statement;
+
+            statement = Database.getConnection().prepareStatement(
+                    "SELECT * FROM " + Constants.EDGES_TABLE + " WHERE STARTNODEID=? OR ENDNODEID=?"
+            );
+
+            statement.setString(1, locationID);
+            statement.setString(2, locationID);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            ArrayList<Edge> returnList = new ArrayList<>();
+
+            while(resultSet.next()) {
+                Edge edge = new Edge(
+                        resultSet.getString("EDGEID"),
+                        getLocationByID(resultSet.getString("STARTNODEID")),
+                        getLocationByID(resultSet.getString("ENDNODEID"))
+                );
+
+                returnList.add(edge);
+            }
+
+            return returnList;
+
+        } catch (SQLException e) {
+            System.out.println("Cannot get edges of location by locationID!");
+
+            return null;
+        }
     }
 }
