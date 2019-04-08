@@ -21,13 +21,11 @@ public class AStar extends PathFinder {
 
         // Create priority queue and hashmaps
         PriorityQueue<SubPath> inQueue = new PriorityQueue<>();
-        HashMap<String, SubPath> parent = new HashMap<>();
         HashMap<String, SubPath> used = new HashMap<>();
 
         // Initialize values
         SubPath sNeigh = new SubPath("", start, 0.0);
         inQueue.add(sNeigh);
-        parent.put(start.getNodeID(), null);
 
         // Loop while queue isn't empty or end map is found
         while (!inQueue.isEmpty()) {
@@ -40,8 +38,9 @@ public class AStar extends PathFinder {
 
             // Check to see if map is our end map
             if (lNext.getNodeID().equals(end.getNodeID())) {
+                System.out.println("Found path!");
                 // Generate path from parent map and end node
-                path = genPath(parent, nNext);
+                path = genPath(nNext);
                 break;
             }
 
@@ -64,9 +63,9 @@ public class AStar extends PathFinder {
                     heuristic += FLOOR_HEURISTIC * Math.abs(floorToInt(lCurr.getFloor()) - floorToInt(end.getFloor()));
                     // Create a new neighbor with updated distance value
                     SubPath newNeigh = new SubPath(nCurr.getEdgeID(), nCurr.getLocation(), newDist, heuristic);
+                    newNeigh.setParent(nNext);
                     // Add the new neighbor into the queue and add its parent into the parent map
                     inQueue.add(newNeigh);
-                    parent.putIfAbsent(lCurr.getNodeID(), nNext);
                 }
             }
         }

@@ -7,14 +7,7 @@ public class SubPath implements Comparable<SubPath> {
     private double dist;
     private double heuristic;
     private double weight;
-
-    public SubPath(String edgeID, Location node, double dist) {
-        this.edgeID = edgeID;
-        this.node = node;
-        this.dist = dist;
-        this.heuristic = 0.0;
-        weight = dist + heuristic;
-    }
+    private SubPath parent;
 
     public SubPath(String edgeID, Location node, double dist, double heuristic) {
         this.edgeID = edgeID;
@@ -22,6 +15,11 @@ public class SubPath implements Comparable<SubPath> {
         this.dist = dist;
         this.heuristic = heuristic;
         weight = dist + heuristic;
+        parent = null;
+    }
+
+    public SubPath(String edgeID, Location node, double dist) {
+        this(edgeID, node, dist, 0.0);
     }
 
     public String getEdgeID() {
@@ -38,6 +36,14 @@ public class SubPath implements Comparable<SubPath> {
 
     public double getWeight() {
         return weight;
+    }
+
+    public SubPath getParent() {
+        return parent;
+    }
+
+    public void setParent(SubPath parent) {
+        this.parent = parent;
     }
 
     @Override

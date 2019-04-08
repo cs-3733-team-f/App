@@ -18,12 +18,10 @@ public class DepthSearch extends PathFinder {
         Stack<Location> path = new Stack<>();
 
         Stack<SubPath> stack = new Stack<>();
-        HashMap<String, SubPath> parent = new HashMap<>();
         HashMap<String, SubPath> used = new HashMap<>();
 
         SubPath sStart = new SubPath("", start, 0.0);
         stack.push(sStart);
-        parent.put(start.getNodeID(), null);
 
         while (!stack.isEmpty()) {
             SubPath sNext = stack.pop();
@@ -33,7 +31,7 @@ public class DepthSearch extends PathFinder {
             }
 
             if (lNext.getNodeID().equals(end.getNodeID())) {
-                path = genPath(parent, sNext);
+                path = genPath(sNext);
                 break;
             }
 
@@ -43,8 +41,8 @@ public class DepthSearch extends PathFinder {
             for (SubPath nCurr : lstNeighbors) {
                 Location lCurr = nCurr.getLocation();
                 if (!used.containsKey(lCurr.getNodeID())) {
+                    nCurr.setParent(sNext);
                     stack.push(nCurr);
-                    parent.putIfAbsent(lCurr.getNodeID(), sNext);
                 }
             }
         }
