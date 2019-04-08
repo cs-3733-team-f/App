@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="400.0" style="-fx-border-color: black;" stylesheets="@css/colorScheme.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GiftStoreController">
+   <children>
+      <VBox alignment="CENTER" layoutX="3.0" layoutY="3.0" prefHeight="800.0" prefWidth="396.0" spacing="50.0" AnchorPane.bottomAnchor="-30.0" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0">
+         <children>
+            <Pane prefHeight="192.0" prefWidth="394.0" style="-fx-background-color: #022D5A;">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="66.0" layoutY="34.0" prefHeight="50.0" prefWidth="258.0" text="Quick Gift Store" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font size="34.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+            <JFXComboBox fx:id="cmbItem" focusColor="#022d5a" labelFloat="true" prefHeight="27.0" prefWidth="339.0" promptText="Item" unFocusColor="BLACK">
+               <items>
+                  <FXCollections fx:factory="observableArrayList">
+                     <String fx:id="LOW" fx:value="LOW" />
+                     <String fx:id="MEDIUM" fx:value="MEDIUM" />
+                     <String fx:id="HIGH" fx:value="HIGH" />
+                  </FXCollections>
+               </items>
+            </JFXComboBox>
+            <JFXComboBox fx:id="cmbSize" focusColor="#022d5a" labelFloat="true" layoutX="40.0" layoutY="157.0" prefHeight="27.0" prefWidth="339.0" promptText="Size" unFocusColor="BLACK">
+               <items>
+                  <FXCollections fx:factory="observableArrayList">
+                     <String fx:id="LOW1" fx:value="LOW" />
+                     <String fx:id="MEDIUM1" fx:value="MEDIUM" />
+                     <String fx:id="HIGH1" fx:value="HIGH" />
+                  </FXCollections>
+               </items>
+            </JFXComboBox>
+            <JFXTextField fx:id="txtRecipient" prefHeight="25.0" prefWidth="332.0" promptText="Recipient">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <padding>
+                  <Insets left="30.0" right="30.0" />
+               </padding>
+            </JFXTextField>
+            <JFXTextField fx:id="txtMessage" layoutX="10.0" layoutY="333.0" prefHeight="25.0" prefWidth="332.0" promptText="Personal Note">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <padding>
+                  <Insets left="30.0" right="30.0" />
+               </padding>
+            </JFXTextField>
+            <JFXTextField fx:id="txtSinder" layoutX="10.0" layoutY="367.0" prefHeight="25.0" prefWidth="332.0" promptText="Sender">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <padding>
+                  <Insets left="30.0" right="30.0" />
+               </padding>
+            </JFXTextField>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Total: $0.00" />
+            <HBox layoutX="10.0" layoutY="587.0" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <JFXTextField fx:id="txtCardNumber" prefHeight="25.0" prefWidth="332.0" promptText="Card Number">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <padding>
+                        <Insets left="30.0" right="30.0" />
+                     </padding>
+                  </JFXTextField>
+                  <DatePicker fx:id="dateExp" promptText="Expiration Date">
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin>
+                  </DatePicker>
+               </children>
+               <opaqueInsets>
+                  <Insets right="10.0" />
+               </opaqueInsets>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <JFXTextField fx:id="txtCardHolder" prefHeight="25.0" prefWidth="332.0" promptText="Card Holder Name">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <padding>
+                        <Insets left="30.0" right="30.0" />
+                     </padding>
+                  </JFXTextField>
+                  <JFXTextField fx:id="txtCVV" layoutX="10.0" layoutY="10.0" prefHeight="25.0" prefWidth="332.0" promptText="CVV">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <padding>
+                        <Insets left="30.0" right="30.0" />
+                     </padding>
+                  </JFXTextField>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="96.0" prefWidth="400.0" spacing="50.0">
+               <children>
+                  <JFXButton fx:id="submitBTN" buttonType="RAISED" defaultButton="true" disable="true" onMouseClicked="#sendRequest" prefHeight="50.0" prefWidth="149.0" ripplerFill="#3dff00" text="Send" textFill="WHITE">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton buttonType="RAISED" onMouseClicked="#goBack" prefHeight="50.0" prefWidth="134.0" ripplerFill="RED" text="Cancel" textFill="WHITE">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+            </HBox>
+         </children>
+         <padding>
+            <Insets bottom="50.0" />
+         </padding>
+      </VBox>
+   </children>
+</AnchorPane>
