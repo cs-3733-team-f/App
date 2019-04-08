@@ -60,7 +60,7 @@ public class ScreenController {
         this.addScreen(Constants.Routes.EDIT_POPUP, "/EditUserPopUp.fxml");
         this.addScreen(Constants.Routes.WORKSPACE, "/Workspace.fxml");
         this.addScreen(Constants.Routes.IT, "/requests/ITServiceRequest.fxml");
-        this.addScreen(Constants.Routes.PERSCRIPTION, "/requests/Perscription.fxml");
+        this.addScreen(Constants.Routes.PERSCRIPTION, "/requests/Prescription.fxml");
         this.addScreen(Constants.Routes.INTERPRETER, "/requests/Interpreter.fxml");
         this.addScreen(Constants.Routes.INTERNAL_TRANS, "/requests/InternalTrans.fxml");
         this.addScreen(Constants.Routes.GIFT_STORE, "/requests/GiftStore.fxml");
