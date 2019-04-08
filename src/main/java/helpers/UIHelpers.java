@@ -28,27 +28,36 @@ public class UIHelpers {
     }
 
     public static void setAdminNodeClickEvent(Circle c, Location loc) {
-//        c.setOnMouseDragged(evt -> {
-//            try {
-//                evt.consume();
-//                if(!AdminMapController.isEnableAddNode() && !AdminMapController.isEnableEditEdge()) {
-//                    c.setCenterX(evt.getX());
-//
-//                    loc.setxCord((int)MapDisplay.revScaleX(evt.getX()));
-//                    loc.setyCord((int)MapDisplay.revScaleY(evt.getY()));
-//                    LocationTable.updateLocation(loc);
-//                    c.setCenterY(evt.getY());
-//                }
-//            } catch (Exception e) {
-//                throw new UnsupportedOperationException(e);
-//            }
-//        });
+        c.setOnMouseReleased(evt -> {
+            try {
+                evt.consume();
+                VisualRealtimeController.deselectAllLines();
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        });
+        c.setOnMouseDragged(evt -> {
+            try {
+                evt.consume();
+                if(!AdminMapController.isEnableAddNode() && !AdminMapController.isEnableEditEdge()) {
+                    c.setCenterX(evt.getX());
+                    AdminMapController.setDraggingNode(true);
+                    loc.setxCord((int)MapDisplay.revScaleX(evt.getX()));
+                    loc.setyCord((int)MapDisplay.revScaleY(evt.getY()));
+
+                    LocationTable.updateLocation(loc);
+                    c.setCenterY(evt.getY());
+                    VisualRealtimeController.updateLineConnections(loc);
+
+                }
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        });
         c.setOnMouseClicked(evt -> {
             try {
                 evt.consume();
                 AdminMapController.locationSelectEvent(loc);
-                if(!AdminMapController.isEnableEditEdge())
-                    ScreenController.popUp(Constants.Routes.EDIT_LOCATION, loc);
             } catch (Exception e) {
                 throw new UnsupportedOperationException(e);
             }
@@ -63,6 +72,7 @@ public class UIHelpers {
         Line line = new Line(startPoint.x, startPoint.y, endPoint.x, endPoint.y);
         line.setStroke(Color.BLACK);
         line.setStrokeWidth(MapDisplay.getEdgeWidth());
+        line.setId(e.getEdgeID());
 //        lstLines.put(edge.getEdgeID(), line);
         return line;
 //        pane.getChildren().add(line);

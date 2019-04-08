@@ -26,4 +26,12 @@ public class Map {
     public HashMap<String, Edge> getAllEdges() {
         return lstEdges;
     }
+
+    public void addEdge(Edge e) {
+        this.lstEdges.put(e.getEdgeID(), e);
+    }
+    public void addLocation(Location loc) {
+        this.lstLocations.put(loc.getNodeID(), loc);
+    }
+
 }

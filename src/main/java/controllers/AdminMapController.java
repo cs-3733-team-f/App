@@ -35,6 +35,7 @@ public class AdminMapController extends MapController {
 
     private static boolean enableAddNode = false;
     private static boolean enableEditEdge = false;
+    private static boolean draggingNode = false;
 
     public AnchorPane outerTabAnchor;
     public JFXTextField searchBox;
@@ -43,18 +44,33 @@ public class AdminMapController extends MapController {
 
     private static Location selectedLocation; // Location that is being modified or created
 
-    public static void locationSelectEvent(Location loc) {
-
-        if(enableEditEdge) {
-            if (selectedLocation != loc) {
-                selectLocation(loc);
-
+    /** Called when a circle associated with location is pressed
+     * */
+    public static void locationSelectEvent(Location loc) throws Exception {
+        if(enableEditEdge) { //If edge adding is enabled
+            if (selectedLocation != loc) { // if the selected location isn't clicked again
+                selectLocation(loc); // add the new location
+            } else {
+                deselectLocation(); // remove the first location
+                VisualRealtimeController.visuallyDeselectAll();
+                // show that editing is done for now
             }
-            else {
-                deselectLocation();
-                VisualRealtimeController.visuallyDeselectCircle(loc);
+        } else {
+            // Must be just selecting for
+            if(draggingNode) {
+                setDraggingNode(false);
+            } else {
+                ScreenController.popUp(Constants.Routes.EDIT_LOCATION, loc);
             }
         }
+    }
+
+    public static boolean isDraggingNode() {
+        return draggingNode;
+    }
+
+    public static void setDraggingNode(boolean draggingNode) {
+        AdminMapController.draggingNode = draggingNode;
     }
 
     public static boolean isEnableAddNode() {
@@ -72,7 +88,9 @@ public class AdminMapController extends MapController {
             if(edgeToggle == Constants.SELECTED) {
                 if(edge.getStart().getFloor().equals(edge.getEnd().getFloor())) {
                     Line line = UIHelpers.generateLineFromEdge(edge);
+
                     edge.setLine(line);
+                    VisualRealtimeController.getLocalMap().addEdge(edge);
                     VisualRealtimeController.addLine(line);
 
                     VisualRealtimeController.pushCircleToFront(edge.getStart());
@@ -172,7 +190,9 @@ public class AdminMapController extends MapController {
 //        loc.setNodeID(locID);
 //        loc.addCurrNode();
         UIHelpers.setAdminNodeClickEvent(circ, loc);
+        circ.setId(loc.getNodeID());
         loc.setNodeCircle(circ);
+        VisualRealtimeController.getLocalMap().addLocation(loc);
         AnchorPane addToPane = determinePanMapFromFloor(loc.getFloor());
         addToPane.getChildren().add(circ);
     }

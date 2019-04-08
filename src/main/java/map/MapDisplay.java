@@ -1,6 +1,7 @@
 package map;
 
 import controllers.ScreenController;
+import controllers.VisualRealtimeController;
 import helpers.Constants;
 import helpers.UIHelpers;
 import javafx.scene.layout.AnchorPane;
@@ -128,6 +129,7 @@ public class MapDisplay {
     }
 
     private static void displayNodesAdmin(Map map, AnchorPane[] panes) {
+        VisualRealtimeController.setLocalMap(map);
         HashMap<String, Location> lstLocations = map.getAllLocations();
         for (Location loc : lstLocations.values()) {
             double xLoc = scaleX(loc.getxCord());
@@ -157,6 +159,7 @@ public class MapDisplay {
                 double y1 = scaleY(start.getyCord());
                 double y2 = scaleY(end.getyCord());
                 Line line = new Line(x1, y1, x2, y2);
+                edge.setLine(line);
                 line.setStroke(edgeFill);
                 line.setStrokeWidth(edgeWidth);
                 findPane(panes, start.getFloor()).getChildren().add(line);

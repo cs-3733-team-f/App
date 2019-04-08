@@ -1,12 +1,15 @@
 package controllers;
 
+import database.EdgeTable;
 import helpers.UIHelpers;
 import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import models.map.Edge;
 import models.map.Location;
+import models.map.Map;
 import models.map.Workspace;
 
 import java.util.ArrayList;
@@ -15,8 +18,15 @@ public class VisualRealtimeController {
     public static ArrayList<AnchorPane> mapPanes = new ArrayList<AnchorPane>();
 
     public static AnchorPane panMap;
-    // used to deselect and select circles
+
+    // used to deselect and select circles when adding edges
     public static ArrayList<Location> selectedLocations = new ArrayList<Location>();
+
+    // for dragging node in real time
+    private static Location draggingLocation;
+    private static ArrayList<Edge> selectedEdgeList = new ArrayList<Edge>();
+
+    private static Map localMap;
     public static void setPanMap(AnchorPane panMap) {
         VisualRealtimeController.panMap = panMap;
     }
@@ -31,8 +41,57 @@ public class VisualRealtimeController {
 
     }
     public static void pushCircleToFront(Location c) {
-        panMap.getChildren().remove(c.getNodeCircle());
-        panMap.getChildren().add(c.getNodeCircle());
+        c.getNodeCircle().toFront();
+    }
+    public static void setLocalMap(Map m) {
+        localMap = m;
+    }
+    public static Map getLocalMap() {
+        return localMap;
+    }
+    public static void visuallySelectLine(Line l) {
+        l.setStroke(Color.ORANGE);
+    }
+    public static void deselectAllLines() {
+        for(Edge l : selectedEdgeList) {
+            if(l.getLine() != null) visuallyDeselectLine(l.getLine());
+        }
+        selectedEdgeList.clear();
+//        visuallySelectCircle(draggingLocation);
+        draggingLocation = null;
+    }
+    public static void visuallyDeselectLine(Line l) {
+        l.setStroke(Color.BLACK);
+    }
+    public static void setLineConnections(Location c) {
+        if(!c.equals(draggingLocation)) {
+            deselectAllLines();
+            draggingLocation = c;
+            visuallySelectCircle(c);
+            for (Edge e : localMap.getAllEdges().values()) {
+                if (e.getStart().equals(c) || e.getEnd().equals(c)) {
+                    selectedEdgeList.add(e);
+                    if(e.getLine() != null) visuallySelectLine(e.getLine());
+                }
+            }
+        }
+    }
+    public static void updateLineConnections(Location c) {
+        setSelectedPane(c);
+        setLineConnections(c);
+        for(Edge e : selectedEdgeList) {
+            try {
+                if (e.getStart().equals(c)) {
+                    e.getLine().setStartX(c.getNodeCircle().getCenterX());
+                    e.getLine().setStartY(c.getNodeCircle().getCenterY());
+                } else if (e.getEnd().equals(c)) {
+                    e.getLine().setEndX(c.getNodeCircle().getCenterX());
+                    e.getLine().setEndY(c.getNodeCircle().getCenterY());
+                }
+            } catch(Exception exc) {
+                // probably connected through elevator
+            }
+        }
     }
     public static void addCircle(Circle c) {
         panMap.getChildren().add(c);
@@ -73,8 +132,6 @@ public class VisualRealtimeController {
     }
     public static void addLine(Line l) {
         panMap.getChildren().add(l);
-        panMap.toBack();
-//        l.toBack();
 
     }
     public static void removeLine(Line l) {
