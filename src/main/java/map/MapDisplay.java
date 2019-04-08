@@ -201,13 +201,13 @@ public class MapDisplay {
                 icon = new IconNode(FontAwesome.BATH);
                 break;
             case CONF:
-                icon = new IconNode(FontAwesome.BATH);
+                icon = new IconNode(FontAwesome.USERS);
                 break;
             case DEPT:
-                icon = new IconNode(FontAwesome.BATH);
+                icon = new IconNode(FontAwesome.ARCHIVE);
                 break;
             case ELEV:
-                icon = new IconNode(FontAwesome.BATH);
+                icon = new IconNode(FontAwesome.SORT);
                 break;
             case EXIT:
                 icon = new IconNode(FontAwesome.BATH);
@@ -216,19 +216,19 @@ public class MapDisplay {
                 icon = new IconNode(FontAwesome.BATH);
                 break;
             case INFO:
-                icon = new IconNode(FontAwesome.BATH);
+                icon = new IconNode(FontAwesome.INFO_CIRCLE);
                 break;
             case LABS:
-                icon = new IconNode(FontAwesome.BATH);
+                icon = new IconNode(FontAwesome.FLASK);
                 break;
             case REST:
                 icon = new IconNode(FontAwesome.BATH);
                 break;
             case RETL:
-                icon = new IconNode(FontAwesome.BATH);
+                icon = new IconNode(FontAwesome.SHOPPING_CART);
                 break;
             case SERV:
-                icon = new IconNode(FontAwesome.BATH);
+                icon = new IconNode(FontAwesome.FAX);
                 break;
             default:
                 icon = new IconNode(FontAwesome.BATH);
