@@ -1,7 +1,9 @@
 package map;
 
 import controllers.MapController;
+import controllers.SettingsController;
 import helpers.Constants;
+import helpers.MapHelpers;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -34,19 +36,14 @@ public abstract class PathFinder {
 
     public static String defLocation;
 
-    protected Location start;
-    protected Location end;
-
-    public PathFinder(Location start, Location end) {
-        this.start = start;
-        this.end = end;
+    public PathFinder() {
     }
 
     /**
      * Finds a path from the start map to the end map using a*
      * @return A stack of locations that contains the path
      */
-    public abstract Stack<Location> findPath();
+    public abstract Stack<Location> findPath(Location start, Location end);
 
     /**
      * Generates a path from the given parent map and end map
@@ -143,8 +140,8 @@ public abstract class PathFinder {
             }
         }
 
-        PathContext context = new PathContext(new AStar(loc1, loc2));
-        Stack<Location> path = context.findPath();
+        PathContext context = SettingsController.getAlgType();
+        Stack<Location> path = context.findPath(loc1, loc2);
         String directions = context.txtDirections((Stack<Location>) path.clone());
         HashMap<String, Location> lstLocations = map.getAllLocations();
         Location prev = null;
@@ -220,6 +217,8 @@ public abstract class PathFinder {
     static double calcDist(int x1, int y1, int x2, int y2) {
         return Math.pow((Math.pow(x1 - x2, 2.0) + (Math.pow(y1 - y2, 2.0))), 0.5);
     }
+
+    public abstract MapHelpers.Algorithm getAlg();
 
     protected final int floorToInt(String floor) {
         switch (floor) {
