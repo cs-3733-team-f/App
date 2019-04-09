@@ -77,7 +77,8 @@ dependencies {
             [group: 'com.opencsv', name: 'opencsv', version: '4.5'],
             [group: 'com.gluonhq', name: 'charm-glisten', version: '4.4.2'],
             [group: 'org.kordamp.ikonli', name: 'ikonli-swing', version: '11.1.0'],
-            [group: 'com.github.jaytaylor', name: 'jaws', version: '1.3.1']
+            [group: 'com.github.jaytaylor', name: 'jaws', version: '1.3.1'],
+            [group: 'com.fazecast', name: 'jSerialComm', version: '[2.0.0,3.0.0)']
          //   [group: 'org.kordamp.bootstrap', name: 'bootstrapfx', version: '0.2.4'],
          //   [group: 'org.kordamp.jsilhouette', name: 'jsilhouette', version: '0.3.0']
     )
