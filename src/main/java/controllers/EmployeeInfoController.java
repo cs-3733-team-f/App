@@ -24,6 +24,7 @@ public class EmployeeInfoController extends PopUpController implements Initializ
     public JFXButton btnRequest;
     public JFXButton btnDirections;
     public JFXButton btnCancel;
+    public JFXButton btnStartHere;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -58,8 +59,12 @@ public class EmployeeInfoController extends PopUpController implements Initializ
 
     public void btnDirections_OnClick(MouseEvent mouseEvent) throws Exception {
         mouseEvent.consume();
-        Location kiosk = map.getLocation(PathFinder.getDefLocation());
         PathFinder.printPath(panes, map, kiosk, loc);
+        ScreenController.deactivate();
+    }
+
+    public void btnStartHere_OnClick(MouseEvent mouseEvent) {
+        MapController.setTempStart(loc.getNodeID());
         ScreenController.deactivate();
     }
 }

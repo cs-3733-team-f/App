@@ -1,3 +1,4 @@
+import controllers.MapController;
 import controllers.ScreenController;
 import database.Database;
 import helpers.Constants;
@@ -26,7 +27,6 @@ public class Main extends Application {
         screenController = new ScreenController(primaryStage);
 
         PathFinder.setDefLocation("HLABS00103");
-
     }
 
 }

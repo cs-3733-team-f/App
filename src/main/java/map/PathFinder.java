@@ -1,5 +1,6 @@
 package map;
 
+import controllers.MapController;
 import helpers.Constants;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
@@ -205,6 +206,7 @@ public abstract class PathFinder {
 
     public static void setDefLocation(String defLocation) {
         PathFinder.defLocation = defLocation;
+        MapController.setTempStart(defLocation);
     }
 
     /**

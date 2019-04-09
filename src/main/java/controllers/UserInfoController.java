@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import map.PathFinder;
 import models.map.Location;
+import models.map.Map;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -23,6 +24,7 @@ public class UserInfoController extends PopUpController implements Initializable
 
     public JFXButton btnDirections;
     public JFXButton btnCancel;
+    public JFXButton btnStartHere;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -42,13 +44,17 @@ public class UserInfoController extends PopUpController implements Initializable
 
     public void btnDirections_OnClick(MouseEvent event) throws Exception {
         event.consume();
-        Location kiosk = map.getLocation(PathFinder.getDefLocation());
         PathFinder.printPath(panes, map, kiosk, loc);
         ScreenController.deactivate();
     }
 
     public void btnCancel_OnClick(MouseEvent event) {
         event.consume();
+        ScreenController.deactivate();
+    }
+
+    public void btnStartHere_OnClick(MouseEvent mouseEvent) {
+        MapController.setTempStart(loc.getNodeID());
         ScreenController.deactivate();
     }
 }

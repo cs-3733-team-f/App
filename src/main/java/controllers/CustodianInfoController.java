@@ -23,6 +23,7 @@ public class CustodianInfoController extends PopUpController implements Initiali
 
     public JFXButton btnDirections;
     public JFXButton btnCancel;
+    public JFXButton btnStartHere;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -42,13 +43,18 @@ public class CustodianInfoController extends PopUpController implements Initiali
 
     public void btnDirections_OnClick(MouseEvent event) throws Exception {
         event.consume();
-        Location kiosk = map.getLocation(PathFinder.getDefLocation());
         PathFinder.printPath(panes, map, kiosk, loc);
         ScreenController.deactivate();
     }
 
     public void btnCancel_OnClick(MouseEvent event) {
         event.consume();
+        ScreenController.deactivate();
+    }
+
+    public void btnStartHere_OnClick(MouseEvent mouseEvent) {
+        MapController.setTempStart(loc.getNodeID());
+        System.out.println("Hi");
         ScreenController.deactivate();
     }
 }
