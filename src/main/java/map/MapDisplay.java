@@ -210,10 +210,10 @@ public class MapDisplay {
                 icon = new IconNode(FontAwesome.SORT);
                 break;
             case EXIT:
-                icon = new IconNode(FontAwesome.BATH);
+                icon = new IconNode(FontAwesome.TERMINAL);
                 break;
             case HALL:
-                icon = new IconNode(FontAwesome.BATH);
+                icon = new IconNode(FontAwesome.WINDOW_MINIMIZE);
                 break;
             case INFO:
                 icon = new IconNode(FontAwesome.INFO_CIRCLE);
@@ -231,7 +231,7 @@ public class MapDisplay {
                 icon = new IconNode(FontAwesome.FAX);
                 break;
             default:
-                icon = new IconNode(FontAwesome.BATH);
+                icon = new IconNode(FontAwesome.PLUS_CIRCLE);
                 break;
         }
         icon.setFill(Color.GRAY);
