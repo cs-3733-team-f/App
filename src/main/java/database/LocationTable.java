@@ -2,6 +2,7 @@ package database;
 
 import helpers.Constants;
 import helpers.DatabaseHelpers;
+import models.map.Edge;
 import models.map.Location;
 import models.room.Room;
 
@@ -13,7 +14,7 @@ import java.util.Objects;
 
 public class LocationTable {
 
-    private static void createLocationTable() {}
+    private static void LocationTable() {}
 
     public static void createtable(){
         Statement statement = null;
@@ -111,7 +112,6 @@ public class LocationTable {
 
             statement.execute();
 
-            // TODO: what the fuck is add room
             if (Objects.equals(DatabaseHelpers.enumToString(location.getNodeType()), Constants.NodeType.CONF.name())) {
 
                 // Populate conference room table
@@ -130,6 +130,7 @@ public class LocationTable {
             return false;
         }
     }
+
     /**
      * Checks availability for the room specified based on start and end date
      *
@@ -138,7 +139,7 @@ public class LocationTable {
      * @param endTime
      * @return true if the room is available, false otherwise
      */
-    public static boolean checkAvailabilityLocation(Room room, String startTime, String endTime) {
+    public static boolean checkAvailabilityByLocation(Room room, String startTime, String endTime) {
         PreparedStatement statement;
 
         try {
@@ -171,7 +172,7 @@ public class LocationTable {
     /**
      * Checks if location is available
      */
-    public static List<Room> checkAvailabilityTime(String startTime, String endTime) {
+    public static List<Room> checkAvailabilityByTime(String startTime, String endTime) {
 
         PreparedStatement statement1;
         ArrayList<Room> roomsAvailable = new ArrayList<>();
@@ -344,10 +345,60 @@ public class LocationTable {
         }
     }
 
-    public static String addNewLocation(Location loc) {
-        String locID = Database.generateUniqueNodeID(loc);
+    public static String uniqueID(Location loc) {
+        String locID = generateUniqueNodeID(loc);
         loc.setNodeID(locID);
-        loc.addCurrNode();
+        LocationTable.addLocation(loc);
         return locID;
+    }
+
+    public static String generateUniqueNodeID(Location c) {
+
+        String id = Database.getNewPrefixChar() + c.getNodeType().toString() + "000" +
+                c.getDBFormattedFloor();
+        while(LocationTable.getLocations().containsKey(id)) {
+            String numericalIDStr = id.substring(id.length() - 5, id.length() - 2);
+            int numericalIDVal = Integer.parseInt(numericalIDStr);
+            numericalIDVal++;
+            numericalIDStr = String.format("%03d", numericalIDVal);
+            id = Database.getNewPrefixChar() + c.getNodeType().toString() + numericalIDStr +
+                    c.getDBFormattedFloor();
+        }
+        return id;
+    }
+
+    public static ArrayList<Edge> getEdgesByID(String locationID) {
+        try {
+
+            PreparedStatement statement;
+
+            statement = Database.getConnection().prepareStatement(
+                    "SELECT * FROM " + Constants.EDGES_TABLE + " WHERE STARTNODEID=? OR ENDNODEID=?"
+            );
+
+            statement.setString(1, locationID);
+            statement.setString(2, locationID);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            ArrayList<Edge> returnList = new ArrayList<>();
+
+            while(resultSet.next()) {
+                Edge edge = new Edge(
+                        resultSet.getString("EDGEID"),
+                        getLocationByID(resultSet.getString("STARTNODEID")),
+                        getLocationByID(resultSet.getString("ENDNODEID"))
+                );
+
+                returnList.add(edge);
+            }
+
+            return returnList;
+
+        } catch (SQLException e) {
+            System.out.println("Cannot get edges of location by locationID!");
+
+            return null;
+        }
     }
 }

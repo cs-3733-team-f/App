@@ -54,10 +54,22 @@ public class ScreenController {
         this.addScreen(Constants.Routes.DIRECTIONS, "/Directions.fxml");
         this.addScreen(Constants.Routes.CUSTODIAN_MAP, "/CustodianMap.fxml");
         this.addScreen(Constants.Routes.CUSTODIAN_INFO, "/CustodianInfo.fxml");
-        this.addScreen(Constants.Routes.BOOKING_WINDOW, "/ConferenceRoomWindow.fxml");
+        this.addScreen(Constants.Routes.BOOKING_WINDOW, "/RoomBookingWindow.fxml");
         this.addScreen(Constants.Routes.CREATE_USER, "/CreateUser.fxml");
         this.addScreen(Constants.Routes.USER_POPUP, "/CreateUserPopUp.fxml");
         this.addScreen(Constants.Routes.EDIT_POPUP, "/EditUserPopUp.fxml");
+        this.addScreen(Constants.Routes.WORKSPACE, "/Workspace.fxml");
+        this.addScreen(Constants.Routes.REQUESTS, "/requests/Requests.fxml");
+        this.addScreen(Constants.Routes.IT, "/requests/ITServiceRequest.fxml");
+        this.addScreen(Constants.Routes.PERSCRIPTION, "/requests/Prescription.fxml");
+        this.addScreen(Constants.Routes.INTERPRETER, "/requests/Interpreter.fxml");
+        this.addScreen(Constants.Routes.INTERNAL_TRANS, "/requests/InternalTrans.fxml");
+        this.addScreen(Constants.Routes.GIFT_STORE, "/requests/GiftStore.fxml");
+        this.addScreen(Constants.Routes.FLOURIST, "/requests/Flourist.fxml");
+        this.addScreen(Constants.Routes.SECURITY, "/requests/Security.fxml");
+        this.addScreen(Constants.Routes.VISUAL_AUDIO, "/requests/VisualAudio.fxml");
+        this.addScreen(Constants.Routes.EXTERNAL_TRANS, "/requests/ExternalTrans.fxml");
+        this.addScreen(Constants.Routes.PATIENT_INFO, "/requests/PatientInfo.fxml");
     }
 
     public void addScreen(Constants.Routes route, String layout) {
@@ -86,6 +98,7 @@ public class ScreenController {
         stage.setTitle("Brigham and Women's Pathfinder Application");
         stage.setScene(s);
         stage.setResizable(true);
+       // stage.setMaximized(true);
         stage.show();
     }
 

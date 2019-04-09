@@ -21,6 +21,7 @@ public class Location {
     private String longName;
     private String shortName;
     private ArrayList<SubPath> lstSubPaths;
+    private Location parent;
     private boolean available;
 
 
@@ -34,6 +35,7 @@ public class Location {
         this.longName = longName;
         this.shortName = shortName;
         this.lstSubPaths = new ArrayList<>();
+        this.parent = null;
         this.available = available;
     }
 
@@ -52,6 +54,7 @@ public class Location {
     public String getFloor() {
         return floor;
     }
+
     public String getDBFormattedFloor() {
         if(floor.length() == 1) return "0" + floor;
         else return floor;
@@ -109,13 +112,21 @@ public class Location {
         return lstSubPaths;
     }
 
+    public Location getParent() {
+        return parent;
+    }
+
+    public void setParent(Location parent) {
+        this.parent = parent;
+    }
+
     public boolean getAvailable(){ return available; }
 
     public void setAvailable(boolean isAvailable){
         this.available = isAvailable;
     }
 
-    public String[] getStrings() {
+    public String[] getStringsLocation() {
         return new String[]{nodeID, Integer.toString(xCord), Integer.toString(yCord), floor, building,
             nodeType.toString(), longName, shortName};
     }
@@ -125,12 +136,8 @@ public class Location {
         LocationTable.updateLocation(this);
     }
 
-    public boolean addCurrNode() {
-        return LocationTable.addLocation(this);
-    }
-
     public boolean deleteCurrNode() {
-        VisualRealtimeController.removeCircle(getNodeCircle());
+        VisualRealtimeController.removeCircle(this);
         return LocationTable.deleteLocation(this);
     }
 
@@ -141,4 +148,5 @@ public class Location {
     public void setNodeCircle(Circle nodeCircle) {
         this.nodeCircle = nodeCircle;
     }
+
 }

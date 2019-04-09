@@ -16,6 +16,7 @@ import javax.xml.crypto.Data;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import static helpers.Constants.NodeType.HALL;
 import static org.junit.Assert.*;
@@ -29,9 +30,9 @@ public class DatabaseTest {
 
         // Parse locations and edges
         // Add locations and edges to the database
-        if (!Database.databaseExists()) {
-            CSVParser.parse(FileHelpers.getNodesCSV(), FileHelpers.getEdgesCSV());
-        }
+//        if (!Database.databaseExists()) {
+//            CSVParser.parse(FileHelpers.getNodesCSV(), FileHelpers.getEdgesCSV());
+//        }
 
     }
 
@@ -119,6 +120,16 @@ public class DatabaseTest {
     }
 
     @Test
+    public void addDeleteLocation() {
+
+
+        Location newLoc = new Location("AHALL00201", 1608, 2596, "1", "BTM", HALL, "Hall", "Hall");
+        HashMap<String, Location> locations = LocationTable.getLocations();
+
+        // check that all fields are equal to the original after being added and and pulled from the database
+
+        assertNull(LocationTable.getLocationByID(newLoc.getNodeID()));
+    }
     public void getRooms() {
         Room room = new Room("ABC", 50);
         RoomTable.addRoom(room);

@@ -2,6 +2,7 @@ package controllers;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXTextField;
 import database.Database;
 import database.LocationTable;
 import helpers.Constants;
@@ -11,6 +12,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.input.MouseEvent;
+import map.PathFinder;
 import models.map.Location;
 import org.omg.DynamicAny.DynArray;
 
@@ -19,7 +21,8 @@ import java.util.ResourceBundle;
 
 public class EditController extends PopUpController implements Initializable {
 
-    public JFXComboBox cmbNodeType;
+    public JFXComboBox cmbNodeType, cmbNodeType1;
+    public JFXTextField NameField;
 
     public String BATH;
     public String CONF;
@@ -33,20 +36,33 @@ public class EditController extends PopUpController implements Initializable {
     public String RETL;
     public String SERV;
     public String STAI;
+    public JFXButton btnDefault;
+    //public String WORK;
+   // public String WRKT;
 
 //    public JFXButton bookingButton;
 
     public void updateNode(MouseEvent event) {
         event.consume();
+        try {
+            String name = (String) NameField.getText();
+            loc.setLongName(name);
+            loc.setShortName(name);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
         String value = (String) cmbNodeType.getValue();
+        String building = (String) cmbNodeType1.getValue();
+        loc.setBuilding(building);
         String nType = value.substring(0, value.indexOf(':'));
         loc.setNodeType(Constants.NodeType.valueOf(nType));
         if (loc.getNodeID() == null) {
-            loc.setNodeID(LocationTable.addNewLocation(loc));
+            loc.setNodeID(LocationTable.uniqueID(loc));
             System.out.println(loc.getNodeID());
         }
-        VisualRealtimeController.updateCircle(loc.getNodeCircle(),
-                UIHelpers.updateCircleForNodeType(loc));
+//        VisualRealtimeController.updateCircle(loc.getNodeCircle(),
+//                UIHelpers.updateCircleForNodeType(loc));
+        loc.setNodeCircle(UIHelpers.updateCircleForNodeType(loc));
         ScreenController.deactivate();
     }
 
@@ -61,12 +77,15 @@ public class EditController extends PopUpController implements Initializable {
 
         ScreenController.deactivate();
     }
-
     public void goBack(MouseEvent event) throws Exception{
        // ((Stage) (((Node) event.getSource()).getScene().getWindow())).close();
         event.consume();
         //if(loc.getNodeID() == null) Database.addNewLocation(loc);
+        if(AdminMapController.isEnableAddNode()) {
+            loc.deleteCurrNode();
+        }
         ScreenController.deactivate();
+
     }
 
     public void deleteNode(MouseEvent event) {
@@ -81,6 +100,8 @@ public class EditController extends PopUpController implements Initializable {
      */
     public void setLoc(Location loc) {
         this.loc = loc;
+        cmbNodeType1.setValue(loc.getBuilding());
+        NameField.setText(loc.getShortName());
         switch (loc.getNodeType()) {
             case BATH:
                 cmbNodeType.setValue(BATH);
@@ -114,20 +135,32 @@ public class EditController extends PopUpController implements Initializable {
                 break;
             case CONF:
                 cmbNodeType.setValue(CONF);
+                break;
+          //  case WORK:
+            //    cmbNodeType.setValue(WORK);
+           //     break;
+         //  case WRKT:
+         //       cmbNodeType.setValue(WRKT);
 
                 // Set button visibility to true since a conference room node
                 // is selected and the room can be booked
 //                bookingButton.setVisible(true);
 
-                break;
+               // break;
             default:
                 cmbNodeType.setValue(STAI);
         }
+
 
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 //        bookingButton.setText(Constants.BOOKING_BUTTON_TEXT);
+    }
+
+    public void btnDefault_Click(MouseEvent mouseEvent) {
+        PathFinder.setDefLocation(loc.getNodeID());
+        ScreenController.deactivate();
     }
 }
