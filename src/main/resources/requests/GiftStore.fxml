@@ -53,7 +53,7 @@
                                  <FXCollections fx:factory="observableArrayList">
                                     <String fx:id="FLOWERS1" fx:value="Flowers" />
                                     <String fx:id="CHOCOLATE1" fx:value="Chocolate" />
-                                    <String fx:id="STUFFEDBEAR1" fx:value="Stuffed Bear" />
+                                    <String fx:id="STUFFEDBEAR1" fx:value="Stuffed_Bear" />
                                  </FXCollections>
                               </items>
                            </JFXComboBox>
@@ -76,7 +76,7 @@
                            <Insets top="20.0" />
                         </padding>
                         <children>
-                                      <JFXTextField fx:id="txtRecipient" prefHeight="25.0" prefWidth="332.0" promptText="Recipient">
+                                      <JFXTextField fx:id="txtRecipient" prefHeight="25.0" prefWidth="332.0" promptText="Recipient" onKeyTyped="#enableBtns">
                                           <opaqueInsets>
                                               <Insets />
                                           </opaqueInsets>
@@ -84,7 +84,7 @@
                                               <Insets left="30.0" right="30.0" />
                                           </padding>
                                       </JFXTextField>
-                                      <JFXTextField fx:id="txtSender" prefHeight="25.0" prefWidth="332.0" promptText="Sender">
+                                      <JFXTextField fx:id="txtSender" prefHeight="25.0" prefWidth="332.0" promptText="Sender" onKeyTyped="#enableBtns">
                                           <opaqueInsets>
                                               <Insets />
                                           </opaqueInsets>
@@ -94,7 +94,7 @@
                                       </JFXTextField>
                         </children>
                      </HBox>
-                                <JFXTextField fx:id="txtMessage" layoutX="10.0" layoutY="333.0" prefHeight="25.0" prefWidth="332.0" promptText="Personal Note">
+                                <JFXTextField fx:id="txtMessage" layoutX="10.0" layoutY="333.0" prefHeight="25.0" prefWidth="332.0" promptText="Personal Note" onKeyTyped="#enableBtns">
                                     <opaqueInsets>
                                         <Insets />
                                     </opaqueInsets>
@@ -222,7 +222,7 @@
                                   <TableView fx:id="tblGifts" prefHeight="593.0" prefWidth="1200.0">
                                       <columns>
                                           <TableColumn fx:id="tblRequestID" prefWidth="100.0" text="Request ID" />
-                                          <TableColumn fx:id="tblGift" prefWidth="100.0" text="Gift" />
+                                          <TableColumn fx:id="tblType" prefWidth="100.0" text="Gift" />
                                           <TableColumn fx:id="tblSize" prefWidth="140.0" text="Size" />
                                           <TableColumn fx:id="tblNote" prefWidth="300.0" text="Personal Note" />
                                           <TableColumn fx:id="tblRecipient" prefWidth="140.0" text="Recipient " />

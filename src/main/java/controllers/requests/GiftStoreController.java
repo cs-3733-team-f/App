@@ -7,6 +7,7 @@ import com.sun.javafx.scene.control.TableColumnComparatorBase;
 import controllers.ScreenController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -17,15 +18,17 @@ import models.requests.GIFT;
 import models.sanitation.SanitationRequest;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+
+import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
 public class GiftStoreController {
-
-    public JFXComboBox getCmbItem;
-    public JFXComboBox getCmbSize;
 
     public JFXButton submitBTN;
     public JFXComboBox cmbItem;
@@ -50,50 +53,85 @@ public class GiftStoreController {
     public TableColumn<GIFT, String> tblRecipient;
     public TableColumn<GIFT, String> tblSender;
     public int requestID = 1;
+    public JFXComboBox cmbSize1;
+    public JFXComboBox cmbItem1;
     boolean A =false;
     boolean B= false;
 
     ObservableList<GIFT> giftsREGS = FXCollections.observableArrayList();
+
+    private static DecimalFormat df2 = new DecimalFormat(".##");
+
+
+
     public void initialize() {
 
         initGift();
 
-        getCmbSize.valueProperty().addListener(((observable, oldValue, newValue) -> {
-            submitBTN.setDisable(false);
+        cmbSize1.valueProperty().addListener(((observable, oldValue, newValue) -> {
             A=true;
             calculate();
+            enableBtns();
         }));
-        getCmbItem.valueProperty().addListener(((observable, oldValue, newValue) -> {
-            submitBTN.setDisable(false);
+        cmbItem1.valueProperty().addListener(((observable, oldValue, newValue) -> {
             B=true;
             calculate();
+            enableBtns();
         }));
     }
+
+
+
+//    DocumentListener listener = new DocumentListener() {
+//        @Override
+//        public void removeUpdate(DocumentEvent e) { changedUpdate(e); }
+//        @Override
+//        public void insertUpdate(DocumentEvent e) { changedUpdate(e); }
+//
+//        @Override
+//        public void changedUpdate(DocumentEvent e) {
+//            boolean canEnable = true;
+////            for (JFXTextField tf : listFields) {
+////                if (tf.getText().isEmpty()) {
+////                    canEnable = false;
+////                }
+//            //}
+
+    @FXML
+    private void enableBtns(){
+
+            boolean canEnable=((!txtSender.getText().equals("")&&!txtRecipient.getText().equals("")&&!txtMessage.getText().equals("")))&&(A&&B);
+
+
+
+            submitBTN.setDisable(!canEnable);
+        }
+
 
     public void calculate(){
         if (A&&B){
             double cost=0.0;
 
-            String gift=(String) cmbItem.getValue();
-            String size=(String) cmbSize.getValue();
+            String gift=(String) cmbItem1.getValue();
+            String size=(String) cmbSize1.getValue();
 
-            if(gift.equals("FLOWERS1")){
+            if(gift.equals("Flowers")){
                 cost=2.3;
-            }else if (gift.equals("STUFFEDBEAR1")){
+            }else if (gift.equals("Chocolate")){
                 cost=1.9;
-            }else if (gift.equals("CHOCOLATES1")){
+            }else if (gift.equals("Stuffed_Bear")){
                 cost=4.3;
             }
-            if(size.equals("LARGE")){
-                cost=cost*3;
-            }else if (size.equals("MEDIUM")){
-                cost=cost*2;
-            }else if(size.equals("SMALL")){
-                cost=cost*1;
+            if(size.equals("Large")){
+                cost=cost*3.0;
+            }else if (size.equals("Medium")){
+                cost=cost*2.0;
+            }else if(size.equals("Small")){
+                cost=cost*1.0;
             }
 
 
-            price.setText("$"+cost);
+            price.setText("$"+df2.format(cost));
 
         }else{
             price.setText("$0.00");
@@ -106,8 +144,8 @@ public class GiftStoreController {
         String note = txtMessage.getText();
         String sender = txtSender.getText();
 
-        String type = (String) cmbItem.getValue();
-        String size = (String) cmbSize.getValue();
+        String type = (String) cmbItem1.getValue();
+        String size = (String) cmbSize1.getValue();
 
         GIFT req = new GIFT(requestID++, GIFT.Type.valueOf(type), GIFT.Size.valueOf(size),note,recipient,sender);
         GIFTdetails.add(req);

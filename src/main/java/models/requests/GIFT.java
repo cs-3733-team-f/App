@@ -7,13 +7,13 @@ public class GIFT {
     private int requestID;
 
     public enum Type {
-        FLOWERS1, CHOCOLATE1, STUFFEDBEAR1
+        Flowers, Chocolate, Stuffed_Bear
     }
 
     private Type type;
 
     public enum Size {
-        SMALL,MEDIUM,LARGE
+        Small,Medium,Large
     }
 
     private Size size;
