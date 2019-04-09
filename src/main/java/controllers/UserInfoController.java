@@ -24,9 +24,6 @@ public class UserInfoController extends PopUpController implements Initializable
     public JFXButton btnDirections;
     public JFXButton btnCancel;
 
-    private static boolean bolSelectedUser = false;
-    private static Location locSelectedUser;
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -45,7 +42,8 @@ public class UserInfoController extends PopUpController implements Initializable
 
     public void btnDirections_OnClick(MouseEvent event) throws Exception {
         event.consume();
-        PathFinder.printPath(panes, map, defLocation, loc);
+        Location kiosk = map.getLocation(PathFinder.getDefLocation());
+        PathFinder.printPath(panes, map, kiosk, loc);
         ScreenController.deactivate();
     }
 

@@ -31,6 +31,8 @@ public abstract class PathFinder {
     private static double LINE_LENGTH = 5.0;
     private static double LINE_GAP = 10.0;
 
+    public static String defLocation;
+
     protected Location start;
     protected Location end;
 
@@ -195,6 +197,14 @@ public abstract class PathFinder {
             }
             prev = curr;
         }
+    }
+
+    public static String getDefLocation() {
+        return defLocation;
+    }
+
+    public static void setDefLocation(String defLocation) {
+        PathFinder.defLocation = defLocation;
     }
 
     /**

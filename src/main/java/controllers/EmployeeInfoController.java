@@ -6,6 +6,7 @@ import helpers.DatabaseHelpers;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import map.PathFinder;
 import models.map.Location;
 
 import java.net.URL;
@@ -23,9 +24,6 @@ public class EmployeeInfoController extends PopUpController implements Initializ
     public JFXButton btnRequest;
     public JFXButton btnDirections;
     public JFXButton btnCancel;
-
-    private static boolean bolSelectedEmp = false;
-    private static Location locSelectedEmp;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -58,22 +56,10 @@ public class EmployeeInfoController extends PopUpController implements Initializ
         }
     }
 
-    private void checkSelected() throws Exception {
-        if (bolSelectedEmp) { // Two locations
-            if (!loc.equals(locSelectedEmp)) {
-                ScreenController.popUp(Constants.Routes.DIRECTIONS, loc, locSelectedEmp, map, panes);
-            }
-            locSelectedEmp = null;
-            bolSelectedEmp = false;
-        } else { // One location
-            locSelectedEmp = loc;
-            bolSelectedEmp = true;
-        }
-    }
-
     public void btnDirections_OnClick(MouseEvent mouseEvent) throws Exception {
         mouseEvent.consume();
+        Location kiosk = map.getLocation(PathFinder.getDefLocation());
+        PathFinder.printPath(panes, map, kiosk, loc);
         ScreenController.deactivate();
-        checkSelected();
     }
 }

@@ -5,6 +5,7 @@ import helpers.FileHelpers;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import database.CSVParser;
+import map.PathFinder;
 
 import java.io.File;
 
@@ -23,6 +24,8 @@ public class Main extends Application {
         }
 
         screenController = new ScreenController(primaryStage);
+
+        PathFinder.setDefLocation("HLABS00103");
 
     }
 
