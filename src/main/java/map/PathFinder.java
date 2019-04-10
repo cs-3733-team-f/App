@@ -40,7 +40,7 @@ public abstract class PathFinder {
     private static double LINE_WIDTH = 3.5;
     private static double LINE_LENGTH = 5.0;
     private static double LINE_GAP = 10.0;
-    private static double SPEED = 84.0;
+    private static double SPEED = 1.4;
     private static double FLOOR_TIME = 0.5;
 
     public static String defLocation;
@@ -91,9 +91,9 @@ public abstract class PathFinder {
             }
             if (loc1 != null && loc2 != null) {
                 if (loc2.getNodeType() == Constants.NodeType.ELEV && loc3.getNodeType() == Constants.NodeType.ELEV) { // On and off the elevator
-                    directions += "Take the elevator from floor " + loc2.getFloor() + " to floor " + loc3.getFloor() + ".\n";
+                    directions += "Take the elevator from FL " + loc2.getFloor() + " to FL " + loc3.getFloor() + ".\n";
                 } else if (loc2.getNodeType() == Constants.NodeType.STAI && loc3.getNodeType() == Constants.NodeType.STAI) { // On and off the stairs
-                    directions += "Take the stairs from " + loc2.getFloor() + " to floor " + loc3.getFloor() + ".\n";
+                    directions += "Take the stairs from FL " + loc2.getFloor() + " to FL " + loc3.getFloor() + ".\n";
                 } else {
                     int x1 = loc1.getxCord();
                     int y1 = -1 * loc1.getyCord();
@@ -148,9 +148,32 @@ public abstract class PathFinder {
         }
 
         distance = distance * PIXEL_TO_METERS;
-        directions += "Total Distance: " + (int) distance + " meters.\n";
+        directions += "Distance: " + (int) distance + " meters.\n";
         int time = (int) (distance / SPEED + numFloors * FLOOR_TIME);
-        directions += "Total Time: about " + time + " minutes.";
+        int minutes = time / 60;
+        int seconds = time - minutes * 60;
+        directions += "Time: ";
+        if (minutes != 0) {
+            directions += minutes;
+            if (minutes != 1) {
+                directions += " minutes";
+            } else {
+                directions += " minute";
+            }
+        }
+        if (seconds != 0) {
+            if (minutes != 0) {
+                directions += " and ";
+            }
+            if (seconds != 1) {
+                directions += seconds;
+                directions += " seconds.";
+            } else {
+                directions += " second.";
+            }
+        } else {
+            directions += ".";
+        }
         return directions;
     }
 
