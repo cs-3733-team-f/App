@@ -117,9 +117,15 @@ public class DatabaseTest {
     public void addRoom() {
         Location loc = new Location("RM101Z",3,3,"s","a",HALL,"h","H");
         LocationTable.addLocation(loc);
-        Room room = new Room("RM101Z", 2);
+        Room room = new Room(loc.getNodeID(), 2);
+
         RoomTable.addRoom(room);
-        assertTrue(RoomTable.getRoomByID("RB101Z").equals(room));
+
+        System.out.println(room.toString());
+        System.out.println("\n");
+        System.out.println(RoomTable.getRoomByID(room.getRoomID()).toString());
+
+        assertTrue(RoomTable.getRoomByID(room.getRoomID()).equals(room));
     }
 
 //    @Test
