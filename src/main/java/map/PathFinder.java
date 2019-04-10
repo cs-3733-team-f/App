@@ -9,13 +9,18 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.shape.StrokeLineJoin;
+import javafx.scene.text.Font;
 import javafx.util.Duration;
 import models.map.Location;
 import models.map.Map;
@@ -31,11 +36,11 @@ public abstract class PathFinder {
     protected final double FLOOR_HEURISTIC = 100000;
     protected final double STRAIGHT_ANGLE = 90.0;
     protected final double TURN_SENSITIVITY = 45.0;
-    protected final double PIXEL_TO_METERS = 0.1;
+    protected final double PIXEL_TO_METERS = 0.03;
     private static double LINE_WIDTH = 3.5;
     private static double LINE_LENGTH = 5.0;
     private static double LINE_GAP = 10.0;
-    private static double SPEED = 1.4;
+    private static double SPEED = 84.0;
     private static double FLOOR_TIME = 0.5;
 
     public static String defLocation;
@@ -142,13 +147,14 @@ public abstract class PathFinder {
             numFloors = 0;
         }
 
-        directions += "\n Total Distance: " + (int) distance + " meters.";
+        distance = distance * PIXEL_TO_METERS;
+        directions += "Total Distance: " + (int) distance + " meters.\n";
         int time = (int) (distance / SPEED + numFloors * FLOOR_TIME);
         directions += "Total Time: about " + time + " minutes.";
         return directions;
     }
 
-    public static void printPath(AnchorPane[] panes, Map map, Location loc1, Location loc2) {
+    public static void printPath(AnchorPane[] panes, ScrollPane TextPane, Map map, Location loc1, Location loc2) {
         for (AnchorPane pane : panes) {
             List<Node> lstNodes1 = new ArrayList<>();
             for (Node n : pane.getChildren()) {
@@ -172,6 +178,7 @@ public abstract class PathFinder {
         PathContext context = SettingsController.getAlgType();
         Stack<Location> path = context.findPath(loc1, loc2);
         String directions = context.txtDirections((Stack<Location>) path.clone());
+        addDirections(TextPane, directions);
         HashMap<String, Location> lstLocations = map.getAllLocations();
         Location prev = null;
         while (!path.isEmpty()) {
@@ -266,5 +273,16 @@ public abstract class PathFinder {
             default:
                 return 5;
         }
+    }
+
+    private static void addDirections(ScrollPane TextPane, String directions) {
+        VBox vbox = new VBox();
+        String[] arrDirections = directions.split("\n");
+        for (String direction : arrDirections) {
+            Label lbl = new Label(direction);
+            lbl.setFont(new Font(11.0));
+            vbox.getChildren().add(lbl);
+        }
+        TextPane.setContent(vbox);
     }
 }
