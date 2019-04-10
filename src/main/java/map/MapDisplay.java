@@ -79,6 +79,7 @@ public class MapDisplay {
                 }
                 circle.setStroke(nodeOutline);
                 circle.setStrokeWidth(locWidth);
+                circle.setId(loc.getNodeID());
                 circle.setOnMouseClicked(event -> {
                     try {
                         event.consume();
@@ -87,6 +88,7 @@ public class MapDisplay {
                         e.printStackTrace();
                     }
                 });
+                loc.setNodeCircle(circle);
                 findPane(panes, loc.getFloor()).getChildren().add(circle);
             }
         }
@@ -107,6 +109,7 @@ public class MapDisplay {
                 circle.setStroke(nodeOutline);
                 circle.setStroke(nodeOutline);
                 circle.setStrokeWidth(locWidth);
+                circle.setId(loc.getNodeID());
                 circle.setOnMouseClicked(event -> {
                     try {
                         event.consume();
@@ -115,6 +118,7 @@ public class MapDisplay {
                         e.printStackTrace();
                     }
                 });
+                loc.setNodeCircle(circle);
                 findPane(panes, loc.getFloor()).getChildren().add(circle);
             }
         }
@@ -135,6 +139,7 @@ public class MapDisplay {
                 circle.setStroke(nodeOutline);
                 circle.setStroke(nodeOutline);
                 circle.setStrokeWidth(locWidth);
+                circle.setId(loc.getNodeID());
                 circle.setOnMouseClicked(event -> {
                     try {
                         event.consume();
@@ -143,6 +148,7 @@ public class MapDisplay {
                         e.printStackTrace();
                     }
                 });
+                loc.setNodeCircle(circle);
                 findPane(panes, loc.getFloor()).getChildren().add(circle);
             }
         }

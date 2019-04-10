@@ -140,6 +140,9 @@ public abstract class PathFinder {
                     if (circle.getFill().equals(MapDisplay.nodeEnd)) {
                         circle.setFill(MapDisplay.nodeFill);
                     }
+                    if (circle.getId().equals(loc2.getNodeID())) {
+                        circle.setFill(MapDisplay.nodeEnd);
+                    }
                 }
             }
             for (Node n : lstNodes1) {

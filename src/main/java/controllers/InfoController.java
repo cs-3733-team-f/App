@@ -48,7 +48,6 @@ public abstract class InfoController extends PopUpController {
     public final void btnDirections_OnClick(MouseEvent event) throws Exception {
         event.consume();
         PathFinder.printPath(panes, map, kiosk, loc);
-        circle.setFill(MapDisplay.nodeEnd);
         ScreenController.deactivate();
     }
 
