@@ -117,7 +117,7 @@
                                     </tabs>
                                 </JFXTabPane>
                             </AnchorPane>
-                            <AnchorPane layoutX="260.0" layoutY="15.0" prefHeight="645.0" prefWidth="241.0" AnchorPane.rightAnchor="47.0" AnchorPane.topAnchor="15.0">
+                            <AnchorPane layoutX="260.0" layoutY="15.0" prefHeight="845.0" prefWidth="241.0" AnchorPane.rightAnchor="47.0" AnchorPane.topAnchor="15.0">
                                 <AnchorPane fx:id="outerProfilePane" layoutX="260.0" layoutY="15.0" prefHeight="160.0" prefWidth="241.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                     <AnchorPane fx:id="profilePane" layoutX="5.0" layoutY="14.0" prefHeight="124.0" prefWidth="345.0" style="-fx-background-color: #ffffff; -fx-background-radius: 10 10 10 10; -fx-border-width: 2px 2px 2px 2px; -fx-border-color: #022D5A; -fx-border-radius: 10;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                         <children>
