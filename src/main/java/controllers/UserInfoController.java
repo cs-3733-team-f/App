@@ -6,7 +6,9 @@ import helpers.DatabaseHelpers;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import map.PathFinder;
 import models.map.Location;
+import models.map.Map;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -22,9 +24,7 @@ public class UserInfoController extends PopUpController implements Initializable
 
     public JFXButton btnDirections;
     public JFXButton btnCancel;
-
-    private static boolean bolSelectedUser = false;
-    private static Location locSelectedUser;
+    public JFXButton btnStartHere;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -44,25 +44,17 @@ public class UserInfoController extends PopUpController implements Initializable
 
     public void btnDirections_OnClick(MouseEvent event) throws Exception {
         event.consume();
+        PathFinder.printPath(panes, map, kiosk, loc);
         ScreenController.deactivate();
-        checkSelected();
-    }
-
-    private void checkSelected() throws Exception {
-        if (bolSelectedUser) { // Two locations
-            if (!loc.equals(locSelectedUser)) {
-                ScreenController.popUp(Constants.Routes.DIRECTIONS, loc, locSelectedUser, map, panes);
-            }
-            locSelectedUser = null;
-            bolSelectedUser = false;
-        } else { // One location
-            locSelectedUser = loc;
-            bolSelectedUser = true;
-        }
     }
 
     public void btnCancel_OnClick(MouseEvent event) {
         event.consume();
+        ScreenController.deactivate();
+    }
+
+    public void btnStartHere_OnClick(MouseEvent mouseEvent) {
+        MapController.setTempStart(loc.getNodeID());
         ScreenController.deactivate();
     }
 }

@@ -7,6 +7,7 @@ import database.BookTable;
 import database.Database;
 import database.LocationTable;
 import database.RoomTable;
+import helpers.Constants;
 import helpers.DatabaseHelpers;
 import helpers.UserHelpers;
 import javafx.collections.FXCollections;
@@ -25,7 +26,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RoomBookingController extends EmployeeMapController{
+public class RoomBookingController {
 
     /**
      * FXML
@@ -47,6 +48,7 @@ public class RoomBookingController extends EmployeeMapController{
 
     public TableColumn<Room, String> tblRoomIDBooked;
     public TableColumn<Room, String> tblRoomCapacityBooked;
+    public JFXButton btnReturn1;
 
     ObservableList<Room> rooms = FXCollections.observableArrayList();
     ObservableList<Room> roomsBooked = FXCollections.observableArrayList();
@@ -127,6 +129,16 @@ public class RoomBookingController extends EmployeeMapController{
 
     }
 
+    public void logOut(MouseEvent event) {
+        event.consume();
+        ScreenController.logOut(btnReturn1);
+        try {
+            ScreenController.activate(Constants.Routes.LOGIN);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * Checks if start date/time and end date/time are set
      */
@@ -139,7 +151,7 @@ public class RoomBookingController extends EmployeeMapController{
 
             timePeriodSet = true;
 
-            roomsAvailable = LocationTable.checkAvailabilityTime(
+            roomsAvailable = LocationTable.checkAvailabilityByTime(
                     DatabaseHelpers.getDateTime(startDate, startTime),
                     DatabaseHelpers.getDateTime(endDate, endTime)
             );

@@ -13,6 +13,7 @@ public class Constants {
     public static String ROOM_TABLE = "ROOM";
     public static String BOOK_TABLE = "BOOKING";
     public static String SANITATION_TABLE = "SANITATION";
+    public static String WORKSPACE_TABLE = "WORKSPACE";
 
     public static String DB_PROJECTION = "projection";
     public static String DB_RELATION = "relation";
@@ -23,6 +24,7 @@ public class Constants {
      */
     public static String CSV_NODES = "/data/nodes.csv";
     public static String CSV_EDGES = "/data/edges.csv";
+    public static String CSV_WORKSPACES = "/data/workspaceZone3.csv";
 
 
     /**
@@ -63,7 +65,7 @@ public class Constants {
      * Enums
      */
     public enum NodeType {
-        BATH, CONF, DEPT, ELEV, EXIT, HALL, INFO, LABS, REST, RETL, SERV, STAI
+        BATH, CONF, DEPT, ELEV, EXIT, HALL, INFO, LABS, REST, RETL, SERV, STAI, WORK, WRKT
     }
 
     public enum Auth {
@@ -73,6 +75,7 @@ public class Constants {
     public enum Routes {
         LOGO, WELCOME, LOGIN, USER_MAP, EMPLOYEE_MAP, CUSTODIAN_MAP, ADMIN_MAP, USER_INFO, EMPLOYEE_INFO,
         CUSTODIAN_INFO, EDIT_LOCATION, SANITATION_REQUEST, DIRECTIONS, BOOKING_WINDOW, DOWNLOAD, DOWNLOADED,
-        CREATE_USER, USER_POPUP, EDIT_POPUP
+        CREATE_USER, USER_POPUP, EDIT_POPUP, REQUESTS, WORKSPACE, IT, PERSCRIPTION, INTERPRETER, INTERNAL_TRANS, GIFT_STORE,
+        FLOURIST, SECURITY, VISUAL_AUDIO, EXTERNAL_TRANS, PATIENT_INFO
     }
 }

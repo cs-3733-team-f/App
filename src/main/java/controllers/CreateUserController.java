@@ -9,11 +9,12 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 import models.user.User;
 
 import java.util.List;
 
-public class CreateUserController extends AdminMapController{
+public class CreateUserController {
 
     public JFXButton btnBookSelected;
 
@@ -25,6 +26,7 @@ public class CreateUserController extends AdminMapController{
     public TableColumn<User, String> tblUserName;
     public TableColumn<User, String> tblUserPassword;
     public TableColumn<User, String> tblUserType;
+    public JFXButton btnLogout;
 
     ObservableList<User> users = FXCollections.observableArrayList();
 
@@ -93,5 +95,12 @@ public class CreateUserController extends AdminMapController{
         if(usersA != null)
             users.addAll(usersA);
         tblUsers.refresh();
+    }
+
+
+    public final void logOut(MouseEvent event) throws Exception{
+        event.consume();
+        ScreenController.logOut(btnLogout);
+        ScreenController.activate(Constants.Routes.LOGIN);
     }
 }

@@ -13,6 +13,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import map.MapDisplay;
 import map.PathFinder;
@@ -20,9 +21,12 @@ import models.map.Location;
 import models.sanitation.SanitationRequest;
 import models.user.User;
 
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
 import java.sql.Timestamp;
+import java.util.ResourceBundle;
+import java.net.URL;
 
 import static controllers.VisualRealtimeController.panMap;
 
@@ -30,6 +34,7 @@ public class CustodianMapController extends MapController {
 
     public JFXButton btnSettings;
     public TableView<SanitationRequest> tblData;
+    public TableColumn<SanitationRequest,String> tblRequestID;
     public TableColumn<SanitationRequest,String> tblLocation;
     public TableColumn<SanitationRequest,String> tblPriority;
     public TableColumn<SanitationRequest,String> tblStatus;
@@ -45,39 +50,18 @@ public class CustodianMapController extends MapController {
     public JFXButton btnClaim;
     public JFXTabPane tabMenu;
     public JFXTabPane floorMenu;
-    //public JFXTab tabPathFinder;
 
     ObservableList<SanitationRequest> spills = FXCollections.observableArrayList();
 
-    public void initialize() {
-
-
-
-        MapDisplay.displayCust(new AnchorPane[] {panFloorL2, panFloorL1, panFloor1, panFloor2, panFloor3});
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        super.initialize(location, resources);
+        MapDisplay.displayCust(this, panes);
         VisualRealtimeController.setPanMap(panFloor1);
-        toolTip();
-
-//        toolTip();
-//        MapDisplay.displayCust(panMap, "1");
         initSanitation();
         updateSanitation();
 
-        tblData.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {// only enable btns if item selected
-
-            /*
-            if(selected.getServicer()==null||selected.getServicer().equals(UserHelpers.getCurrentUser())) {
-                btnClaim.setDisable(false);
-           }else{
-                btnClaim.setDisable(true);
-            }
-            if(selected.getServicer()!=null && selected.getServicer().equals(UserHelpers.getCurrentUser())) {
-                btnMarkDone.setDisable(false);
-            }else{
-                btnMarkDone.setDisable(true);
-            }
-            */
-
-
+        tblData.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             btnNavigate.setDisable(false);
 
         });
@@ -91,17 +75,12 @@ public class CustodianMapController extends MapController {
 
     }
 
-    void toolTip() {
-        btnSettings.setTooltip(new Tooltip(Constants.SETTINGS_BUTTON_TOOLTIP));
-        btnReturn.setTooltip(new Tooltip(Constants.LOGOUT_BUTTON_TOOLTIP));
-    }
-
     private void initSanitation(){
+//        tblRequestID.setCellValueFactory(new PropertyValueFactory<>("RequestID"));
         tblLocation.setCellValueFactory(new PropertyValueFactory<>("LocationShortName"));
         tblPriority.setCellValueFactory(new PropertyValueFactory<>("Priority"));
         tblStatus.setCellValueFactory(new PropertyValueFactory<>("Status"));
         tblDescription.setCellValueFactory(new PropertyValueFactory<>("Description"));
-        //tblUser.setCellValueFactory(new PropertyValueFactory<>("User"));
         tblRequester.setCellValueFactory(new PropertyValueFactory<>("RequesterUserName"));
         tblClaimTime.setCellValueFactory(new PropertyValueFactory<>("ClaimedTime"));
         tblServiceTime.setCellValueFactory(new PropertyValueFactory<>("CompletedTime"));
@@ -117,47 +96,32 @@ public class CustodianMapController extends MapController {
     }
 
     public void navigateTo(){
-        
-        String locID;
-
-        //HashMap<String, Location> locations = Database.getLocations();
-
-
-
-//        for (locations.Entry<String, Object> entry : map.entrySet()) {
-//            String key = entry.getKey();
-//            Object value = entry.getValue();
-//            // ...
-//        }
-
-       
-        //
-        //Location start= LocationTable.getLocationByID("");
-
-        //Location start = Database.getLocationbyID();
+        Location start = map.getLocation(PathFinder.getDefLocation());
         Location end = tblData.getSelectionModel().getSelectedItem().getLocation();
-        //map.navigate(start,end);
+        PathFinder.printPath(panes, map, start, end);
 
-
-        //PathFinder.findPath(start,end);
-        String floor = end.getFloor();
-        int floorIndex=3;
-        if(floor.equals("1")){
-            floorIndex=3;
-        }else if(floor.equals("2")){
-            floorIndex=1;
-        }else if (floor.equals("3")){
-            floorIndex=0;
-        }else if (floor.equals("L1")){
-            floorIndex=3;
-        }else if (floor.equals(("L2"))){
-            floorIndex=4;
+        String floor = start.getFloor();
+        int floorIndex;
+        switch (floor) {
+            case "1":
+                floorIndex = 3;
+                break;
+            case "2":
+                floorIndex = 1;
+                break;
+            case "3":
+                floorIndex = 0;
+                break;
+            case "L1":
+                floorIndex = 3;
+                break;
+            default:
+                floorIndex = 4;
+                break;
         }
 
         tabMenu.getSelectionModel().select(0);
         floorMenu.getSelectionModel().select(floorIndex);
-
-
     }
 
     public void tblClick(){
