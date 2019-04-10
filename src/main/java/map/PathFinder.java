@@ -8,6 +8,8 @@ import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -91,9 +93,9 @@ public abstract class PathFinder {
             }
             if (loc1 != null && loc2 != null) {
                 if (loc2.getNodeType() == Constants.NodeType.ELEV && loc3.getNodeType() == Constants.NodeType.ELEV) { // On and off the elevator
-                    directions += "Take the elevator from FL " + loc2.getFloor() + " to FL " + loc3.getFloor() + ".\n";
+                    directions += "Take the elevator from FL " + loc2.getFloor() + " to FL " + loc3.getFloor() + "\n";
                 } else if (loc2.getNodeType() == Constants.NodeType.STAI && loc3.getNodeType() == Constants.NodeType.STAI) { // On and off the stairs
-                    directions += "Take the stairs from FL " + loc2.getFloor() + " to FL " + loc3.getFloor() + ".\n";
+                    directions += "Take the stairs from FL " + loc2.getFloor() + " to FL " + loc3.getFloor() + "\n";
                 } else {
                     int x1 = loc1.getxCord();
                     int y1 = -1 * loc1.getyCord();
@@ -126,9 +128,9 @@ public abstract class PathFinder {
                         }
                         int displayDist = (int) (totDist * PIXEL_TO_METERS);
                         if (displayDist != 1) {
-                            directions += " in " + displayDist + " meters.\n";
+                            directions += " in " + displayDist + " meters\n";
                         } else {
-                            directions += " in " + displayDist + " meter.\n";
+                            directions += " in " + displayDist + " meter\n";
                         }
                         totDist = 0.0;
                     }
@@ -148,7 +150,7 @@ public abstract class PathFinder {
         }
 
         distance = distance * PIXEL_TO_METERS;
-        directions += "Distance: " + (int) distance + " meters.\n";
+        directions += "Distance: " + (int) distance + " meters\n";
         int time = (int) (distance / SPEED + numFloors * FLOOR_TIME);
         int minutes = time / 60;
         int seconds = time - minutes * 60;
@@ -167,12 +169,10 @@ public abstract class PathFinder {
             }
             if (seconds != 1) {
                 directions += seconds;
-                directions += " seconds.";
+                directions += " seconds";
             } else {
-                directions += " second.";
+                directions += " second";
             }
-        } else {
-            directions += ".";
         }
         return directions;
     }
@@ -300,10 +300,17 @@ public abstract class PathFinder {
 
     private static void addDirections(ScrollPane TextPane, String directions) {
         VBox vbox = new VBox();
+        vbox.setPadding(new Insets(10,4,10,4));
+        vbox.setSpacing(5);
         String[] arrDirections = directions.split("\n");
         for (String direction : arrDirections) {
             Label lbl = new Label(direction);
-            lbl.setFont(new Font(11.0));
+            lbl.setFont(new Font(11.9));
+            lbl.setTextFill(Color.WHITE);
+            lbl.setPrefWidth(210);
+            lbl.setStyle("-fx-background-color: #022D5A;");
+            lbl.setAlignment(Pos.CENTER);
+            lbl.setPadding(new Insets(5,4,4,5));
             vbox.getChildren().add(lbl);
         }
         TextPane.setContent(vbox);
