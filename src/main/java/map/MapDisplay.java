@@ -21,7 +21,9 @@ public class MapDisplay {
     private final static double xShift = -2110.0;
     private final static double yShift = 730.0;
     private final static double scale = 0.475;
-    private final static Color nodeFill = Color.WHITE;
+    public final static Color nodeFill = Color.WHITE;
+    public final static Color nodeStart = Color.GREEN;
+    public final static Color nodeEnd = Color.RED;
     private final static Color hallFill = Color.GRAY;
     private final static Color nodeOutline = Color.BLACK;
     private final static Color edgeFill = Color.BLACK;
@@ -69,13 +71,18 @@ public class MapDisplay {
             if (loc.getNodeType() != Constants.NodeType.HALL) {
                 double xLoc = scaleX(loc.getxCord());
                 double yLoc = scaleY(loc.getyCord());
-                Circle circle = new Circle(xLoc, yLoc, locRadius, nodeFill);
+                Circle circle = new Circle(xLoc, yLoc, locRadius);
+                if (!loc.getNodeID().equals(MapController.getTempStart())) {
+                    circle.setFill(nodeFill);
+                } else {
+                    circle.setFill(nodeStart);
+                }
                 circle.setStroke(nodeOutline);
                 circle.setStrokeWidth(locWidth);
                 circle.setOnMouseClicked(event -> {
                     try {
                         event.consume();
-                        ScreenController.popUp(Constants.Routes.USER_INFO, loc, map, panes);
+                        ScreenController.popUp(Constants.Routes.USER_INFO, loc, map, panes, circle);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

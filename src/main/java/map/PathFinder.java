@@ -11,6 +11,8 @@ import javafx.animation.Timeline;
 import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.shape.StrokeLineJoin;
@@ -133,6 +135,11 @@ public abstract class PathFinder {
             for (Node n : pane.getChildren()) {
                 if (n instanceof Line) {
                     lstNodes1.add(n);
+                } else if (n instanceof Circle) {
+                    Circle circle = (Circle) n;
+                    if (circle.getFill().equals(MapDisplay.nodeEnd)) {
+                        circle.setFill(MapDisplay.nodeFill);
+                    }
                 }
             }
             for (Node n : lstNodes1) {

@@ -4,13 +4,20 @@ import com.jfoenix.controls.JFXButton;
 import helpers.Constants;
 import helpers.DatabaseHelpers;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
+import map.MapDisplay;
 import map.PathFinder;
 import models.map.Location;
 import models.map.Map;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class UserInfoController extends PopUpController implements Initializable {
@@ -45,6 +52,7 @@ public class UserInfoController extends PopUpController implements Initializable
     public void btnDirections_OnClick(MouseEvent event) throws Exception {
         event.consume();
         PathFinder.printPath(panes, map, kiosk, loc);
+        circle.setFill(MapDisplay.nodeEnd);
         ScreenController.deactivate();
     }
 
@@ -55,6 +63,23 @@ public class UserInfoController extends PopUpController implements Initializable
 
     public void btnStartHere_OnClick(MouseEvent mouseEvent) {
         MapController.setTempStart(loc.getNodeID());
+        for (AnchorPane pane : panes) {
+            List<Node> lstNodes1 = new ArrayList<>();
+            for (Node n : pane.getChildren()) {
+                if (n instanceof Line) {
+                    lstNodes1.add(n);
+                } else if (n instanceof Circle) {
+                    Circle circle = (Circle) n;
+                    if (circle.getFill().equals(MapDisplay.nodeEnd) || circle.getFill().equals(MapDisplay.nodeStart)) {
+                        circle.setFill(MapDisplay.nodeFill);
+                    }
+                }
+            }
+            for (Node n : lstNodes1) {
+                pane.getChildren().remove(n);
+            }
+        }
+        circle.setFill(MapDisplay.nodeStart);
         ScreenController.deactivate();
     }
 }
