@@ -35,6 +35,8 @@ public abstract class PathFinder {
     private static double LINE_WIDTH = 3.5;
     private static double LINE_LENGTH = 5.0;
     private static double LINE_GAP = 10.0;
+    private static double SPEED = 1.4;
+    private static double FLOOR_TIME = 0.5;
 
     public static String defLocation;
 
@@ -69,14 +71,19 @@ public abstract class PathFinder {
 
     public final String txtDirections(Stack<Location> path) {
         String directions = "";
+        Location start = null;
 
         Location loc1 = null;
         Location loc2 = null;
-        Location loc3;
+        Location loc3 = null;
 
+        double distance = 0.0;
         double totDist = 0.0;
         while (!path.isEmpty()) {
             loc3 = path.pop();
+            if (loc2 == null) {
+                start = loc3;
+            }
             if (loc1 != null && loc2 != null) {
                 if (loc2.getNodeType() == Constants.NodeType.ELEV && loc3.getNodeType() == Constants.NodeType.ELEV) { // On and off the elevator
                     directions += "Take the elevator from floor " + loc2.getFloor() + " to floor " + loc3.getFloor() + ".\n";
@@ -93,6 +100,7 @@ public abstract class PathFinder {
                     int y3 = -1 * loc3.getyCord();
 
                     double a = calcDist(x1, y1, x2, y2); // 1 <-> 2
+                    distance += a;
                     double b = calcDist(x2, y2, x3, y3); // 2 <-> 3
                     double c = calcDist(x1, y1, x3, y3); // 1 <-> 3
 
@@ -126,6 +134,17 @@ public abstract class PathFinder {
             loc1 = loc2;
             loc2 = loc3;
         }
+        Location end = loc3;
+        int numFloors;
+        if (start != null && end != null) {
+            numFloors = Math.abs(floorToInt(start.getFloor()) - floorToInt(end.getFloor()));
+        } else {
+            numFloors = 0;
+        }
+
+        directions += "\n Total Distance: " + (int) distance + " meters.";
+        int time = (int) (distance / SPEED + numFloors * FLOOR_TIME);
+        directions += "Total Time: about " + time + " minutes.";
         return directions;
     }
 
