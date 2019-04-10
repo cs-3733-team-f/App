@@ -53,8 +53,8 @@ public class Constants {
     public static String defaultButtonStyles = "-fx-text-fill: WHITE; -fx-font-size: 24px;";
     public static final boolean START_FIRST = true;
     public static final boolean END_FIRST = false;
-    public static final boolean SELECTED = true;
-    public static final boolean DESELECTED = false;
+    public static final boolean ADDED = true;
+    public static final boolean REMOVED = false;
 
     /**
      * General types

@@ -1,11 +1,8 @@
 package helpers;
 
-import controllers.ScreenController;
-import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import map.MapDisplay;
@@ -61,16 +58,22 @@ public class MapHelpers {
         return circle;
     }
 
-    public static Edge generateEdge(Location loc1, Location loc2) {
+    public static Edge generateEdgeBetweenLocations(Location loc1, Location loc2) {
         Edge e = new Edge(null, loc1, loc2);
-        e.setEdgeID(MapHelpers.generateEdgeID(e, Constants.START_FIRST));
+        e.setEdgeID(MapHelpers.generateStandardizedEdgeID(e, Constants.START_FIRST));
         return e;
     }
 
-    public static String generateEdgeID(Edge edge, boolean startFirst) {
+    public static String generateStandardizedEdgeID(Edge edge, boolean startFirst) {
         String nodeID1 = edge.getStart().getNodeID();
         String nodeID2 = edge.getEnd().getNodeID();
         return startFirst ? nodeID1 + "_" + nodeID2
                 : nodeID2 + "_" + nodeID1;
+    }
+    public static boolean LocationsOnSameFloor(Location loc1, Location loc2) {
+        return loc1.getFloor().equals(loc2.getFloor());
+    }
+    public static boolean EdgeBetweenLocationsOnSameFloor(Edge e1) {
+        return LocationsOnSameFloor(e1.getStart(), e1.getEnd());
     }
 }

@@ -128,33 +128,33 @@ public class EdgeTable {
         }
     }
 
-    public static boolean edgeExists(Edge e) {
-        return hasEdgeByID(MapHelpers.generateEdgeID(e, Constants.START_FIRST))
-                || hasEdgeByID(MapHelpers.generateEdgeID(e, Constants.END_FIRST));
+    public static boolean edgeExistsInDatabase(Edge e) {
+        return hasEdgeByID(MapHelpers.generateStandardizedEdgeID(e, Constants.START_FIRST))
+                || hasEdgeByID(MapHelpers.generateStandardizedEdgeID(e, Constants.END_FIRST));
     }
 
-    public static void removeEdgeByID(Edge e) {
-        if(edgeExists(e)) {
-            String EdgeID = hasEdgeByID(MapHelpers.generateEdgeID(e, Constants.START_FIRST)) ?
-                    MapHelpers.generateEdgeID(e, Constants.START_FIRST)
-                    : MapHelpers.generateEdgeID(e, Constants.END_FIRST);
+    public static void removeEdgeFromDatabase(Edge e) {
+        if(edgeExistsInDatabase(e)) {
+            String EdgeID = hasEdgeByID(MapHelpers.generateStandardizedEdgeID(e, Constants.START_FIRST)) ?
+                    MapHelpers.generateStandardizedEdgeID(e, Constants.START_FIRST)
+                    : MapHelpers.generateStandardizedEdgeID(e, Constants.END_FIRST);
         }
     }
 
-    public static boolean toggleEdge(Edge e) {
-        boolean edgeExists = edgeExists(e);
+    public static boolean addOrRemoveEdge(Edge e) {
+        boolean edgeExistsInDatabase = edgeExistsInDatabase(e);
 
         if(e.getEdgeID() == null) {
-            e.setEdgeID(MapHelpers.generateEdgeID(e, Constants.START_FIRST));
+            e.setEdgeID(MapHelpers.generateStandardizedEdgeID(e, Constants.START_FIRST));
         }
 
-        if(edgeExists) {
-            removeEdgeByID(e);
-            return Constants.DESELECTED;
+        if(edgeExistsInDatabase) {
+            removeEdgeFromDatabase(e);
+            return Constants.REMOVED;
         }
         else {
             addEdge(e);
-            return Constants.SELECTED;
+            return Constants.ADDED;
         }
     }
 

@@ -34,6 +34,7 @@ public class MapParser {
         HashMap<String, Edge> mapEdges = new HashMap<>();
         List<Edge> lstEdges = EdgeTable.getEdges(lstLocations);
         for (Edge edge : lstEdges) {
+
             String edgeID = edge.getEdgeID();
             Location start = lstLocations.get(edge.getStart().getNodeID());
             Location end = lstLocations.get(edge.getEnd().getNodeID());

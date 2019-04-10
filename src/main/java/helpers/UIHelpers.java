@@ -1,7 +1,6 @@
 package helpers;
 
 import controllers.AdminMapController;
-import controllers.ScreenController;
 import controllers.VisualRealtimeController;
 import database.LocationTable;
 import javafx.scene.paint.Color;
@@ -31,7 +30,7 @@ public class UIHelpers {
         c.setOnMouseReleased(evt -> {
             try {
                 evt.consume();
-                VisualRealtimeController.deselectAllLines();
+                AdminMapController.setDraggingNode(false);
             } catch (Exception e) {
                 throw new UnsupportedOperationException(e);
             }
@@ -39,17 +38,7 @@ public class UIHelpers {
         c.setOnMouseDragged(evt -> {
             try {
                 evt.consume();
-                if(!AdminMapController.isEnableAddNode() && !AdminMapController.isEnableEditEdge()) {
-                    c.setCenterX(evt.getX());
-                    AdminMapController.setDraggingNode(true);
-                    loc.setxCord((int)MapDisplay.revScaleX(evt.getX()));
-                    loc.setyCord((int)MapDisplay.revScaleY(evt.getY()));
-
-                    LocationTable.updateLocation(loc);
-                    c.setCenterY(evt.getY());
-                    VisualRealtimeController.updateLineConnections(loc);
-
-                }
+                AdminMapController.nodeDragEvent(loc, evt);
             } catch (Exception e) {
                 throw new UnsupportedOperationException(e);
             }
@@ -89,7 +78,10 @@ public class UIHelpers {
         if(loc.getNodeType() == Constants.NodeType.HALL) {
             c.setRadius(MapDisplay.getHallRadius());
             c.setFill(Color.GRAY);
-        } else {
+        } else if (loc.getNodeType() == Constants.NodeType.WORK) {
+            c.setRadius(MapDisplay.getLocRadius()*1.2);
+            c.setFill(Color.GRAY);
+        }else {
             c.setRadius(MapDisplay.getLocRadius());
             c.setFill(Color.WHITE);
         }

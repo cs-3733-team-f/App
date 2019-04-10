@@ -81,7 +81,8 @@ public class EditController extends PopUpController implements Initializable {
        // ((Stage) (((Node) event.getSource()).getScene().getWindow())).close();
         event.consume();
         //if(loc.getNodeID() == null) Database.addNewLocation(loc);
-        if(AdminMapController.isEnableAddNode()) {
+        if(AdminMapController.nodeAddController.getEnabledFromButton()) {
+            VisualRealtimeController.removeLinesAssociatedWithLocation(loc);
             loc.deleteCurrNode();
         }
         ScreenController.deactivate();
@@ -90,6 +91,7 @@ public class EditController extends PopUpController implements Initializable {
 
     public void deleteNode(MouseEvent event) {
         event.consume();
+        VisualRealtimeController.removeLinesAssociatedWithLocation(loc);
         loc.deleteCurrNode();
         ScreenController.deactivate();
     }
