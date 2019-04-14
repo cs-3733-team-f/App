@@ -2,7 +2,7 @@
  * @brief Class for implementing sanitation requests.
  */
 
-package models.sanitation;
+package sanitation;
 import models.map.Location;
 import models.user.User;
 import java.util.Date;
