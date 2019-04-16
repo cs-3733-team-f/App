@@ -20,7 +20,7 @@ public class APITest {
 
         // Initialize databasess
         System.out.println("Initializing Service...");
-        SanitationService.initialize();
+        SanitationService.initDatabases();
 
         // Delete existing employees
         for (String username : SanitationService.getEmployeeUsernames()) {

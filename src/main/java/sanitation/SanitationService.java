@@ -8,21 +8,63 @@ import sanitation.database.EmployeeTable;
 import sanitation.database.SanitationTable;
 import sanitation.models.IEmployee;
 import sanitation.models.SanitationRequest;
+
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class SanitationService {
+public class SanitationService extends Application {
 
     // Recreate database flag
     private static final boolean recreateDatabase = true;
 
+    // Fields
+    private Stage stage;
+
     /**
-     * @brief Initializes sanitation service and databases.
+     * @brief Main function which starts the application.
+     * @param args Arguments to launch with.
+     */
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+    /**
+     * @brief Starts the application.
+     * @param primaryStage primary stage.
+     */
+    public void start(Stage primaryStage) {
+        stage = new Stage();
+        try {
+            URL url;
+            String route = "/SanitationRequestAPI.fxml";
+            url = new URL(SanitationService.class.getResource(route).toString().replaceAll("%20", " "));
+            FXMLLoader loader = new FXMLLoader(url);
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            // TODO addStyles(scene)
+            stage.setTitle("Sanitation Service");
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return;
+        }
+    }
+
+    /**
+     * @brief Initializes databases.
      * @return Boolean indicating if init was successful.
      */
-    public static boolean initialize() {
+    public static boolean initDatabases() {
 
         // Register database
         try {
