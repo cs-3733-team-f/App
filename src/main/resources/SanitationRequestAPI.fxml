@@ -95,9 +95,18 @@
                                 </TableView>
                                 <ButtonBar prefHeight="40.0" prefWidth="200.0">
                                     <buttons>
-                                        <JFXButton fx:id="claimBtn" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" onMouseClicked="#claimBtnCallback" prefHeight="45.0" prefWidth="147.0" style="-fx-text-fill: WHITE; -fx-font-size: 24px;" text="Claim" textAlignment="CENTER" />
-                                        <JFXButton fx:id="completeBtn" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" onMouseClicked="#completeBtnCallback" prefHeight="45.0" prefWidth="200.0" style="-fx-text-fill: WHITE; -fx-font-size: 24px;" text="Mark Complete" textAlignment="CENTER" />
-                                        <JFXButton fx:id="deleteBtn" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="800.0" layoutY="10.0" onMouseClicked="#deleteBtnCallback" prefHeight="45.0" prefWidth="200.0" style="-fx-text-fill: WHITE; -fx-font-size: 24px;" text="Delete" textAlignment="CENTER" />
+                                        <JFXButton fx:id="claimBtn" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" maxWidth="-Infinity" minWidth="-Infinity" onMouseClicked="#claimBtnCallback" prefHeight="45.0" prefWidth="200.0" style="-fx-text-fill: WHITE; -fx-font-size: 24px;" text="Claim" textAlignment="CENTER">
+                                 <padding>
+                                    <Insets right="20.0" />
+                                 </padding></JFXButton>
+                                        <JFXButton fx:id="completeBtn" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#completeBtnCallback" prefHeight="50.0" prefWidth="200.0" style="-fx-text-fill: WHITE; -fx-font-size: 24px;" text="Mark Complete" textAlignment="CENTER">
+                                 <padding>
+                                    <Insets right="20.0" />
+                                 </padding></JFXButton>
+                                        <JFXButton fx:id="deleteBtn" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" maxWidth="-Infinity" minWidth="-Infinity" onMouseClicked="#deleteBtnCallback" prefHeight="45.0" prefWidth="200.0" style="-fx-text-fill: WHITE; -fx-font-size: 24px;" text="Delete" textAlignment="CENTER">
+                                 <padding>
+                                    <Insets right="20.0" />
+                                 </padding></JFXButton>
                                     </buttons>
                                 </ButtonBar>
                             </children>

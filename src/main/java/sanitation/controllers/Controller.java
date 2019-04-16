@@ -70,10 +70,14 @@ public class Controller implements Initializable {
         columnDescription.setCellValueFactory(new PropertyValueFactory<>("Description"));
         columnRequester.setCellValueFactory(new PropertyValueFactory<>("RequesterUsername"));
         columnRequestTime.setCellValueFactory(new PropertyValueFactory<>("RequestTimeString"));
-        columnServicer.setCellValueFactory(new PropertyValueFactory<>("LocationID"));
+        columnServicer.setCellValueFactory(new PropertyValueFactory<>("ServicerUserName"));
         columnClaimedTime.setCellValueFactory(new PropertyValueFactory<>("ClaimedTimeString"));
         columnCompletedTime.setCellValueFactory(new PropertyValueFactory<>("CompletedTimeString"));
         tableView.setItems(observableRequests);
+
+        tableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            updateTableButtons();
+        });
     }
 
     /**
@@ -113,6 +117,7 @@ public class Controller implements Initializable {
             SanitationService.markRequestUnclaimed(selected);
         }
         updateTableButtons();
+        updateRequestTable();
     }
 
     /**
@@ -172,8 +177,12 @@ public class Controller implements Initializable {
         if (selected == null) {
             claimBtn.setDisable(true);
             completeBtn.setDisable(true);
+            deleteBtn.setDisable(true);
             return;
         }
+
+
+        deleteBtn.setDisable(false);
 
         // Determine if current employee is the servicer of the request
         String servicer = selected.getServicerUsername();
@@ -189,17 +198,18 @@ public class Controller implements Initializable {
         completeBtn.setDisable(!completeBtnEnabled);
 
         // Set the complete button label
-        if (selected.getStatus().equals(models.sanitation.SanitationRequest.Status.COMPLETE)) {
+        if (tableView.getSelectionModel().getSelectedItem().getStatus() == SanitationRequest.Status.COMPLETE) {
             completeBtn.setText("Mark Incomplete");
         } else {
             completeBtn.setText("Mark Complete");
         }
 
         // Set the claim button label
-        if (tableView.getSelectionModel().getSelectedItem().getServicerUsername() == null) {
+        if (tableView.getSelectionModel().getSelectedItem().getServicerUsername() != null) {
             claimBtn.setText("Un-Claim");
         } else {
             claimBtn.setText("Claim");
         }
+
     }
 }
