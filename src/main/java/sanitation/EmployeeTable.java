@@ -2,9 +2,8 @@
  * @brief Minimalist employee database.
  */
 
-package sanitation.database;
+package sanitation;
 
-import sanitation.models.IEmployee;
 import java.sql.*;
 import java.util.ArrayList;
 

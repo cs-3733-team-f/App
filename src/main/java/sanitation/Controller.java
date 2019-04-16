@@ -2,7 +2,7 @@
  * @brief Sanitation API controller.
  */
 
-package sanitation.controllers;
+package sanitation;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
@@ -14,12 +14,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import sanitation.SanitationService;
-import sanitation.database.SanitationTable;
-import sanitation.models.SanitationRequest;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -75,6 +71,7 @@ public class Controller implements Initializable {
         columnCompletedTime.setCellValueFactory(new PropertyValueFactory<>("CompletedTimeString"));
         tableView.setItems(observableRequests);
 
+        // Update table buttons on every table update
         tableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             updateTableButtons();
         });
@@ -182,8 +179,9 @@ public class Controller implements Initializable {
             return;
         }
 
-
-        deleteBtn.setDisable(false);
+        // Determine if delete button is enabled
+        boolean deletingEnabled = SanitationService.getDeletingEnabled();
+        deleteBtn.setDisable(!deletingEnabled);
 
         // Determine if current employee is the servicer of the request
         String servicer = selected.getServicerUsername();
@@ -193,10 +191,15 @@ public class Controller implements Initializable {
         else servicerIsEmployee = servicer.equals(employee);
 
         // Set the button statuses
-        boolean claimBtnEnabled = servicer == null || (servicerIsEmployee && selected.getStatus() == SanitationRequest.Status.INCOMPLETE);
-        claimBtn.setDisable(!claimBtnEnabled);
-        boolean completeBtnEnabled = servicerIsEmployee;
-        completeBtn.setDisable(!completeBtnEnabled);
+        if (SanitationService.getServicingEnabled()) {
+            boolean claimBtnEnabled = servicer == null || (servicerIsEmployee && selected.getStatus() == SanitationRequest.Status.INCOMPLETE);
+            claimBtn.setDisable(!claimBtnEnabled);
+            boolean completeBtnEnabled = servicerIsEmployee;
+            completeBtn.setDisable(!completeBtnEnabled);
+        } else {
+            claimBtn.setDisable(true);
+            completeBtn.setDisable(true);
+        }
 
         // Set the complete button label
         if (tableView.getSelectionModel().getSelectedItem().getStatus() == SanitationRequest.Status.COMPLETE) {

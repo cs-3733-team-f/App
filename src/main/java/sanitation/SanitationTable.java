@@ -2,9 +2,8 @@
  * @brief Sanitation request database.
  */
 
-package sanitation.database;
+package sanitation;
 
-import sanitation.models.SanitationRequest;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;

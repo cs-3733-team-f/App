@@ -2,7 +2,7 @@
  * @brief Employee interface.
  */
 
-package sanitation.models;
+package sanitation;
 
 public interface IEmployee {
     String getUsername();

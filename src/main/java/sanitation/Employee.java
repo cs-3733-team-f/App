@@ -2,7 +2,7 @@
  * @brief Employee class for testing.
  */
 
-package sanitation.models;
+package sanitation;
 
 public class Employee implements IEmployee {
 

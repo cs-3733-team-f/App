@@ -4,12 +4,7 @@
 
 package sanitation;
 
-import sanitation.database.EmployeeTable;
-import sanitation.database.SanitationTable;
-import sanitation.models.Employee;
-import sanitation.models.IEmployee;
-import sanitation.models.SanitationRequest;
-import sanitation.models.SanitationRequest.Priority;
+import sanitation.SanitationRequest.Priority;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -25,17 +20,16 @@ import java.util.ArrayList;
 
 public class SanitationService extends Application {
 
-    // Recreate database flag
-    private static final boolean recreateDatabase = true;
-
-    // Fields
-    private static Stage stage = new Stage();   // JFX stage
-    private static IEmployee currentEmployee;   // Current username
-    private static String currentLocationID;    // Location ID of request
-    private static String thisCssPath;          // Path to CSS Style sheet
+    // Private fields
+    private static Stage stage = new Stage();       // JFX stage
+    private static IEmployee currentEmployee;       // Current username
+    private static String currentLocationID;        // Location ID of request
+    private static String thisCssPath;              // Path to CSS Style sheet
+    private static boolean servicingEnabled = true; // Servicing requests enabled
+    private static boolean deletingEnabled = true;  // Deleting requests enabled
 
     /**
-     * @brief Runs service request as a standalone application.
+     * Runs service request demo as a standalone application.
      * @param args Arguments to launch with.
      */
     public static void main(String[] args) {
@@ -44,16 +38,18 @@ public class SanitationService extends Application {
         thisCssPath = "/css/jfoenix-components.css";
         initDatabases();
         addEmployee(currentEmployee);
+        setServicingEnabled(true);
+        setDeletingEnabled(true);
         launch(args);
     }
 
     /**
-     * @brief Runs service request from within another application.
+     * Runs service request from within another application.
      * @param x X-coordinate of screen position
      * @param y Y-coordinate of screen position
      * @param width Width of window
      * @param height Height of window
-     * @param cssPath Path to CSS cascading style sheets
+     * @param cssPath Path to CSS cascading style sheet
      * @param locationID ID of the location of the request
      * @param username Username of logged-in employee
      */
@@ -70,8 +66,7 @@ public class SanitationService extends Application {
     }
 
     /**
-     * @brief Starts the application.
-     * @param primaryStage primary stage.
+     * Starts the application.
      */
     public void start(Stage primaryStage) {
         try {
@@ -92,10 +87,38 @@ public class SanitationService extends Application {
     }
 
     /**
-     * @brief Initializes databases.
+     * Enables or disables servicing requests through the UI.
+     */
+    public static void setServicingEnabled(boolean enabled) {
+        servicingEnabled = enabled;
+    }
+
+    /**
+     * Enables or disables deleting requests through the UI.
+     */
+    public static void setDeletingEnabled(boolean enabled) {
+        deletingEnabled = enabled;
+    }
+
+    /**
+     * Returns boolean indicating if servicing requests is enabled.
+     */
+    static boolean getServicingEnabled() {
+        return servicingEnabled;
+    }
+
+    /**
+     * Returns boolean indicating if deleting requests is enabled.
+     */
+    static boolean getDeletingEnabled() {
+        return deletingEnabled;
+    }
+
+    /**
+     * Initializes databases.
      * @return Boolean indicating if init was successful.
      */
-    public static boolean initDatabases() {
+    private static boolean initDatabases() {
 
         // Register database
         try {
@@ -129,80 +152,80 @@ public class SanitationService extends Application {
     }
 
     /**
-     * @brief Returns current employee logged in.
+     * Returns current employee logged in.
      */
-    public static IEmployee getCurrentEmployee() {
+    static IEmployee getCurrentEmployee() {
         return currentEmployee;
     }
 
     /**
-     * @brief Adds given sanitation request to database.
+     * Adds given sanitation request to database.
      * @param description Description of request
      * @return priority Priority of request (LOW, MEDIUM, HIGH)
      */
-    public static boolean makeRequest(String description, String priority) {
+    static boolean makeRequest(String description, String priority) {
         Priority priorityEnum = Priority.valueOf(priority);
         SanitationRequest request = new SanitationRequest(currentLocationID, priorityEnum, description, currentEmployee);
         return SanitationTable.addRequest(request);
     }
 
     /**
-     * @brief Marks sanitation request as claimed by current employee.
+     * Marks sanitation request as claimed by current employee.
      * @param request Sanitation request to be claimed.
      * @return Boolean indicating if the claim was successful.
      */
-    public static boolean markRequestClaimed(SanitationRequest request) {
+    static boolean markRequestClaimed(SanitationRequest request) {
         request.markClaimedBy(currentEmployee);
         return SanitationTable.updateRequest(request);
     }
 
     /**
-     * @brief Marks sanitation request as unclaimed.
+     * Marks sanitation request as unclaimed.
      * @return Boolean indicating if the unclaim was successful.
      */
-    public static boolean markRequestUnclaimed(SanitationRequest request) {
+    static boolean markRequestUnclaimed(SanitationRequest request) {
         request.markUnclaimed();
         return SanitationTable.updateRequest(request);
     }
 
     /**
-     * @brief Marks sanitation request as completed by a user.
+     * Marks sanitation request as completed by a user.
      * @param request Sanitation request to be marked complete.
      * @return Boolean indicating if the update was successful.
      */
-    public static boolean markRequestComplete(SanitationRequest request) {
+    static boolean markRequestComplete(SanitationRequest request) {
         request.markComplete();
         return SanitationTable.updateRequest(request);
     }
 
     /**
-     * @brief Marks sanitation request as incomplete.
+     * Marks sanitation request as incomplete.
      * @param request Sanitation request to be marked incomplete.
      * @return Boolean indicating if update was successful.
      */
-    public static boolean markRequestIncomplete(SanitationRequest request) {
+    static boolean markRequestIncomplete(SanitationRequest request) {
         request.markIncomplete();
         return SanitationTable.updateRequest(request);
     }
 
     /**
-     * @brief Deletes sanitation request from the database.
+     * Deletes sanitation request from the database.
      * @param request Sanitation request to be deleted.
      * @return Boolean indicating if request was found and deleted.
      */
-    public static boolean deleteRequest(SanitationRequest request) {
+    static boolean deleteRequest(SanitationRequest request) {
         return SanitationTable.deleteRequest(request);
     }
 
     /**
-     * @brief Returns full list of sanitation requests from database.
+     * Returns full list of sanitation requests from database.
      */
-    public static ArrayList<SanitationRequest> getRequests() {
+    static ArrayList<SanitationRequest> getRequests() {
         return SanitationTable.getRequests();
     }
 
     /**
-     * @brief Adds employee to the database.
+     * Adds employee to the database.
      * @param employee New employee to add
      * @return Boolean indicating if employee was added successfully.
      */
@@ -211,7 +234,7 @@ public class SanitationService extends Application {
     }
 
     /**
-     * @brief Deletes employee from the database.
+     * Deletes employee from the database.
      * @param employee Employee to delete.
      * @return Boolean indicating if employee was found and deleted.
      */
@@ -220,16 +243,9 @@ public class SanitationService extends Application {
     }
 
     /**
-     * @brief Returns list of employee usernames registered in the database.
-     */
-    public static ArrayList<String> getEmployeeUsernames() {
-        return EmployeeTable.getEmployeeUsernames();
-    }
-
-    /**
      * @brief Closes application
      */
-    public static void close() {
+    static void close() {
         stage.close();
     }
 }

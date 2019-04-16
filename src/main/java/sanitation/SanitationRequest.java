@@ -2,7 +2,7 @@
  * @brief Class for implementing sanitation requests.
  */
 
-package sanitation.models;
+package sanitation;
 
 import java.sql.Timestamp;
 import java.util.Date;
