@@ -70,7 +70,7 @@ public class Controller implements Initializable {
         columnDescription.setCellValueFactory(new PropertyValueFactory<>("Description"));
         columnRequester.setCellValueFactory(new PropertyValueFactory<>("RequesterUsername"));
         columnRequestTime.setCellValueFactory(new PropertyValueFactory<>("RequestTimeString"));
-        columnServicer.setCellValueFactory(new PropertyValueFactory<>("ServicerUserName"));
+        columnServicer.setCellValueFactory(new PropertyValueFactory<>("ServicerUsername"));
         columnClaimedTime.setCellValueFactory(new PropertyValueFactory<>("ClaimedTimeString"));
         columnCompletedTime.setCellValueFactory(new PropertyValueFactory<>("CompletedTimeString"));
         tableView.setItems(observableRequests);
@@ -92,8 +92,9 @@ public class Controller implements Initializable {
         // Submit request to database
         SanitationService.makeRequest(description, priority);
 
-        // Clear the description text input
+        // Reset the submission UI
         descriptionTextField.setText("");
+        submitBtn.setDisable(true);
 
         // Update the request table
         updateRequestTable();
