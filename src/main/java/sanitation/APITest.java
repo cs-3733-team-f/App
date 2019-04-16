@@ -4,7 +4,6 @@
 
 package sanitation;
 
-import sanitation.database.SanitationTable;
 import sanitation.models.Employee;
 import sanitation.models.SanitationRequest;
 import sanitation.models.SanitationRequest.Priority;
