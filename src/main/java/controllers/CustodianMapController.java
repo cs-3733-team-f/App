@@ -12,7 +12,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import map.MapDisplay;
 import map.PathFinder;
 import models.map.Location;
-import sanitation.SanitationRequest;
+import models.sanitation.SanitationRequest;
 import models.user.User;
 
 import java.util.List;

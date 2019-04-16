@@ -2,7 +2,7 @@
  * @brief Class for implementing sanitation requests.
  */
 
-package sanitation;
+package models.sanitation;
 import models.map.Location;
 import models.user.User;
 import java.util.Date;
@@ -128,7 +128,7 @@ public class SanitationRequest implements Comparable<SanitationRequest> {
     public String getLocationShortName(){
         if(location==null)return null;
         return location.getShortName();
-        }
+    }
     public Priority getPriority() {
         return priority;
     }

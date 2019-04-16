@@ -4,7 +4,7 @@ import helpers.Constants;
 import models.map.Edge;
 import models.map.Location;
 import models.room.Room;
-import sanitation.SanitationRequest;
+import models.sanitation.SanitationRequest;
 import models.user.User;
 import org.junit.Before;
 import org.junit.Test;

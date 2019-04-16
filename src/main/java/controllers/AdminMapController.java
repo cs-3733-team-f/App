@@ -24,7 +24,7 @@ import javafx.scene.shape.Line;
 import map.MapDisplay;
 import models.map.Edge;
 import models.map.Location;
-import sanitation.SanitationRequest;
+import models.sanitation.SanitationRequest;
 
 import models.search.SearchEngine;
 
