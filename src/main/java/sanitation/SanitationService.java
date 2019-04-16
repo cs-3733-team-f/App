@@ -29,7 +29,7 @@ public class SanitationService extends Application {
     private static final boolean recreateDatabase = true;
 
     // Fields
-    private static Stage stage;                 // JFX stage
+    private static Stage stage = new Stage();   // JFX stage
     private static IEmployee currentEmployee;   // Current username
     private static String currentLocationID;    // Location ID of request
     private static String thisCssPath;          // Path to CSS Style sheet
@@ -39,10 +39,10 @@ public class SanitationService extends Application {
      * @param args Arguments to launch with.
      */
     public static void main(String[] args) {
-        initDatabases();
         currentEmployee = new Employee("DefaultUser");
         currentLocationID = "DefaultLocation";
         thisCssPath = "/css/jfoenix-components.css";
+        initDatabases();
         addEmployee(currentEmployee);
         launch(args);
     }
@@ -58,11 +58,15 @@ public class SanitationService extends Application {
      * @param username Username of logged-in employee
      */
     public static void run(int x, int y, int width, int height, String cssPath, String locationID, String username) {
-        // TODO place application on the screen... but how?
         currentEmployee = new Employee(username);
         currentLocationID = locationID;
         thisCssPath = cssPath;
+        stage.setX(x);
+        stage.setY(y);
+        stage.setWidth(width);
+        stage.setHeight(height);
         initDatabases();
+        launch();
     }
 
     /**
@@ -70,7 +74,6 @@ public class SanitationService extends Application {
      * @param primaryStage primary stage.
      */
     public void start(Stage primaryStage) {
-        stage = new Stage();
         try {
             URL url;
             String route = "/SanitationRequestAPI.fxml";
@@ -118,12 +121,8 @@ public class SanitationService extends Application {
         SanitationTable.setConnection(connection);
 
         // Create database
-        if (recreateDatabase) {
-            SanitationTable.drop();
-            EmployeeTable.drop();
-            EmployeeTable.create();
-            SanitationTable.create();
-        }
+        EmployeeTable.create();
+        SanitationTable.create();
 
         // Return true
         return true;

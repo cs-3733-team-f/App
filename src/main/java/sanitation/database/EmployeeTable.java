@@ -42,8 +42,6 @@ public class EmployeeTable {
         try {
             statement.execute(createString);
         } catch (SQLException exception) {
-            System.out.println("Failed to execute create statement.");
-            exception.printStackTrace();
             return false;
         }
 

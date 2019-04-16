@@ -55,8 +55,6 @@ public class SanitationTable {
         try {
             statement.execute(createString);
         } catch (SQLException | NullPointerException e) {
-            System.out.println("Failed to execute create statement.");
-            e.printStackTrace();
             return false;
         }
 
