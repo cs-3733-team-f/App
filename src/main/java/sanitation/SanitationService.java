@@ -31,18 +31,38 @@ public class SanitationService extends Application {
     // Fields
     private static Stage stage;                 // JFX stage
     private static IEmployee currentEmployee;   // Current username
-    private static String locationID;           // Location ID of request
+    private static String currentLocationID;    // Location ID of request
+    private static String thisCssPath;          // Path to CSS Style sheet
 
     /**
-     * @brief Main function which starts the application.
+     * @brief Runs service request as a standalone application.
      * @param args Arguments to launch with.
      */
     public static void main(String[] args) {
         initDatabases();
-        setCurrentEmployee(new Employee("DefaultUser"));
-        setLocationID("DefaultLocation");
+        currentEmployee = new Employee("DefaultUser");
+        currentLocationID = "DefaultLocation";
+        thisCssPath = "/css/jfoenix-components.css";
         addEmployee(currentEmployee);
         launch(args);
+    }
+
+    /**
+     * @brief Runs service request from within another application.
+     * @param x X-coordinate of screen position
+     * @param y Y-coordinate of screen position
+     * @param width Width of window
+     * @param height Height of window
+     * @param cssPath Path to CSS cascading style sheets
+     * @param locationID ID of the location of the request
+     * @param username Username of logged-in employee
+     */
+    public static void run(int x, int y, int width, int height, String cssPath, String locationID, String username) {
+        // TODO place application on the screen... but how?
+        currentEmployee = new Employee(username);
+        currentLocationID = locationID;
+        thisCssPath = cssPath;
+        initDatabases();
     }
 
     /**
@@ -58,7 +78,7 @@ public class SanitationService extends Application {
             FXMLLoader loader = new FXMLLoader(url);
             Parent root = loader.load();
             Scene scene = new Scene(root);
-            // TODO addStyles(scene)
+            scene.getStylesheets().add(SanitationService.class.getResource(thisCssPath).toExternalForm());
             stage.setTitle("Sanitation Service");
             stage.setScene(scene);
             stage.show();
@@ -117,27 +137,13 @@ public class SanitationService extends Application {
     }
 
     /**
-     * @brief Assigns current user of the service.
-     */
-    public static void setCurrentEmployee(IEmployee employee) {
-        currentEmployee = employee;
-    }
-
-    /**
-     * @brief Assigns location ID of request.
-     */
-    public static void setLocationID(String newLocationID) {
-        locationID = newLocationID;
-    }
-
-    /**
      * @brief Adds given sanitation request to database.
      * @param description Description of request
      * @return priority Priority of request (LOW, MEDIUM, HIGH)
      */
     public static boolean makeRequest(String description, String priority) {
         Priority priorityEnum = Priority.valueOf(priority);
-        SanitationRequest request = new SanitationRequest(locationID, priorityEnum, description, currentEmployee);
+        SanitationRequest request = new SanitationRequest(currentLocationID, priorityEnum, description, currentEmployee);
         return SanitationTable.addRequest(request);
     }
 
