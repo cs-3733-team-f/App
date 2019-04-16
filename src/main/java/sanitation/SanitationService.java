@@ -6,8 +6,10 @@ package sanitation;
 
 import sanitation.database.EmployeeTable;
 import sanitation.database.SanitationTable;
+import sanitation.models.Employee;
 import sanitation.models.IEmployee;
 import sanitation.models.SanitationRequest;
+import sanitation.models.SanitationRequest.Priority;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -27,13 +29,19 @@ public class SanitationService extends Application {
     private static final boolean recreateDatabase = true;
 
     // Fields
-    private Stage stage;
+    private static Stage stage;                 // JFX stage
+    private static IEmployee currentEmployee;   // Current username
+    private static String locationID;           // Location ID of request
 
     /**
      * @brief Main function which starts the application.
      * @param args Arguments to launch with.
      */
     public static void main(String[] args) {
+        initDatabases();
+        setCurrentEmployee(new Employee("DefaultUser"));
+        setLocationID("DefaultLocation");
+        addEmployee(currentEmployee);
         launch(args);
     }
 
@@ -102,22 +110,44 @@ public class SanitationService extends Application {
     }
 
     /**
-     * @brief Adds given sanitation request to database.
-     * @param request Sanitation request to add.
-     * @return Boolean indicating if add was successful.
+     * @brief Returns current employee logged in.
      */
-    public static boolean makeRequest(SanitationRequest request) {
+    public static IEmployee getCurrentEmployee() {
+        return currentEmployee;
+    }
+
+    /**
+     * @brief Assigns current user of the service.
+     */
+    public static void setCurrentEmployee(IEmployee employee) {
+        currentEmployee = employee;
+    }
+
+    /**
+     * @brief Assigns location ID of request.
+     */
+    public static void setLocationID(String newLocationID) {
+        locationID = newLocationID;
+    }
+
+    /**
+     * @brief Adds given sanitation request to database.
+     * @param description Description of request
+     * @return priority Priority of request (LOW, MEDIUM, HIGH)
+     */
+    public static boolean makeRequest(String description, String priority) {
+        Priority priorityEnum = Priority.valueOf(priority);
+        SanitationRequest request = new SanitationRequest(locationID, priorityEnum, description, currentEmployee);
         return SanitationTable.addRequest(request);
     }
 
     /**
-     * @brief Marks sanitation request as claimed by an employee.
+     * @brief Marks sanitation request as claimed by current employee.
      * @param request Sanitation request to be claimed.
-     * @param employee Employee claiming the request.
      * @return Boolean indicating if the claim was successful.
      */
-    public static boolean markRequestClaimed(SanitationRequest request, IEmployee employee) {
-        request.markClaimedBy(employee);
+    public static boolean markRequestClaimed(SanitationRequest request) {
+        request.markClaimedBy(currentEmployee);
         return SanitationTable.updateRequest(request);
     }
 
@@ -141,7 +171,7 @@ public class SanitationService extends Application {
     }
 
     /**
-     * @brief Marks sanitationrequest as incomplete.
+     * @brief Marks sanitation request as incomplete.
      * @param request Sanitation request to be marked incomplete.
      * @return Boolean indicating if update was successful.
      */
@@ -191,4 +221,10 @@ public class SanitationService extends Application {
         return EmployeeTable.getEmployeeUsernames();
     }
 
+    /**
+     * @brief Closes application
+     */
+    public static void close() {
+        stage.close();
+    }
 }

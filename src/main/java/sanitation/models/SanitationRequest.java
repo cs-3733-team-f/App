@@ -193,8 +193,14 @@ public class SanitationRequest implements Comparable<SanitationRequest> {
     public Priority getPriority() {
         return priority;
     }
+    public String getPriorityString() {
+        return priority.name();
+    }
     public Status getStatus() {
         return status;
+    }
+    public String getStatusString() {
+        return status.name();
     }
     public String getDescription() {
         return description;
@@ -205,11 +211,27 @@ public class SanitationRequest implements Comparable<SanitationRequest> {
     public Timestamp getRequestTime() {
         return requestTime;
     }
+    public String getRequestTimeString() {
+        if (requestTime == null) return null;
+        return requestTime.toString();
+    }
     public String getServicerUsername(){
         return servicerUsername;
     }
-    public Timestamp getClaimedTime() { return claimedTime; }
-    public Timestamp getCompletedTime() { return completedTime; }
+    public Timestamp getClaimedTime() {
+        return claimedTime;
+    }
+    public String getClaimedTimeString() {
+        if (claimedTime == null) return null;
+        return claimedTime.toString();
+    }
+    public Timestamp getCompletedTime() {
+        return completedTime;
+    }
+    public String getCompletedTimeString() {
+        if (completedTime == null) return null;
+        return completedTime.toString();
+    }
 
     /**
      * Attribute setters

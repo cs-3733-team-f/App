@@ -39,7 +39,7 @@
                                     </Label>
                                 </children>
                             </Pane>
-                            <JFXComboBox fx:id="cmbPriority" focusColor="#022d5a" labelFloat="true" prefHeight="27.0" prefWidth="339.0" promptText="Priority" unFocusColor="BLACK">
+                            <JFXComboBox fx:id="priorityComboBox" focusColor="#022d5a" labelFloat="true" prefHeight="27.0" prefWidth="339.0" promptText="Priority" unFocusColor="BLACK">
                                 <items>
                                     <FXCollections fx:factory="observableArrayList">
                                         <String fx:id="LOW" fx:value="LOW" />
@@ -48,7 +48,7 @@
                                     </FXCollections>
                                 </items>
                             </JFXComboBox>
-                            <JFXTextField fx:id="txtDescription" prefHeight="25.0" prefWidth="332.0" promptText="Description">
+                            <JFXTextField fx:id="descriptionTextField" onKeyReleased="#descriptionOnKeyReleaseCallback" prefHeight="25.0" prefWidth="332.0" promptText="Description">
                                 <opaqueInsets>
                                     <Insets />
                                 </opaqueInsets>
@@ -80,25 +80,24 @@
                     <AnchorPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                         <VBox layoutX="10.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="607.0" prefWidth="1200.0" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0">
                             <children>
-                                <TableView fx:id="tblData" prefHeight="617.0" prefWidth="665.0">
+                                <TableView fx:id="tableView" onMouseClicked="#tableClickCallback" prefHeight="617.0" prefWidth="665.0">
                                     <columns>
-                                        <TableColumn fx:id="tblLocation" prefWidth="100.0" text="Location" />
-                                        <TableColumn fx:id="tblPriority" prefWidth="75.0" text="Priority" />
-                                        <TableColumn fx:id="tblStatus" prefWidth="100.0" text="Status" />
-                                        <TableColumn fx:id="tblDescription" prefWidth="250.0" text="Description" />
-                                        <TableColumn fx:id="tblRequester" prefWidth="100.0" text="Requester" />
-                                        <TableColumn fx:id="tblClaimTime" prefWidth="125.0" text="Time Claimed" />
-                                        <TableColumn fx:id="tblServicer" prefWidth="100.0" text="Servicer" />
-                                        <TableColumn fx:id="tblServiceTime" prefWidth="125.0" text="Service Time" />
+                                        <TableColumn fx:id="columnLocation" prefWidth="100.0" text="Location" />
+                                        <TableColumn fx:id="columnPriority" prefWidth="75.0" text="Priority" />
+                                        <TableColumn fx:id="columnStatus" prefWidth="100.0" text="Status" />
+                                        <TableColumn fx:id="columnDescription" prefWidth="250.0" text="Description" />
+                                        <TableColumn fx:id="columnRequester" prefWidth="100.0" text="Requester" />
+                                        <TableColumn fx:id="columnRequestTime" prefWidth="125.0" text="Request Time" />
+                                        <TableColumn fx:id="columnServicer" prefWidth="100.0" text="Servicer" />
+                                        <TableColumn fx:id="columnClaimedTime" prefWidth="125.0" text="Time Claimed" />
+                                        <TableColumn fx:id="columnCompletedTime" prefWidth="125.0" text="Time Completed" />
                                     </columns>
                                 </TableView>
                                 <ButtonBar prefHeight="40.0" prefWidth="200.0">
                                     <buttons>
-                                        <JFXButton fx:id="navigateBtn" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" onMouseClicked="#navigateBtnCallback" prefHeight="45.0" prefWidth="147.0" style="-fx-text-fill: WHITE; -fx-font-size: 24px;" text="Navigate" textAlignment="CENTER" />
                                         <JFXButton fx:id="claimBtn" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" onMouseClicked="#claimBtnCallback" prefHeight="45.0" prefWidth="147.0" style="-fx-text-fill: WHITE; -fx-font-size: 24px;" text="Claim" textAlignment="CENTER" />
                                         <JFXButton fx:id="completeBtn" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" onMouseClicked="#completeBtnCallback" prefHeight="45.0" prefWidth="200.0" style="-fx-text-fill: WHITE; -fx-font-size: 24px;" text="Mark Complete" textAlignment="CENTER" />
                                         <JFXButton fx:id="deleteBtn" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="800.0" layoutY="10.0" onMouseClicked="#deleteBtnCallback" prefHeight="45.0" prefWidth="200.0" style="-fx-text-fill: WHITE; -fx-font-size: 24px;" text="Delete" textAlignment="CENTER" />
-                                        <JFXButton fx:id="goBackBtn" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" onMouseClicked="#goBackBtnCallback" prefHeight="45.0" prefWidth="147.0" style="-fx-text-fill: WHITE; -fx-font-size: 24px;" text="Go Back" textAlignment="CENTER" />
                                     </buttons>
                                 </ButtonBar>
                             </children>
