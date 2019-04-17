@@ -195,9 +195,11 @@ public abstract class PathFinder {
                 line.getElements().add(new LineTo(curr.getxCord(), curr.getyCord()));
             }
         }
-        animateLine(line);
-        mc.addLine(line, currFloor);
-        mc.displayPath(line);
+        if (line != null) {
+            animateLine(line);
+            mc.addLine(line, currFloor);
+            mc.displayPath(line);
+        }
     }
 
     private static void animateLine(Path line) {

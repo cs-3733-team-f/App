@@ -6,32 +6,16 @@ import models.map.SubPath;
 
 import java.util.*;
 
-public class BreadthSearch extends PathFinder {
+public class BreadthSearch extends SearchAlgorithm {
 
     @Override
     public Stack<Location> findPath(Location start, Location end) {
-        Stack<Location> path = new Stack<>();
+        return super.findPath(start, end);
+    }
 
-        Queue<SubPath> queue = new LinkedList<>();
-        HashMap<String, SubPath> used = new HashMap<>();
-
-        SubPath sStart = new SubPath("", start, 0.0);
-        queue.add(sStart);
-
-        while (!queue.isEmpty()) {
-            SubPath sNext = queue.poll();
-            Location lNext = sNext.getLocation();
-            if (used.containsKey(lNext.getNodeID())) {
-                continue;
-            }
-
-            if (lNext.getNodeID().equals(end.getNodeID())) {
-                path = genPath(sNext);
-                break;
-            }
-
-            used.put(lNext.getNodeID(), sNext);
-
+    @Override
+    public void searchAlg(SubPath sNext, Location lNext, Location start, Location end) {
+        used.put(lNext.getNodeID(), sNext);
             List<SubPath> lstNeighbors = lNext.getSubPaths();
             for (SubPath nCurr : lstNeighbors) {
                 Location lCurr = nCurr.getLocation();
@@ -41,8 +25,6 @@ public class BreadthSearch extends PathFinder {
                 }
             }
         }
-        return path;
-    }
 
     @Override
     public MapHelpers.Algorithm getAlg() {
