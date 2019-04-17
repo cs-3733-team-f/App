@@ -1,6 +1,8 @@
-package edu.wpi.cs3733d19.teamF.sanitation; /**
+/**
  * @brief edu.wpi.cs3733d19.teamF.sanitation.Employee class for testing.
  */
+
+package edu.wpi.cs3733d19.teamF.sanitation;
 
 public class Employee implements IEmployee {
 

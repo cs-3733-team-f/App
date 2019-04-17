@@ -1,6 +1,8 @@
-package edu.wpi.cs3733d19.teamF.sanitation; /**
+/**
  * @brief Class for implementing sanitation requests.
  */
+
+package edu.wpi.cs3733d19.teamF.sanitation;
 
 import java.sql.Timestamp;
 import java.util.Date;

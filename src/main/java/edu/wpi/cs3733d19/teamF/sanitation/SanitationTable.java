@@ -1,6 +1,8 @@
-package edu.wpi.cs3733d19.teamF.sanitation; /**
+/**
  * @brief Sanitation request database.
  */
+
+package edu.wpi.cs3733d19.teamF.sanitation;
 
 import java.sql.*;
 import java.util.ArrayList;

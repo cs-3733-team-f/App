@@ -1,8 +1,8 @@
-package edu.wpi.cs3733d19.teamF.sanitation; /**
+/**
  * @brief Sanitation service facade interface.
  */
 
-import SanitationRequest.Priority;
+package edu.wpi.cs3733d19.teamF.sanitation;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

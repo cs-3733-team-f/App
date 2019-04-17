@@ -1,6 +1,8 @@
-package edu.wpi.cs3733d19.teamF.sanitation; /**
+/**
  * @brief Sanitation API controller.
  */
+
+package edu.wpi.cs3733d19.teamF.sanitation;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
