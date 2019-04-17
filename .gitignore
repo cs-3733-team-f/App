@@ -2,6 +2,7 @@
 .idea/
 classes/
 build/
+database_sanitation/
 out/
 derby.log
 teamF/
