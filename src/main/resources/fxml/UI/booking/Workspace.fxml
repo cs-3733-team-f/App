@@ -41,7 +41,7 @@
                      <Circle fill="ORANGE" radius="10.0" stroke="BLACK" strokeType="INSIDE" />
                      <Label text="My Bookings" GridPane.columnIndex="1" />
                      <Circle fill="RED" radius="10.0" stroke="BLACK" strokeType="INSIDE" GridPane.rowIndex="1" />
-                     <Label text="Unavilable " GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                     <Label text="Unavailable " GridPane.columnIndex="1" GridPane.rowIndex="1" />
                      <Circle fill="YELLOW" radius="10.0" stroke="BLACK" strokeType="INSIDE" GridPane.rowIndex="2" />
                      <Label text="Available" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   </children>
