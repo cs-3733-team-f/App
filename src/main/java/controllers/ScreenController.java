@@ -32,12 +32,24 @@ public class ScreenController {
     private static HashMap<String, String> screenMap = new HashMap<>();
     private static Stage stage;
     private static Scene sceneThing = null;
+    private static HashMap<Constants.Routes, Parent> mapRoots = new HashMap<>();
 
     public ScreenController(Stage stage) {
         ScreenController.stage = stage;
         try {
             this.initializeScreens(ScreenController.stage);
+            preLoad(Constants.Routes.WELCOME);
             activate(Constants.Routes.WELCOME);
+            Thread t = new Thread(() -> {
+                try {
+                    preLoad(Constants.Routes.USER_MAP);
+                    preLoad(Constants.Routes.LOGIN);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+            t.setDaemon(true);
+            t.start();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -98,6 +110,15 @@ public class ScreenController {
         this.addScreen(Constants.Routes.EDGE_EDITOR, "/fxml/UI/node/EdgeEditor.fxml");
     }
 
+    public static void preLoad(Constants.Routes route) throws IOException {
+        if (!mapRoots.containsKey(route)) {
+            URL url = routeToURL(route);
+            FXMLLoader loader = new FXMLLoader(url);
+            Parent root = loader.load();
+            mapRoots.put(route, root);
+        }
+    }
+
     public void addScreen(Constants.Routes route, String layout) {
         screenMap.put(route.name(), layout);
     }
@@ -113,13 +134,12 @@ public class ScreenController {
     }
 
     public static void activate(Constants.Routes route) throws Exception {
-        stage = new Stage();
-        URL url = routeToURL(route);
-
-        FXMLLoader loader = new FXMLLoader(url);
-        Parent root = loader.load();
-
+        if (!mapRoots.containsKey(route)) {
+            preLoad(route);
+        }
+        Parent root = mapRoots.get(route);
         if (sceneThing == null) {
+            stage = new Stage();
             sceneThing = new Scene(root);
             addStyles(sceneThing);
             stage.setTitle("Brigham and Women's Pathfinder Application");
