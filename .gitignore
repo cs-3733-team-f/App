@@ -1,6 +1,7 @@
 .gradle/
 .idea/
 classes/
+database_sanitation/
 build/
 out/
 derby.log

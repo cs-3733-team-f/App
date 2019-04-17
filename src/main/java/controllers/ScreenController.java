@@ -1,5 +1,7 @@
 package controllers;
 
+import edu.wpi.cs3733d19.teamF.sanitation.Employee;
+import edu.wpi.cs3733d19.teamF.sanitation.SanitationService;
 import helpers.Constants;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -37,18 +39,23 @@ public class ScreenController {
 
             // Activate beginning screen
             this.activate(Constants.Routes.WELCOME);
+
+            // DEBUG run API
+            SanitationService service = new SanitationService();
+            service.run(10, 10, 600, 400, "/css/jfoenix-components.css", "LocationID", "Jeff");
+            service.addEmployee(new Employee("Jeff"));
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     public void initializeScreens(Stage stage) throws Exception {
         // Initialize screen controller to switch between different scenes
-        this.addScreen(Constants.Routes.LOGO,"/Logo.fxml");
-        this.addScreen(Constants.Routes.WELCOME,"/Welcome.fxml");
+        this.addScreen(Constants.Routes.LOGO, "/Logo.fxml");
+        this.addScreen(Constants.Routes.WELCOME, "/Welcome.fxml");
         this.addScreen(Constants.Routes.USER_MAP, "/UserMap.fxml");
-        this.addScreen(Constants.Routes.LOGIN,"/Login.fxml");
+        this.addScreen(Constants.Routes.LOGIN, "/Login.fxml");
         this.addScreen(Constants.Routes.ADMIN_MAP, "/AdminMap.fxml");
         this.addScreen(Constants.Routes.EDIT_LOCATION, "/EditLocation.fxml");
         this.addScreen(Constants.Routes.DOWNLOAD, "/Download.fxml");
