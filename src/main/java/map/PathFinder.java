@@ -1,9 +1,7 @@
 package map;
 
 import controllers.maps.MapController;
-import controllers.maps.UserMapController;
-import controllers.maps.MapController1;
-import controllers.SettingsController;
+import controllers.settings.SettingsController;
 import helpers.Constants;
 import helpers.MapHelpers;
 import javafx.animation.Interpolator;
@@ -12,10 +10,8 @@ import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -171,13 +167,13 @@ public abstract class PathFinder {
         return directions;
     }
 
-    public static void printPath(MapController mc, Map map, Location start, Location end) {
+    public static void printPath(MapController mc, Location start, Location end) {
         mc.clearPath(end);
         PathContext context = SettingsController.getAlgType();
         Stack<Location> path = context.findPath(start, end);
         String directions = context.txtDirections((Stack<Location>) path.clone());
         addDirections(mc.txtPane, directions);
-        HashMap<String, Location> lstLocations = map.getAllLocations();
+        HashMap<String, Location> lstLocations = mc.getMap().getAllLocations();
 
         Path line = null;
         String currFloor = "";
