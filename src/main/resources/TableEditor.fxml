@@ -12,7 +12,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.TableEditorController">
     <children>
-        <JFXTabPane layoutX="25.0" layoutY="144.0" prefHeight="601.0" prefWidth="576.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
+        <JFXTabPane layoutX="10.0" layoutY="10.0" prefHeight="603.0" prefWidth="576.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
             <tabs>
                 <Tab text="Node Editor">
                     <content>
@@ -109,5 +109,6 @@
                 </Tab>
             </tabs>
         </JFXTabPane>
+      <JFXButton layoutX="449.0" layoutY="15.0" onMouseClicked="#returnToMenu" prefHeight="10.0" prefWidth="126.0" text="Return to Menu" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="15.0" />
     </children>
 </AnchorPane>

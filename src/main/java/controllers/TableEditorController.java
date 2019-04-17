@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXTextField;
 import com.querydsl.core.types.dsl.CaseBuilder;
 import database.EdgeTable;
 import database.LocationTable;
+import helpers.Constants;
 import helpers.DatabaseHelpers;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -87,6 +88,7 @@ public class TableEditorController extends PopUpController implements Initializa
                 updateEditableNode();
             }
         });
+        warningText.setEditable(false);
         nodes.setItems(nodeList);
         edges.setItems(edgeList);
     }
@@ -202,7 +204,8 @@ public class TableEditorController extends PopUpController implements Initializa
                 nodeIDText.setText("ID cannot be changed on edit!");
                 throw new Exception();
             }
-            if(!LocationTable.updateLocation(loc)) throw new Exception();
+            LocationTable.updateLocation(loc);
+//            if(!LocationTable.updateLocation(loc)) throw new Exception();
             resetNodes();
             warningText.clear();
 
@@ -244,6 +247,10 @@ public class TableEditorController extends PopUpController implements Initializa
         } catch(Exception e) {
             warningText.setText("Operation failed!");
         }
+    }
+    public void returnToMenu() throws Exception {
+        ScreenController.deactivate();
+        ScreenController.activate(Constants.Routes.ADMIN_MAP);
     }
 
 }
