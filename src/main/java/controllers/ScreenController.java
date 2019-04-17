@@ -77,6 +77,8 @@ public class ScreenController {
         this.addScreen(Constants.Routes.VISUAL_AUDIO, "/requests/VisualAudio.fxml");
         this.addScreen(Constants.Routes.EXTERNAL_TRANS, "/requests/ExternalTrans.fxml");
         this.addScreen(Constants.Routes.PATIENT_INFO, "/requests/PatientInfo.fxml");
+
+        this.addScreen(Constants.Routes.TABLE_EDITOR, "/TableEditor.fxml");
     }
 
     public void addScreen(Constants.Routes route, String layout) {
@@ -169,6 +171,18 @@ public class ScreenController {
         pc.setLoc(loc);
         pc.setMap(map);
         pc.setPanes(panes);
+
+        displayPopUp(root);
+    }
+    public static void popUp(Constants.Routes route, Map map) throws Exception {
+        stage = new Stage();
+        URL url = routeToURL(route);
+
+        FXMLLoader loader = new FXMLLoader(url);
+        Parent root = loader.load();
+        PopUpController pc = loader.getController();
+
+        pc.setMap(map);
 
         displayPopUp(root);
     }

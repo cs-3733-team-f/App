@@ -119,7 +119,7 @@ public class EdgeTable {
 
     public static boolean deleteEdge(Edge edge){
         try {
-            String statement = "DELETE FROM " + Constants.ROOM_TABLE + " WHERE EDGEID=?";
+            String statement = "DELETE FROM " + Constants.EDGES_TABLE + " WHERE EDGEID=?";
             PreparedStatement preparedStatement = Database.getDatabase().getConnection().prepareStatement(statement);
             return true;
         } catch (SQLException e) {
@@ -138,6 +138,8 @@ public class EdgeTable {
             String EdgeID = hasEdgeByID(MapHelpers.generateEdgeID(e, Constants.START_FIRST)) ?
                     MapHelpers.generateEdgeID(e, Constants.START_FIRST)
                     : MapHelpers.generateEdgeID(e, Constants.END_FIRST);
+            e.setEdgeID(EdgeID);
+            deleteEdge(e);
         }
     }
 

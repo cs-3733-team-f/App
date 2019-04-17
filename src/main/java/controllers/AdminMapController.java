@@ -188,7 +188,11 @@ public class AdminMapController extends MapController {
         ScreenController.deactivate();
         ScreenController.activate(Constants.Routes.DOWNLOAD);
     }
-
+    public void clickTableEditor(MouseEvent event) throws Exception {
+        event.consume();
+        ScreenController.deactivate();
+        ScreenController.activate(Constants.Routes.TABLE_EDITOR);
+    }
     public void displayBooking(MouseEvent event) throws Exception {
         event.consume();
         ScreenController.deactivate();
