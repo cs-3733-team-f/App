@@ -44,6 +44,8 @@
                                  </font>
                               </Label>
                            </children></AnchorPane>
+                        <JFXTextField fx:id="txtTime" layoutX="999.0" layoutY="618.0" opacity="0.76" text="Time" />
+                        <JFXButton fx:id="btnRefresh" layoutX="879.0" layoutY="618.0" onMouseClicked="#btnRefresh_Clicked" text="Refresh" />
                      </children>
                   </AnchorPane>
               </content>

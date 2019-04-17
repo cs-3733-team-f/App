@@ -1,11 +1,17 @@
 package controllers;
 
+import com.querydsl.sql.types.Null;
+import helpers.Caretaker;
 import helpers.Constants;
+import helpers.Memento;
+import helpers.Originator;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
 import javafx.stage.Modality;
@@ -20,13 +26,17 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class ScreenController {
 
     private static HashMap<String, String> screenMap = new HashMap<>();
-    private static Stage stage;
+    public volatile static Stage stage;
+    public static long mouseCnt = 0;
+    private long theCnt = 0;
+    private long secCnt = 0;
+    static Originator org = new Originator();
+    static Caretaker car = new Caretaker();
 
     public ScreenController(Stage stage) {
         this.stage = stage;
@@ -40,6 +50,42 @@ public class ScreenController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        Thread t = new Thread(() -> {
+            System.out.println("here");
+            while(true) {
+                org.setState(mouseCnt);
+                car.add(org.saveStateToMemento());
+                theCnt = mouseCnt;
+                if (secCnt == 20) {
+                    try {
+                        ScreenController.deactivate();
+                        ScreenController.activate(Constants.Routes.WELCOME);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    mouseCnt = 0L;
+                    secCnt = 0;
+                }
+                try {
+                    Thread.sleep(1000L);
+                    System.out.println("SavedCount");
+                    System.out.println(theCnt);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                if (car.get(car.mementoList.size() - 1) == theCnt) {
+                    secCnt += 1;
+                    System.out.println("secCnt");
+                    System.out.println(secCnt);
+                }
+                else {
+                    secCnt = 0;
+                }
+            }
+        });
+        t.setDaemon(true);
+        t.start();
 
     }
 
@@ -93,6 +139,15 @@ public class ScreenController {
         stage.close();
     }
 
+    public static EventHandler<MouseEvent> mouseHandler = new EventHandler<MouseEvent>() {
+        @Override
+        public void handle(MouseEvent mouseEvent) {
+            mouseCnt += 1;
+            System.out.println(mouseCnt);
+        }
+    };
+
+
     public static void activate(Constants.Routes route) throws Exception {
         stage = new Stage();
         URL url = routeToURL(route);
@@ -103,11 +158,23 @@ public class ScreenController {
         Scene s = new Scene(root);
         addStyles(s);
         stage.setTitle("Brigham and Women's Pathfinder Application");
+        autoLog(s);
         stage.setScene(s);
         stage.setResizable(true);
-       // stage.setMaximized(true);
+        // stage.setMaximized(true);
         stage.show();
     }
+
+
+    public static void autoLog(Scene scene) throws Exception {
+        scene.setOnMouseClicked(mouseHandler);
+        scene.setOnMouseMoved(mouseHandler);
+        scene.setOnMousePressed(mouseHandler);
+        scene.setOnMouseReleased(mouseHandler);
+    }
+
+
+
 
     public static void popUp(Constants.Routes route) throws Exception {
         stage = new Stage();
@@ -242,4 +309,5 @@ public class ScreenController {
     private static URL routeToURL(Constants.Routes route) throws MalformedURLException {
         return new URL(ScreenController.class.getResource(screenMap.get(route.name())).toString().replaceAll("%20", " "));
     }
+
 }
