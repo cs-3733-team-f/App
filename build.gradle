@@ -51,6 +51,9 @@ task integrationTest(type: Test) {
 dependencies {
 
     testCompile(
+            [group: 'com.google.oauth-client', name:'google-oauth-client-jetty', version: '1.23.0'],
+            [group: 'com.google.api-client', name:'google-api-client', version: '1.23.0'],
+            [group: 'com.google.apis', name:'google-api-services-drive', version: 'v3-rev105-1.23.0'],
             [group: 'junit', name: 'junit', version: '4.12'],
             [group: 'com.jfoenix', name: 'jfoenix', version: '8.0.3'],
             [group: 'org.apache.derby', name: 'derby', version: '10.11.1.1'],
@@ -67,6 +70,9 @@ dependencies {
     )
 
     compile(
+            [group: 'com.google.oauth-client', name:'google-oauth-client-jetty', version: '1.23.0'],
+            [group: 'com.google.api-client', name:'google-api-client', version: '1.23.0'],
+            [group: 'com.google.apis', name:'google-api-services-drive', version: 'v3-rev105-1.23.0'],
             [group: 'javax.mail', name: 'mail', version: '1.4.7'],
             [group: "com.twilio.sdk", name: "twilio", version: "7.37.0"],
             [group: 'junit', name: 'junit', version: '4.12'],

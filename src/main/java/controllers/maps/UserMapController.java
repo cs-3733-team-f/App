@@ -6,6 +6,9 @@ import com.jfoenix.controls.JFXTextField;
 import controllers.ScreenController;
 import controllers.search.SearchEngineController;
 import helpers.Constants;
+import helpers.CreateGoogleFile;
+import helpers.ShareGoogleFile;
+import images.SnapshotGenerator;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -23,7 +26,10 @@ import map.PathFinder;
 import messaging.EmailMessenger;
 import messaging.TextMessenger;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class UserMapController extends MapController {
@@ -194,10 +200,23 @@ public class UserMapController extends MapController {
 
     public void btn_SendDirections (MouseEvent event) {
         if(currentRoute == null) return;
+        SnapshotGenerator sg = new SnapshotGenerator(this);
+        ArrayList<File> pathImages = sg.generateImages(currentRoute);
+        ArrayList<String> webURLs = CreateGoogleFile.uploadAndGetURLs(pathImages);
+
         TextMessenger tm = new TextMessenger();
         String input_phone_number = textNum.getText();
         tm.declareRecipient(input_phone_number);
-        tm.declareMessage(MapController.currentDirections);
+//        tm.declareMessage(MapController.currentDirections);
+        try {
+            ShareGoogleFile.createPublicPermission(""+ webURLs.get(0));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String msg = ""+webURLs.get(0);
+                        tm.declareMessage(msg);
+
+
         tm.sendMessage();
         event.consume();
     }
