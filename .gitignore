@@ -5,7 +5,7 @@ build/
 database_sanitation/
 out/
 derby.log
-teamF/
+/teamF/
 *.class
 *.jar
 *.lock
