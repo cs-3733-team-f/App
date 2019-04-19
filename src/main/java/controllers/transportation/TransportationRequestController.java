@@ -67,11 +67,14 @@ public class TransportationRequestController  {
 //        initSanitation();
 //        updateSanitation();
 
+        // TODO add back in
+        /*
         SearchAPI txtStartSearchAPI = new SearchAPI(txtStartSearch);
         SearchAPI txtEndSearchAPI = new SearchAPI(txtEndSearch);
 
         txtStartSearchAPI.searchable();
         txtEndSearchAPI.searchable();
+        */
 
         initTransportation();
         updateTransportation();
@@ -134,7 +137,7 @@ public class TransportationRequestController  {
         Location start = mc.getMap().getLocation(MapController.getTempStart());
         Location end = tblData.getSelectionModel().getSelectedItem().getLocation();
         PathFinder.printPath(mc, start, end);
-        mc.getTabMenu().getSelectionModel().select(0);
+//        mc.getTabMenu().getSelectionModel().select(0);
     }
 
     public void tblClick(){

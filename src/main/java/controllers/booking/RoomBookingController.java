@@ -8,6 +8,7 @@ import database.BookLocationTable;
 import database.Database;
 import database.LocationTable;
 import database.RoomTable;
+import google.FirebaseAPI;
 import helpers.Constants;
 import helpers.DatabaseHelpers;
 import helpers.UserHelpers;
@@ -24,6 +25,7 @@ import models.user.User;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,6 +71,7 @@ public class RoomBookingController {
     public void initialize() {
 
         btnBookSelected.setVisible(false);
+        btnCancel.setVisible(false);
 
         // Add listeners for date and time pickers
         datStartDay.valueProperty().addListener((observable, oldValue, newValue) -> {
@@ -233,10 +236,12 @@ public class RoomBookingController {
             populateRoomBookedTable(roomDetails);
             populateRoomBookingTable(roomsAvailable);
 
-        String calStartTime = DatabaseHelpers.getCalDateTime(startDate, startTime);
-        String calEndTime = DatabaseHelpers.getCalDateTime(endDate, endTime);
-        book.setCalStartDate(calStartTime);
-        book.setCalEndDate(calEndTime);
+        FirebaseAPI.sendBooking(book);
+
+//        ZonedDateTime calStartTime = DatabaseHelpers.getCalDateTime(startDate, startTime);
+//        ZonedDateTime calEndTime = DatabaseHelpers.getCalDateTime(endDate, endTime);
+//        book.setCalStartDate(calStartTime);
+//        book.setCalEndDate(calEndTime);
 
 //        } else {
 //
@@ -289,6 +294,18 @@ public class RoomBookingController {
 
         // Get currently authenticated user
         User currentUser = UserHelpers.getCurrentUser();
+
+        BookLocationTable.deleteBooking(selected.getRoomID());
+
+        for(int i=0; i<roomDetails.size(); i++) {
+            if(roomDetails.get(i).getRoomID().equals(selected.getRoomID())) {
+                roomDetails.remove(i);
+            }
+        }
+
+        populateRoomBookedTable(roomDetails);
+
+        FirebaseAPI.deleteBooking(selected.getRoomID());
 
     }
 

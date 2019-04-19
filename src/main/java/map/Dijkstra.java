@@ -4,14 +4,14 @@ import helpers.MapHelpers;
 import models.map.Location;
 import models.map.SubPath;
 
-import java.util.*;
+import java.util.PriorityQueue;
 
-public class BreadthSearch extends PathFinder {
-    private Queue<SubPath> queue;
+public class Dijkstra extends PathFinder {
+    private PriorityQueue<SubPath> queue;
 
     @Override
     protected void setUp(Location start) {
-        queue = new LinkedList<>();
+        queue = new PriorityQueue<>();
         SubPath sStart = new SubPath("", start, 0.0);
         queue.add(sStart);
     }
@@ -33,7 +33,7 @@ public class BreadthSearch extends PathFinder {
 
     @Override
     protected double getDist(SubPath loc1, SubPath loc2) {
-        return 0;
+        return loc1.getDist() + loc2.getDist();
     }
 
     @Override
@@ -43,6 +43,6 @@ public class BreadthSearch extends PathFinder {
 
     @Override
     public MapHelpers.Algorithm getAlg() {
-        return MapHelpers.Algorithm.BFS;
+        return MapHelpers.Algorithm.DIJKSTRA;
     }
 }

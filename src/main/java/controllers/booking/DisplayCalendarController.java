@@ -4,21 +4,26 @@ import com.calendarfx.model.Calendar;
 import com.calendarfx.model.CalendarSource;
 import com.calendarfx.model.Entry;
 import com.calendarfx.view.CalendarView;
+import com.calendarfx.view.DateControl;
 import database.BookLocationTable;
 import database.BookWorkspaceTable;
 import database.LocationTable;
+import database.WorkspaceTable;
+import helpers.DatabaseHelpers;
 import helpers.UserHelpers;
 import javafx.application.Platform;
 import javafx.scene.layout.BorderPane;
 import models.map.Location;
+import models.map.Workspace;
 import models.room.Book;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 
-public class DisplayCalendarController {
+public class DisplayCalendarController extends DateControl {
 
     public BorderPane primaryStage;
     public Calendar locations;
@@ -67,7 +72,7 @@ public class DisplayCalendarController {
 
                     try {
                         // update every 10 seconds
-                        sleep(1000);
+                        sleep(10000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -105,16 +110,28 @@ public class DisplayCalendarController {
 
     public void setWorkspaces(){
         List<Book> bookingsForUser = BookWorkspaceTable.getBookingsForUser(UserHelpers.getCurrentUser());
-
-        if(bookingsForUser != null) {
+        for (Book bk : bookingsForUser) {
+            String[] start = bk.getStartDate().split(" ");
+            String[] end = bk.getEndDate().split(" ");
+            String startDay = start[0];
+            String startTime = start[1].substring(0, start[1].indexOf("."));
+            String endDay = end[0];
+            String endTime = end[1].substring(0, end[1].indexOf("."));
+            ZonedDateTime calStartTime = DatabaseHelpers.getCalDateTime(startDay, startTime);
+            ZonedDateTime calEndTime = DatabaseHelpers.getCalDateTime(endDay, endTime);
+            bk.setCalStartDate(calStartTime);
+            bk.setCalEndDate(calEndTime);
+        }
+        if (bookingsForUser != null) {
             for (Book book : bookingsForUser) {
                 String roomID = book.getRoomID();
-                Location room = LocationTable.getLocationByID(roomID);
+                Workspace room = WorkspaceTable.getWorkspaceByID(roomID);
 
-                if(room != null) {
+                if (room != null && book.getCalStartDate() != null) {
                     String name = room.getLongName();
                     Entry<String> newEntry = new Entry<>(name);
-                    workspaces.addEntry(newEntry);
+                    createEntryAt(book.getCalStartDate(), workspaces);
+                    getWorkspaces().addEntry(newEntry);
                 }
             }
         }
@@ -122,16 +139,28 @@ public class DisplayCalendarController {
 
     public void setLocations() {
         List<Book> bookingsForUser = BookLocationTable.getBookingsForUser(UserHelpers.getCurrentUser());
-
+        for (Book bk : bookingsForUser) {
+            String[] start = bk.getStartDate().split(" ");
+            String[] end = bk.getEndDate().split(" ");
+            String startDay = start[0];
+            String startTime = start[1].substring(0, start[1].indexOf("."));
+            String endDay = end[0];
+            String endTime = end[1].substring(0, end[1].indexOf("."));
+            ZonedDateTime calStartTime = DatabaseHelpers.getCalDateTime(startDay, startTime);
+            ZonedDateTime calEndTime = DatabaseHelpers.getCalDateTime(endDay, endTime);
+            bk.setCalStartDate(calStartTime);
+            bk.setCalEndDate(calEndTime);
+        }
         if (bookingsForUser != null) {
             for (Book book : bookingsForUser) {
                 String roomID = book.getRoomID();
                 Location room = LocationTable.getLocationByID(roomID);
 
-                if (room != null) {
+                if (room != null && book.getCalStartDate() != null) {
                     String name = room.getLongName();
                     Entry<String> newEntry = new Entry<>(name);
-                    locations.addEntry(newEntry);
+                    createEntryAt(book.getCalStartDate(), locations);
+                    getLocations().addEntry(newEntry);
                 }
             }
         }

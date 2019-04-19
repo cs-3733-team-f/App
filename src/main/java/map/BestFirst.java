@@ -4,14 +4,14 @@ import helpers.MapHelpers;
 import models.map.Location;
 import models.map.SubPath;
 
-import java.util.*;
+import java.util.PriorityQueue;
 
-public class BreadthSearch extends PathFinder {
-    private Queue<SubPath> queue;
+public class BestFirst extends PathFinder {
+    private PriorityQueue<SubPath> queue;
 
     @Override
     protected void setUp(Location start) {
-        queue = new LinkedList<>();
+        queue = new PriorityQueue<>();
         SubPath sStart = new SubPath("", start, 0.0);
         queue.add(sStart);
     }
@@ -38,11 +38,13 @@ public class BreadthSearch extends PathFinder {
 
     @Override
     protected double getHeuristic(Location loc1, Location loc2) {
-        return 0;
+        double heuristic = calcDist(loc1.getxCord(), loc1.getyCord(), loc2.getxCord(), loc2.getyCord());
+        heuristic += FLOOR_HEURISTIC * Math.abs(floorToInt(loc1.getFloor()) - floorToInt(loc2.getFloor()));
+        return heuristic;
     }
 
     @Override
     public MapHelpers.Algorithm getAlg() {
-        return MapHelpers.Algorithm.BFS;
+        return MapHelpers.Algorithm.BEST;
     }
 }
