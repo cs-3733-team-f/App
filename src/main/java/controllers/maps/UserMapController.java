@@ -6,6 +6,8 @@ import com.jfoenix.controls.JFXTextField;
 import controllers.ScreenController;
 import controllers.search.SearchEngineController;
 import helpers.Constants;
+import images.ArrowConnectorShape;
+import images.SnapshotGenerator;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -24,7 +26,10 @@ import messaging.EmailMessenger;
 import messaging.TextMessenger;
 import models.search.SearchAPI;
 
+import java.io.File;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class UserMapController extends MapController {
@@ -40,8 +45,10 @@ public class UserMapController extends MapController {
     public JFXButton btnText;
     public AnchorPane AboutUs;
 
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
         super.initialize(location, resources);
         SearchEngineController.setParentController(this);
         MapDisplay.displayUser(this);
@@ -237,7 +244,24 @@ public class UserMapController extends MapController {
     }
 
     public void btn_SendDirections (MouseEvent event) {
+
         if(currentRoute == null) return;
+//        ArrowConnectorShape acs = new ArrowConnectorShape(45, 15, 0.3,
+//                ArrowConnectorShape.arrowConnectorEnum.BEGINNING, 500, 500);
+//        acs.setColor(Color.DARKBLUE);
+//        ArrowConnectorShape acs1 = new ArrowConnectorShape(45, 15, .3,
+//                ArrowConnectorShape.arrowConnectorEnum.MIDDLE, 500, 540);
+//        acs.setColor(Color.DARKBLUE);
+//        ArrowConnectorShape acs2 = new ArrowConnectorShape(45, 15, 0.3,
+//                ArrowConnectorShape.arrowConnectorEnum.END, 500, 580);
+//        acs.setColor(Color.DARKBLUE);
+//        panMap.getChildren().add(acs.getPolygon());
+//        panMap.getChildren().add(acs1.getPolygon());
+//        panMap.getChildren().add(acs2.getPolygon());
+
+        SnapshotGenerator sg = new SnapshotGenerator(this);
+        List<File> files = sg.generateImages(currentRoute);
+
         TextMessenger tm = new TextMessenger();
         String input_phone_number = "+1"+textNum.getText();
         tm.declareRecipient(input_phone_number);

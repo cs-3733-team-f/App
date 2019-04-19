@@ -1,5 +1,6 @@
 package helpers;
 
+import com.google.cloud.storage.*;
 import controllers.maps.AdminMapController;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
@@ -11,7 +12,13 @@ import models.map.Edge;
 import models.map.Location;
 import models.map.Map;
 
+import javax.imageio.ImageIO;
 import java.awt.Point;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class UIHelpers {
 
@@ -83,6 +90,25 @@ public class UIHelpers {
             c.setFill(Color.WHITE);
         }
         return c;
+    }
+    public void deleteThis() {
+//        Storage storage = StorageOptions.getDefaultInstance().getService();
+//
+//        BlobId blobId = BlobId.of(STORAGE_BUCKET, "blob_name");
+//        BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("image/png").build();
+//        BufferedImage bImage = ImageIO.read(new File("sample.png"));
+//        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+//        ImageIO.write(bImage, "png", bos );
+//        byte [] data = bos.toByteArray();
+//        Blob blob = storage.create(blobInfo, data);
+
+//        Bitmap bmp =  BitmapFactory.decodeResource(getResources(),
+//                R.drawable.chicken);//your image
+//        ByteArrayOutputStream bYtE = new ByteArrayOutputStream();
+//        bmp.compress(Bitmap.CompressFormat.PNG, 100, bYtE);
+//        bmp.recycle();
+//        byte[] byteArray = bYtE.toByteArray();
+//        String imageFile = Base64.encodeToString(byteArray, Base64.DEFAULT);
     }
 
 }

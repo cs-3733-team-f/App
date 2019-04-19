@@ -80,7 +80,6 @@ public abstract class MapController implements Initializable {
         gesMap.setMaxScale(MAX_ZOOM);
         gesMap.setMinScale(MIN_ZOOM);
         gesMap.setFitMode(GesturePane.FitMode.COVER);
-
         updateButtons();
         Image img = ImageFactory.getImage("3");
         imgMap.setImage(img);
@@ -143,6 +142,14 @@ public abstract class MapController implements Initializable {
         updateLines();
         updateButtons();
         displayHint();
+    }
+    public boolean iterateFloors() {
+        String lstFloor = lstLineTransits.get(transitIt - 1).getFloor();
+        floor = lstFloor;
+        imgMap.setImage(ImageFactory.getImage(floor));
+        updateLines();
+        updateButtons();
+        return iterateScreens();
     }
 
     public abstract void showFloor(String newFloor);
@@ -219,14 +226,29 @@ public abstract class MapController implements Initializable {
         String startFloor = lstLineTransits.get(transitIt++).getFloor();
         showFloor(startFloor);
     };
-
+    private boolean iterateScreens() {
+        if (lstLineTransits.size() > 0 && lstLineTransits.size() >= transitIt) {
+            String lstFloor = lstLineTransits.get(transitIt - 1).getFloor();
+            if (lstFloor.equals(floor)) {
+                clearArrow();
+                Path line = lstLineTransits.get(transitIt - 1).getLine();
+                immediatePanToLine(line);
+                if (lstLineTransits.size()>= transitIt) {
+                    transitIt++;
+                    return true;
+                } else return false;
+            }
+            return true;
+        }
+        return false;
+    }
     private void displayHint() {
         if (lstLineTransits.size() > 0 && lstLineTransits.size() >= transitIt) {
             String lstFloor = lstLineTransits.get(transitIt - 1).getFloor();
             if (lstFloor.equals(floor)) {
                 clearArrow();
                 Path line = lstLineTransits.get(transitIt - 1).getLine();
-                panToLine(line);
+                immediatePanToLine(line);
                 if (lstLineTransits.size() > transitIt) {
                     String nxtFloor = lstLineTransits.get(transitIt++).getFloor();
                     displayArrow(nxtFloor);
@@ -324,7 +346,37 @@ public abstract class MapController implements Initializable {
             btn.getStyleClass().add("unhighlight");
         }
     }
+    private void immediatePanToLine(Path line) {
+        gesMap.reset();
+        Bounds lineBounds = line.getBoundsInLocal();
+        double startX = lineBounds.getMinX();
+        double startY = lineBounds.getMinY();
+        double endX = lineBounds.getMaxX();
+        double endY = lineBounds.getMaxY();
+        if (endX >= 0.0) {
+            Point2D middle = new Point2D((startX + endX) / 2, (startY + endY) / 2);
 
+            double lineWidth = lineBounds.getWidth();
+            double lineHeight = lineBounds.getHeight();
+            Bounds gesView = gesMap.getTargetViewport();
+            double gesWidth = gesView.getWidth();
+            double gesHeight = gesView.getHeight();
+            double zoomWidth = (gesWidth - lineWidth) / gesWidth;
+            double zoomHeight = (gesHeight - lineHeight) / gesHeight;
+            double zoom = zoomWidth < zoomHeight ? zoomWidth : zoomHeight;
+            if (zoom > 0) {
+                zoom *= 1 - ZOOM_BUFFER;
+            } else {
+                zoom *= 1 + ZOOM_BUFFER;
+            }
+            gesMap.centreOn(middle);
+            gesMap.zoomBy(zoom, middle);
+        } else {
+            MoveTo mt = ((MoveTo) line.getElements().get(0));
+            Point2D pnt = new Point2D(mt.getX(), mt.getY());
+            gesMap.centreOn(pnt);
+        }
+    }
     private void panToLine(Path line) {
         gesMap.reset();
         Bounds lineBounds = line.getBoundsInLocal();
@@ -358,5 +410,13 @@ public abstract class MapController implements Initializable {
                 gesMap.animate(Duration.millis(ANIMATION_TIME)).centreOn(pnt);
             }).zoomBy(2, pnt);
         }
+    }
+
+    public int getTransitIt() {
+        return transitIt;
+    }
+
+    public void setTransitIt(int transitIt) {
+        this.transitIt = transitIt;
     }
 }

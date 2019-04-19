@@ -21,6 +21,7 @@ public class SnapshotGenerator {
     private MapController mc;
     private int x_min = 0, x_max = 0, y_min = 0, y_max = 0;
     public static final int PADDING = 50;
+    public static final int MIN_X = 0, MIN_Y = 0, MAX_X = 700, MAX_Y = 700;
     public SnapshotGenerator(MapController mc) {
         this.mc = mc;
         this.panMap = mc.gesMap;
@@ -48,40 +49,50 @@ public class SnapshotGenerator {
     public ArrayList<File> generateImages(Stack<Location> route) {
 //        WritableImage image = panMap.snapshot(new SnapshotParameters(), null);
         ArrayList<File> imageLocations = new ArrayList<File>();
-
-        ArrayList<String> floorQueue = new ArrayList<String>();
-        ArrayList<Location> localLocationsForBoundaries = new ArrayList<Location>();
-        ArrayList<Location> allLocations = new ArrayList<Location>();
-        String curFloor = "";
-        for(Location loc : route) {
-            if(!curFloor.equals(loc.getFloor())) {
-                curFloor = loc.getFloor();
-                floorQueue.add(curFloor);
-            }
-            allLocations.add(loc);
+        int localIndex = mc.getTransitIt();
+        String curFloor = mc.getFloor();
+        mc.setTransitIt(1);
+        while(mc.iterateFloors()) {
+            WritableImage wi = generateFloorImage();
+            File localFile = (writeToRandomFile(wi));
+            resizeImage(localFile);
+            imageLocations.add(localFile);
         }
-
-        for(String floor : floorQueue) {
-            int i = 0;
-            for(i = 0; i < allLocations.size() && floor.equals(allLocations.get(i).getFloor()); i++) {
-                localLocationsForBoundaries.add(allLocations.get(i));
-            }
-            while(i > 0) allLocations.remove(--i);
-            int[] boundsForFloor = determineBoundaries(localLocationsForBoundaries);
-            localLocationsForBoundaries.clear();
-                WritableImage wi = generateFloorImage(floor, boundsForFloor);
-                File localFile = (writeToRandomFile(wi));
-                resizeImage(localFile);
-                imageLocations.add(localFile);
-        }
+        mc.setTransitIt(localIndex);
+        mc.showFloor(curFloor);
         return imageLocations;
+//        ArrayList<String> floorQueue = new ArrayList<String>();
+//        ArrayList<Location> localLocationsForBoundaries = new ArrayList<Location>();
+//        ArrayList<Location> allLocations = new ArrayList<Location>();
+//        String curFloor = "";
+//        for(Location loc : route) {
+//            if(!curFloor.equals(loc.getFloor())) {
+//                curFloor = loc.getFloor();
+//                floorQueue.add(curFloor);
+//            }
+//            allLocations.add(loc);
+//        }
+//
+//        for(String floor : floorQueue) {
+//            int i = 0;
+//            for(i = 0; i < allLocations.size() && floor.equals(allLocations.get(i).getFloor()); i++) {
+//                localLocationsForBoundaries.add(allLocations.get(i));
+//            }
+//            while(i > 0) allLocations.remove(--i);
+//            localLocationsForBoundaries.clear();
+//                WritableImage wi = generateFloorImage(floor, boundsForFloor);
+//                File localFile = (writeToRandomFile(wi));
+//                resizeImage(localFile);
+//                imageLocations.add(localFile);
+//        }
+//        return imageLocations;
     }
     public void resizeImage(File f) {
         try {
 
             BufferedImage image = ImageIO.read(f);
 
-            BufferedImage resized = resize(image, 750, 750);
+            BufferedImage resized = resize(image, MAX_X/2, MAX_Y/2);
 
             ImageIO.write(resized, "png", f);
         } catch(Exception e) {
@@ -98,6 +109,18 @@ public class SnapshotGenerator {
     }
     public  WritableImage generateSnapshot(int[] boundaries, Location loc) {
         return generateSnapshot(boundaries, loc.getFloor());
+    }
+    public  WritableImage generateSnapshot(int[] boundaries) {
+        //setSelectedPane(s);
+        SnapshotParameters shp = new SnapshotParameters();
+        Rectangle2D viewPort = new Rectangle2D(boundaries[0], boundaries[2], boundaries[1]-boundaries[0],
+                boundaries[3]- boundaries[2]);
+        shp.setViewport(viewPort);
+//        double scale = 256 / viewPort.getWidth();
+//        shp.setTransform(Transform.scale(scale, scale, panMap.getWidth() / 2, panMap.getHeight() / 2));
+        WritableImage snap = panMap.snapshot(shp, null);
+
+        return snap;
     }
     public  WritableImage generateSnapshot(int[] boundaries, String s) {
         //setSelectedPane(s);
@@ -132,5 +155,8 @@ public class SnapshotGenerator {
     public WritableImage generateFloorImage(String floor, int[] boundaries) {
        mc.showFloor(floor);
         return generateSnapshot(boundaries, floor);
+    }
+    public WritableImage generateFloorImage() {
+        return generateSnapshot(new int[]{MIN_X, MAX_X, MIN_Y, MAX_Y});
     }
 }
