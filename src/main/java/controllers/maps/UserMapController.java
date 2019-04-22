@@ -7,6 +7,7 @@ import com.jfoenix.controls.JFXToggleButton;
 import controllers.ScreenController;
 import controllers.search.SearchEngineController;
 import helpers.Constants;
+import helpers.DarkModeHelper;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -19,6 +20,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Path;
+import javafx.stage.Screen;
 import map.MapDisplay;
 import map.PathFinder;
 import messaging.EmailMessenger;
@@ -28,6 +30,8 @@ import models.search.SearchAPI;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import static jdk.nashorn.internal.codegen.CompilerConstants.CONSTANTS;
 
 public class UserMapController extends MapController {
 
@@ -41,6 +45,7 @@ public class UserMapController extends MapController {
     public ImageView imgText;
     public JFXButton btnText;
     public AnchorPane AboutUs;
+    public helpers.DarkModeHelper FileStreamsTest;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -119,8 +124,7 @@ public class UserMapController extends MapController {
         btnDarkMode.setTextOverrun(OverrunStyle.CLIP);
 
         btnDarkMode.setOnAction(event -> {
-            ScreenController.sceneThing.getStylesheets().remove("css/colorScheme.css");
-                ScreenController.sceneThing.getStylesheets().add("css/dark-theme.css");
+            FileStreamsTest.getAllNodes(ScreenController.sceneThing.getRoot());
                // ScreenController.sceneThing.getStylesheets().remove("dark-theme.css");
         });
 
