@@ -2,11 +2,13 @@ package controllers.maps;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTabPane;
+import helpers.Constants;
 import images.ImageFactory;
 import javafx.animation.Interpolator;
 import javafx.fxml.Initializable;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TitledPane;
@@ -16,7 +18,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.util.Duration;
@@ -50,11 +54,10 @@ public abstract class MapController implements Initializable {
     public JFXButton btnFloorG;
     public JFXButton btnFloorL1;
     public JFXButton btnFloorL2;
-    public JFXButton btnReturn;
     public Pane panMap;
     public ScrollPane txtPane;
-    public AnchorPane tilDirections;
     public JFXTabPane tabMenu;
+    public VBox vbxButtons;
 
     protected String floor;
     protected List<LineTuple> lstLineTransits;
@@ -82,7 +85,7 @@ public abstract class MapController implements Initializable {
         gesMap.setMinScale(MIN_ZOOM);
         gesMap.setFitMode(GesturePane.FitMode.COVER);
 
-        updateButtons();
+        addFloorBtns();
         Image img = ImageFactory.getImage(floor);
         imgMap.setImage(img);
         addDoc();
@@ -158,8 +161,8 @@ public abstract class MapController implements Initializable {
         floor = newFloor;
         imgMap.setImage(ImageFactory.getImage(floor));
         updateLines();
-        updateButtons();
-        displayHint();
+//        updateButtons();
+//        displayHint();
     }
 
     public abstract void showFloor(String newFloor);
@@ -191,6 +194,72 @@ public abstract class MapController implements Initializable {
         return gesMap;
     }
 
+    private void addFloorBtns() {
+        final double HBX_SPACING = 10.0;
+
+        vbxButtons.getChildren().clear();
+        String[] strFloors = new String[] {"4", "3", "2", "1", "G", "L1", "L2"};
+        for (String strFloor : strFloors) {
+            HBox hbx = new HBox();
+            hbx.setAlignment(Pos.CENTER_LEFT);
+            hbx.setSpacing(HBX_SPACING);
+
+            JFXButton btn = new JFXButton();
+            btn.setText(strFloor);
+            btn.getStyleClass().add("jfx-button");
+            btn.getStyleClass().add("animated-option-button");
+            btn.setOnMouseClicked((e) -> {
+                showFloor(strFloor);
+            });
+
+            hbx.getChildren().add(btn);
+            vbxButtons.getChildren().add(hbx);
+        }
+    }
+
+    private void addBreadCrumbs() {
+        final double HBX_SPACING = 10.0;
+
+        vbxButtons.getChildren().clear();
+
+        for (LineTuple lt : lstLineTransits) {
+            String strFloor = lt.floor;
+
+            HBox hbx = new HBox();
+            hbx.setAlignment(Pos.CENTER_LEFT);
+            hbx.setSpacing(HBX_SPACING);
+
+            JFXButton btn = new JFXButton();
+            btn.setText(strFloor);
+            btn.getStyleClass().add("jfx-button");
+            btn.getStyleClass().add("animated-option-button");
+            btn.setOnMouseClicked((e) -> {
+                showFloorHelper(strFloor);
+                displayHint();
+            });
+
+            hbx.getChildren().add(btn);
+            vbxButtons.getChildren().add(hbx);
+        }
+
+        HBox hbxCancel = new HBox();
+        hbxCancel.setSpacing(HBX_SPACING);
+        hbxCancel.setAlignment(Pos.CENTER_LEFT);
+        JFXButton btnCancel = new JFXButton();
+
+        btnCancel.setText("X");
+        btnCancel.getStyleClass().add("jfx-cancel-button");
+        btnCancel.getStyleClass().add("animated-option-button");
+        btnCancel.setOnMouseClicked((e) -> {
+            addFloorBtns();
+            clearMap();
+            showFloor(floor);
+        });
+
+        hbxCancel.getChildren().add(btnCancel);
+        vbxButtons.getChildren().add(hbxCancel);
+    }
+
     public void addLine(Path line, String floor) {
         lstLineTransits.add(new LineTuple(line, floor));
         updateLines();
@@ -208,34 +277,34 @@ public abstract class MapController implements Initializable {
         }
     }
 
-    public void clearPath(Location end) {
+    public void clearTransit() {
         lstLineTransits = new LinkedList<>();
         transitIt = 0;
+    }
 
-        List<Node> lstNodes = new ArrayList<>();
-        for (Node n : panMap.getChildren()) {
-            if (n instanceof Path) {
-                lstNodes.add(n);
-            } else if (n instanceof Circle) {
-                Circle circle = (Circle) n;
-                if (circle.getFill().equals(MapDisplay.nodeEnd)) {
-                    circle.setFill(MapDisplay.nodeFill);
-                }
-                if (end != null && circle.getId().equals(end.getNodeID())) {
-                    circle.setFill(MapDisplay.nodeEnd);
-                }
-            }
-        }
-        for (Node n : lstNodes) {
-            panMap.getChildren().remove(n);
-        }
+    public void clearMap() {
+        panMap.getChildren().clear();
     }
 
     public void displayPath(Path line) {
         panMap.getChildren().add(0, line);
         String startFloor = lstLineTransits.get(transitIt++).getFloor();
-        showFloor(startFloor);
-    };
+        showFloorHelper(startFloor);
+        addBreadCrumbs();
+    }
+
+    public void displayLocations(Stack<Location> path) {
+        Location start = path.pop();
+        Circle startCircle = MapDisplay.createCircle(this, start, MapDisplay.NodeStyle.REGULAR, 1, Constants.Routes.USER_INFO, false);
+        panMap.getChildren().add(startCircle);
+        while (!path.isEmpty()) {
+            Location loc = path.pop();
+            if (path.size() == 0) {
+                Circle circle = MapDisplay.createCircle(this, loc, MapDisplay.NodeStyle.REGULAR, 1, Constants.Routes.USER_INFO, false);
+                panMap.getChildren().add(circle);
+            }
+        }
+    }
 
     private void displayHint() {
         if (lstLineTransits.size() > 0 && lstLineTransits.size() >= transitIt) {
@@ -270,7 +339,7 @@ public abstract class MapController implements Initializable {
         return map;
     }
 
-    private void updateButtons() {
+    /*private void updateButtons() {
         styleButton(btnFloor4, false);
         styleButton(btnFloor3, false);
         styleButton(btnFloor2, false);
@@ -301,7 +370,7 @@ public abstract class MapController implements Initializable {
                 styleButton(btnFloorL2, true);
                 break;
         }
-    }
+    }*/
 
     /*private void clearArrow() {
         imgArrow3.setImage(null);

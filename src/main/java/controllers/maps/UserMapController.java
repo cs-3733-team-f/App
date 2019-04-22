@@ -75,12 +75,6 @@ public class UserMapController extends MapController {
     }
 
     @Override
-    public void displayPath(Path line) {
-        super.displayPath(line);
-        MapDisplay.displayUser(this);
-    }
-
-    @Override
     protected void addDoc() {
         ImageView imgUser = new ImageView();
         imgUser.setImage(new Image("images/Icons/user.png"));
