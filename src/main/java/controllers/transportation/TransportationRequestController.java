@@ -4,6 +4,7 @@ import com.jfoenix.controls.*;
 import controllers.maps.MapController;
 import database.LocationTable;
 import database.TransportationTable;
+import helpers.DatabaseHelpers;
 import helpers.UserHelpers;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -24,29 +25,22 @@ import java.util.*;
 
 public class TransportationRequestController  {
 
-//   public JFXComboBox cmbStartLoc;
-//   public JFXComboBox cmbEndLoc;
     public JFXTextField txtStartSearch;
     public JFXTextField txtEndSearch;
-
-
     public JFXTextField txtDetails;
-   public JFXDatePicker datDate;
-   public JFXTimePicker datTime;
+    public JFXDatePicker datDate;
+    public JFXTimePicker datTime;
 
     public JFXButton btnSettings;
     public TableView<TransportationRequest> tblData;
-    //public TableColumn<SanitationRequest,String> tblRequestID;
     public TableColumn<TransportationRequest,String> tblStartLoc;
     public TableColumn<TransportationRequest,String> tblEndLoc;
     public TableColumn<TransportationRequest,String> tblDetails;
-    public TableColumn<TransportationRequest,String> tblTime;
-    public TableColumn<TransportationRequest,String> tblDate;
+    public TableColumn<TransportationRequest,String> tblRequestTime;
     public TableColumn<TransportationRequest,String> tblRequester;
     public TableColumn<TransportationRequest,String> tblClaimTime;
     public TableColumn<TransportationRequest,String> tblServicer;
     public TableColumn<TransportationRequest,String> tblServiceTime;
-
 
     public JFXButton btnSendRequest;
     public JFXButton btnMarkDone;
@@ -78,11 +72,7 @@ public class TransportationRequestController  {
 
         tblData.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {// only enable btns if item selected
             btnDelete.setDisable(false);
-
         });
-
-
-
 
         //todo fix navigate btn disable
 
@@ -111,21 +101,18 @@ public class TransportationRequestController  {
         tblEndLoc.setCellValueFactory(new PropertyValueFactory<>("EndShortName"));
         tblDetails.setCellValueFactory(new PropertyValueFactory<>("Description"));
         tblRequester.setCellValueFactory(new PropertyValueFactory<>("RequesterUserName"));
-//        tblDate.setCellValueFactory(new PropertyValueFactory<>("DueDate"));
-//        tblTime.setCellValueFactory(new PropertyValueFactory<>("DueTime"));
+        tblRequestTime.setCellValueFactory(new PropertyValueFactory<>("RequestTime"));
         tblClaimTime.setCellValueFactory(new PropertyValueFactory<>("ClaimedTime"));
         tblServiceTime.setCellValueFactory(new PropertyValueFactory<>("CompletedTime"));
         tblServicer.setCellValueFactory(new PropertyValueFactory<>("ServicerUserName"));
-        //System.out.println(transports.toString());
         tblData.setItems(transports);
-
     }
 
     private List updateTransportation() {
         List<TransportationRequest> lstReqs = TransportationTable.getTransportationRequests();
-        if (lstReqs != null){
-            transports.addAll(lstReqs);
-    }
+        if (lstReqs != null) {
+            transports.setAll(lstReqs);
+        }
         return lstReqs;
     }
 
@@ -253,15 +240,26 @@ public class TransportationRequestController  {
         // Get request data from UI fields
         String description = txtDetails.getText();
 
-        //get locations form search fields
-        Location startLoc =LocationTable.getLocationByLongName(txtStartSearch.getText()).iterator().next();
-        Location endLoc=LocationTable.getLocationByLongName(txtEndSearch.getText()).iterator().next();
+        // Get locations form search fields
+        Location startLoc = LocationTable.getLocationByLongName(txtStartSearch.getText()).iterator().next();
+        Location endLoc = LocationTable.getLocationByLongName(txtEndSearch.getText()).iterator().next();
 
-        TransportationRequest request = new TransportationRequest(startLoc,endLoc, txtDetails.getText(),datDate.toString(),datTime.toString(), UserHelpers.getCurrentUser());
+        // Get date and time from JFX fields
+        String dateTime = DatabaseHelpers.getDateTime(datDate.getValue(), datTime.getValue());
+        Timestamp requestTime = Timestamp.valueOf(dateTime);
 
+        // Add request to database
+        TransportationRequest request = new TransportationRequest(startLoc, endLoc, description, UserHelpers.getCurrentUser(), requestTime);
         TransportationTable.addTransportationRequest(request);
 
+        // Clear input fields
+        txtStartSearch.setText("");
+        txtEndSearch.setText("");
+        txtDetails.setText("");
+        datDate.getEditor().clear();
+        datTime.getEditor().clear();
 
+        // Update transportation table
         updateTransportation();
         tblData.refresh();
     }

@@ -7,13 +7,10 @@ package models.services;
 import models.map.Location;
 import models.user.User;
 import java.sql.Timestamp;
-import java.util.Date;
 
 public class TransportationRequest extends ServiceRequest implements Comparable<TransportationRequest> {
 
-    Location destination;   // Destination of transportation
-    String requestedTime;
-    String requestedDate;
+    private Location destination;   // Destination of transportation
 
     /**
      * @brief Constructs new transportation request to add to database.
@@ -21,23 +18,21 @@ public class TransportationRequest extends ServiceRequest implements Comparable<
      * @param destination Destination of the request
      * @param description Textual description of request
      * @param requester Employee who made request
+     * @param requestTime Time when the request should be made
      */
     public TransportationRequest(
             Location location,
             Location destination,
             String description,
-            String requestedTime,
-            String requestedDate,
-            User requester)
+            User requester,
+            Timestamp requestTime)
     {
         super(
                 0, location, Status.INCOMPLETE, description,
-                requester, new Timestamp(new Date().getTime()),
+                requester, requestTime,
                 null, null, null
         );
         this.destination = destination;
-        this.requestedDate=requestedDate;
-        this.requestedTime=requestedTime;
     }
 
     /**
@@ -78,17 +73,12 @@ public class TransportationRequest extends ServiceRequest implements Comparable<
     public Location getDestination() {
         return destination;
     }
-
-    public String getStartShortName(){return location.getShortName();}
-
-    public String getEndShortName(){return location.getShortName();}
-
-    public String getDueDate(){return this.requestedDate;}
-    public String getDueTime(){return this.requestedTime;}
-
-
-
-
+    public String getStartShortName(){
+        return location.getShortName();
+    }
+    public String getEndShortName(){
+        return destination.getShortName();
+    }
 
     /**
      * @brief Compares transportation requests based on request time (default).
