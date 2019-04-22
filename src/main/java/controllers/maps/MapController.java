@@ -5,9 +5,13 @@ import com.jfoenix.controls.JFXTabPane;
 import helpers.Constants;
 import images.ImageFactory;
 import javafx.animation.Interpolator;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
 import javafx.geometry.Bounds;
+import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -21,6 +25,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.MoveTo;
@@ -33,6 +38,7 @@ import models.map.Map;
 import net.kurobako.gesturefx.GesturePane;
 
 import java.net.URL;
+import java.sql.Time;
 import java.util.*;
 
 public abstract class MapController implements Initializable {
@@ -69,10 +75,12 @@ public abstract class MapController implements Initializable {
     public static Stack<Location> currentRoute;
     public static String currentDirections;
     protected Map map;
+    private List<Timeline> lstTls;
 
     public MapController() {
         floor = "1";
         lstLineTransits = new LinkedList<>();
+        lstTls = new ArrayList<>();
         currMapControl = this;
         currentDirections = null;
         currentRoute = null;
@@ -195,8 +203,11 @@ public abstract class MapController implements Initializable {
 
     private void addFloorBtns() {
         final double HBX_SPACING = 10.0;
+        final double VBX_SPACING = 25.0;
 
         vbxButtons.getChildren().clear();
+        vbxButtons.setSpacing(VBX_SPACING);
+
         String[] strFloors = new String[] {"4", "3", "2", "1", "G", "L1", "L2"};
         for (String strFloor : strFloors) {
             HBox hbx = new HBox();
@@ -222,14 +233,17 @@ public abstract class MapController implements Initializable {
 
     private void addBreadCrumbs() {
         final double HBX_SPACING = 10.0;
+        final double VBX_SPACING = 1.0;
+        final double VBX_HEIGHT = 50.0;
 
         vbxButtons.getChildren().clear();
+        vbxButtons.setSpacing(VBX_SPACING);
 
         for (LineTuple lt : lstLineTransits) {
             String strFloor = lt.floor;
 
             HBox hbx = new HBox();
-            hbx.setAlignment(Pos.CENTER_LEFT);
+            hbx.setAlignment(Pos.CENTER);
             hbx.setSpacing(HBX_SPACING);
 
             JFXButton btn = new JFXButton();
@@ -239,16 +253,34 @@ public abstract class MapController implements Initializable {
             btn.setOnMouseClicked((e) -> {
                 showFloorHelper(strFloor);
                 displayHint(hbx);
-                updateButtons(btn);
+                updateBreadButtons(btn);
             });
 
             hbx.getChildren().add(btn);
             vbxButtons.getChildren().add(hbx);
+
+            VBox vbxLoad = new VBox();
+            vbxLoad.setSpacing(VBX_SPACING);
+            vbxLoad.setPrefHeight(VBX_HEIGHT);
+
+            final int NUM_DOTS = 3;
+            final double DOT_RADIUS = 5.0;
+            for (int i = 0; i < NUM_DOTS; i++) {
+                HBox hbxDot = new HBox();
+                hbxDot.setPrefHeight(15.0);
+                hbxDot.setAlignment(Pos.CENTER_LEFT);
+                hbxDot.setPadding(new Insets(0, 0, 0, 20));
+                Circle dot = new Circle(DOT_RADIUS);
+                dot.setFill(Color.BLACK);
+                hbxDot.getChildren().add(dot);
+                vbxLoad.getChildren().add(hbxDot);
+            }
+            vbxButtons.getChildren().add(vbxLoad);
         }
 
         HBox hbxCancel = new HBox();
         hbxCancel.setSpacing(HBX_SPACING);
-        hbxCancel.setAlignment(Pos.CENTER_LEFT);
+        hbxCancel.setAlignment(Pos.CENTER);
         JFXButton btnCancel = new JFXButton();
 
         btnCancel.setText("X");
@@ -314,12 +346,14 @@ public abstract class MapController implements Initializable {
     private void displayHint(HBox btnHbox) {
         if (lstLineTransits.size() > 0) {
             ObservableList<Node> lstNodes = vbxButtons.getChildren();
-            for (int i = 0; i < lstNodes.size(); i++) {
-                Node n = lstNodes.get(i);
-                if (n.equals(btnHbox)) {
-                    Path line = lstLineTransits.get(i).getLine();
-                    panner(line);
-                    break;
+            int i = 0;
+            for (Node n : vbxButtons.getChildren()) {
+                if (n instanceof HBox) {
+                    if (n.equals(btnHbox)) {
+                        panner(lstLineTransits.get(i).getLine());
+                        break;
+                    }
+                    i++;
                 }
             }
         }
@@ -356,86 +390,80 @@ public abstract class MapController implements Initializable {
         return map;
     }
 
-    private void updateButtons(JFXButton btn) {
-        for (Node n1 : vbxButtons.getChildren()) {
-            for (Node n2 : ((HBox) n1).getChildren()) {
-                JFXButton nBtn = (JFXButton) n2;
-                if (nBtn.equals(btn)) {
-                    styleButton(nBtn, "highlight", "unhighlight");
-                } else {
-                    styleButton(nBtn, "unhighlight", "highlight");
-                }
+    private void updateBreadButtons(JFXButton btn) {
+        deAnimate();
+
+        ObservableList<Node> children = vbxButtons.getChildren();
+        for (int i = 0; i < children.size() - 1; i += 2) {
+            HBox nHbx = (HBox) children.get(i);
+            VBox nVbx = (VBox) children.get(i + 1);
+            JFXButton nBtn = (JFXButton) nHbx.getChildren().get(0);
+            if (nBtn.equals(btn)) {
+                styleButton(nBtn, "highlight", "unhighlight");
+                animateVbox(nVbx);
+            } else {
+                styleButton(nBtn, "unhighlight", "highlight");
+                resetVbox(nVbx);
             }
         }
-
-        /*styleButton(btnFloor4, false);
-        styleButton(btnFloor3, false);
-        styleButton(btnFloor2, false);
-        styleButton(btnFloor1, false);
-        styleButton(btnFloorG, false);
-        styleButton(btnFloorL1, false);
-        styleButton(btnFloorL2, false);
-        switch (floor) {
-            case "4":
-                styleButton(btnFloor4, true);
-                break;
-            case "3":
-                styleButton(btnFloor3, true);
-                break;
-            case "2":
-                styleButton(btnFloor2, true);
-                break;
-            case "1":
-                styleButton(btnFloor1, true);
-                break;
-            case "G":
-                styleButton(btnFloorG, true);
-                break;
-            case "L1":
-                styleButton(btnFloorL1, true);
-                break;
-            default:
-                styleButton(btnFloorL2, true);
-                break;
-        }*/
     }
 
-    /*private void clearArrow() {
-        imgArrow3.setImage(null);
-        imgArrow2.setImage(null);
-        imgArrow1.setImage(null);
-        imgArrowG.setImage(null);
-        imgArrowL1.setImage(null);
-        imgArrowL2.setImage(null);
-    }*/
-
-    /*private void displayArrow(String nxtFloor) {
-        switch (nxtFloor) {
-            case "3":
-                imgArrow3.setImage(ImageFactory.getImage("arrow"));
-                break;
-            case "2":
-                imgArrow2.setImage(ImageFactory.getImage("arrow"));
-                break;
-            case "1":
-                imgArrow1.setImage(ImageFactory.getImage("arrow"));
-                break;
-            case "G":
-                imgArrowG.setImage(ImageFactory.getImage("arrow"));
-                break;
-            case "L1":
-                imgArrowL1.setImage(ImageFactory.getImage("arrow"));
-                break;
-            default:
-                imgArrowL2.setImage(ImageFactory.getImage("arrow"));
-                break;
+    private void updateButtons(JFXButton btn) {
+        ObservableList<Node> children = vbxButtons.getChildren();
+        for (int i = 0; i < children.size(); i++) {
+            HBox nHbx = (HBox) children.get(i);
+            JFXButton nBtn = (JFXButton) nHbx.getChildren().get(0);
+            if (nBtn.equals(btn)) {
+                styleButton(nBtn, "highlight", "unhighlight");
+            } else {
+                styleButton(nBtn, "unhighlight", "highlight");
+            }
         }
-    }*/
+    }
 
     private void styleButton(JFXButton btn, String add, String remove) {
         btn.getStyleClass().remove(remove);
         if (!btn.getStyleClass().contains(add)) {
             btn.getStyleClass().add(add);
+        }
+    }
+
+    private void deAnimate() {
+        for (Timeline tl : lstTls) {
+            tl.stop();
+        }
+        lstTls = new ArrayList<>();
+    }
+
+    private void resetVbox(VBox vbx) {
+        for (Node n : vbx.getChildren()) {
+            HBox hbx = (HBox) n;
+            Circle c = (Circle) hbx.getChildren().get(0);
+            c.setRadius(5.0);
+        }
+    }
+
+    private void animateVbox(VBox vbx) {
+        resetVbox(vbx);
+
+        final double PULSE_TIME = 1000.0;
+        ObservableList<Node> children = vbx.getChildren();
+        for (int i = 0; i < children.size(); i++) {
+            HBox hbx = (HBox) children.get(i);
+            Circle c = (Circle) hbx.getChildren().get(0);
+            Timeline tl = new Timeline();
+            tl.setCycleCount(Timeline.INDEFINITE);
+            tl.setAutoReverse(true);
+            tl.setDelay(Duration.millis(PULSE_TIME / children.size() * i));
+
+            KeyValue kv = new KeyValue(c.radiusProperty(), 7.5);
+            Duration d = Duration.millis(PULSE_TIME);
+
+            KeyFrame kf = new KeyFrame(d, kv);
+            tl.getKeyFrames().add(kf);
+
+            tl.play();
+            lstTls.add(tl);
         }
     }
 
