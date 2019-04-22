@@ -258,6 +258,7 @@ public abstract class PathFinder {
             end.getNodeCircle().setFill(MapDisplay.nodeEnd);
         }
         mc.clearTransit();
+        mc.clearMap();
         PathContext context = SettingsController.getAlgType();
         Stack<Location> path = context.findPath(start, end);
         Stack<Location> path1 = (Stack<Location>) path.clone();
@@ -306,7 +307,6 @@ public abstract class PathFinder {
         animateLine(line);
         mc.addLine(line, currFloor);
 
-        mc.clearMap();
         mc.displayPath(line);
         mc.displayLocations(path1);
     }

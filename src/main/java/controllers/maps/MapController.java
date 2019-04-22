@@ -162,7 +162,7 @@ public abstract class MapController implements Initializable {
         imgMap.setImage(ImageFactory.getImage(floor));
         updateLines();
 //        updateButtons();
-//        displayHint();
+        displayHint();
     }
 
     public abstract void showFloor(String newFloor);
@@ -291,6 +291,8 @@ public abstract class MapController implements Initializable {
         String startFloor = lstLineTransits.get(transitIt++).getFloor();
         showFloorHelper(startFloor);
         addBreadCrumbs();
+        displayHint();
+        updateLines();
     }
 
     public void displayLocations(Stack<Location> path) {
