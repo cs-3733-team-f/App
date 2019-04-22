@@ -119,6 +119,7 @@ public class UserMapController extends MapController {
         btnDarkMode.setTextOverrun(OverrunStyle.CLIP);
 
         btnDarkMode.setOnAction(event -> {
+            ScreenController.sceneThing.getStylesheets().remove("css/colorScheme.css");
                 ScreenController.sceneThing.getStylesheets().add("css/dark-theme.css");
                // ScreenController.sceneThing.getStylesheets().remove("dark-theme.css");
         });
