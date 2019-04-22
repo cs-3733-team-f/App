@@ -4,38 +4,64 @@ import java.util.*;
 
 public class SearchEngine {
 
-    String term;
-    Set<String> results = new HashSet<>();
-    Stack<String> neighbors = new Stack<>();
-    Set<String> uniqueNeighbors = new HashSet<>();
+    private final int DAMERAU_THRESHOLD = 5;
 
-    public SearchEngine(String term) {
-        this.term = term;
-        this.search();
+    private String term;
+    double minDistance;
+    private double minDistanceKeyword;
+
+    private Set<String> results;
+    private Stack<String> neighbors;
+    private Set<String> uniqueNeighbors;
+
+    private SearchKeywords searchKeywords;
+
+    private Map<String, Double> scores;
+
+    boolean regularSearch;
+
+    public SearchEngine() {
+        searchKeywords = new SearchKeywords();
+    }
+
+    public void search(String newTerm) {
+        // Clear old results
+        results = new HashSet<>();
+        neighbors = new Stack<>();
+        uniqueNeighbors = new HashSet<>();
+
+        term = newTerm;
+
+        this.runSearch();
     }
 
     // TODO: Check if valid english word. If not, show results not found.
     // TODO: Link spanish words to categories
-    private void search() {
-
-        SearchKeywords searchKeywords = new SearchKeywords();
+    private void runSearch() {
 
         if(searchKeywords.validEnglishWord(this.term)) {
 
-            search(searchKeywords);
+            // Search for nodes
+            regularSearch = true;
+            search();
 
         } else {
 
             // Convert to valid word
-            runDamerau(searchKeywords);
+            regularSearch = false;
+            runDamerau();
 
         }
 
     }
 
-    private void search(SearchKeywords searchKeywords) {
+    private void search() {
 
-        Iterator it = searchKeywords.getKeys().entrySet().iterator();
+        System.out.println("Term: " + this.term);
+
+        Map<String, List<String>> tmp = new HashMap<>(searchKeywords.getKeys());
+
+        Iterator it = tmp.entrySet().iterator();
 
         while (it.hasNext()) {
 
@@ -47,17 +73,7 @@ public class SearchEngine {
 
             if(this.term.equals(category)) { // Found category match!
 
-                results.add(category);
-
-                for(String keysInCategory : (ArrayList<String>) pair.getValue()) {
-                    results.add(keysInCategory);
-                }
-
-                for(String s : searchKeywords.getSynonyms(this.term)) {
-
-                    neighbors.push(s);
-
-                }
+                results.addAll((ArrayList<String>) pair.getValue());
 
                 break;
 
@@ -69,18 +85,7 @@ public class SearchEngine {
 
                 if(this.term.equals(k)) { // Found match!
 
-                    results.add(k);
-
-                    for(String keysInCategory : (ArrayList<String>) pair.getValue()) {
-                        results.add(keysInCategory);
-                    }
-
-                    for(String s : searchKeywords.getSynonyms(this.term)) {
-
-                        results.add(s);
-                        neighbors.push(s);
-
-                    }
+                    results.addAll((ArrayList<String>) pair.getValue());
 
                     break;
 
@@ -95,14 +100,18 @@ public class SearchEngine {
 
     }
 
-    private void runDamerau(SearchKeywords searchKeywords) {
+    private void runDamerau() {
 
         Damerau damerau = new Damerau();
 
-        Iterator it = searchKeywords.getKeys().entrySet().iterator();
+        scores = new HashMap<>();
 
-        double minDistance = Double.MAX_VALUE;
-        double minDistanceKeyword = Double.MAX_VALUE;
+        Map<String, List<String>> tmp = new HashMap<>(searchKeywords.getKeys());
+
+        Iterator<Map.Entry<String, List<String>>> it = tmp.entrySet().iterator();
+
+        minDistance = Double.MAX_VALUE;
+        minDistanceKeyword = Double.MAX_VALUE;
 
         String closestCategory = "";
         String closestKeyword = "";
@@ -110,7 +119,7 @@ public class SearchEngine {
         while (it.hasNext()) {
 
             // Get next item
-            Map.Entry pair = (Map.Entry) it.next();
+            Map.Entry<String, List<String>> pair = it.next();
 
             // Get category
             String category = pair.getKey().toString();
@@ -120,10 +129,12 @@ public class SearchEngine {
             if(currDist < minDistance) {
                 minDistance = currDist;
                 closestCategory = category;
-//                System.out.println("currCategory: " + closestCategory);
+
+                neighbors.push(closestCategory);
+                scores.put(closestCategory, currDist);
             }
 
-            List<String> keywords = (List<String>) pair.getValue();
+            List<String> keywords = pair.getValue();
 
             for(String k : keywords) {
                 double currDistKeyword = damerau.distance(this.term, k);
@@ -131,9 +142,9 @@ public class SearchEngine {
                 if(currDistKeyword < minDistanceKeyword) {
                     minDistanceKeyword = currDistKeyword;
                     closestKeyword = k;
-//                    System.out.println("currKeyword: " + closestKeyword);
 
                     neighbors.push(closestKeyword);
+                    scores.put(closestKeyword, currDistKeyword);
                 }
             }
 
@@ -145,15 +156,16 @@ public class SearchEngine {
         if(minDistance == Double.MAX_VALUE) {
             System.out.println("No match!");
         } else {
-//            System.out.println("Distance is: " + minDistance);
-//            System.out.println("Distance for keyword is: " + minDistanceKeyword);
+            // TODO: Check string length and minimum distance
+            System.out.println("Distance is: " + minDistance);
+            System.out.println("Distance for keyword is: " + minDistanceKeyword);
 //
 //            System.out.println("Search term: " + this.term);
-//            System.out.println("Closest category: " + closestCategory);
-//            System.out.println("Closest keyword: " + closestKeyword);
+            System.out.println("Closest category: " + closestCategory);
+            System.out.println("Closest keyword: " + closestKeyword);
 
-            results.add(closestCategory);
-            results.add(closestKeyword);
+//            results.add(closestCategory);
+//            results.add(closestKeyword);
         }
 
     }
@@ -161,14 +173,17 @@ public class SearchEngine {
     public Set<String> getResults() {
 
         while(!neighbors.isEmpty()) {
+            String keyword = neighbors.pop();
 
-            String key = neighbors.pop();
-
-            uniqueNeighbors.add(key);
-
+            if(scores.get(keyword) < DAMERAU_THRESHOLD) {
+                System.out.println("calling search() with " + keyword);
+                this.search(keyword);
+                break;
+            }
         }
 
-        results.addAll(uniqueNeighbors);
+        if(regularSearch && results.size() == 0)
+            runDamerau();
 
         return results;
     }
@@ -176,7 +191,12 @@ public class SearchEngine {
     public static void main(String[] args)
     {
 
-        SearchEngine searchEngine = new SearchEngine("hola");
+        SearchEngine searchEngine = new SearchEngine();
+        searchEngine.search("doctor");
+
+        searchEngine.search("food");
+
+        searchEngine.search("drinks");
 
     }
 

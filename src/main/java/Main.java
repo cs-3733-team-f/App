@@ -1,7 +1,10 @@
 import controllers.ScreenController;
+import controllers.booking.DisplayCalendarController;
 import controllers.settings.SettingsController;
 import database.Database;
+import google.FirebaseAPI;
 import helpers.FileHelpers;
+import messaging.TextMessenger;
 import images.ImageFactory;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -30,11 +33,15 @@ public class Main extends Application {
         // Initialize keywords for search engine
         SearchKeywords.initialize();
 
+        // Initialize firebase API
+        FirebaseAPI firebaseAPI = new FirebaseAPI();
+
         // Initialize screen controller
         screenController = new ScreenController(primaryStage);
 
-        PathFinder.setDefLocation("HLABS00103");
+        PathFinder.setDefLocation("FSERV00501");
         SettingsController.setAlgType(new PathContext(new AStar()));
+        (new TextMessenger()).sendMessage();
     }
 
 }

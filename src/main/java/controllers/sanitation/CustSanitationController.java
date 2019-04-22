@@ -6,9 +6,10 @@ import controllers.maps.MapController;
 import database.SanitationTable;
 import helpers.UserHelpers;
 import javafx.scene.input.MouseEvent;
+import models.services.SanitationRequest;
 import map.PathFinder;
 import models.map.Location;
-import models.sanitation.SanitationRequest;
+import models.services.SanitationRequest;
 import models.user.User;
 
 import java.net.URL;
@@ -65,13 +66,6 @@ public class CustSanitationController extends SanitationController {
         updateBtns();
     }
 
-    private void updateClaimBtn() {
-        if (tblData.getSelectionModel().getSelectedItem() != null && tblData.getSelectionModel().getSelectedItem().getServicer() != null) {
-            btnClaim.setText("Un-Claim");
-        } else {
-            btnClaim.setText("Claim");
-        }
-    }
 
     public void markDone(MouseEvent mouseEvent) {
         SanitationRequest selected = tblData.getSelectionModel().getSelectedItem();
@@ -99,11 +93,19 @@ public class CustSanitationController extends SanitationController {
         }
     }
 
+    private void updateClaimBtn() {
+        if (tblData.getSelectionModel().getSelectedItem() != null && tblData.getSelectionModel().getSelectedItem().getServicer() != null) {
+            btnClaim.setText("Un-Claim");
+        } else {
+            btnClaim.setText("Claim");
+        }
+    }
+
     public void navigateTo(MouseEvent mouseEvent) {
         MapController mc = MapController.getCurrMapControl();
         Location start = mc.getMap().getLocation(MapController.getTempStart());
         Location end = tblData.getSelectionModel().getSelectedItem().getLocation();
         PathFinder.printPath(mc, start, end);
-        mc.getTabMenu().getSelectionModel().select(0);
+//        mc.getTabMenu().getSelectionModel().select(0);
     }
 }
