@@ -117,16 +117,10 @@ public class UserMapController extends MapController {
         btnDarkMode.setPrefHeight(60);
         btnDarkMode.setStyle("-fx-background-color: #022D5A;" + "-fx-background-radius: 30;");
         btnDarkMode.setTextOverrun(OverrunStyle.CLIP);
-        btnDarkMode.setDisable(true);
 
         btnDarkMode.setOnAction(event -> {
-            if (btnDarkMode.isDisable()) {
-                btnDarkMode.setDisable(false);
-                ScreenController.sceneThing.getStylesheets().add("dark-theme.css");
-            } else {
-                btnDarkMode.setDisable(true);
-                ScreenController.sceneThing.getStylesheets().remove("dark-theme.css");
-            }
+                ScreenController.sceneThing.getStylesheets().add("css/dark-theme.css");
+               // ScreenController.sceneThing.getStylesheets().remove("dark-theme.css");
         });
 
         ImageView imgArrow = new ImageView();
@@ -302,7 +296,7 @@ public class UserMapController extends MapController {
         searchIcons.getChildren().add(btnRest);
         searchIcons.getChildren().add(btnExit);
         searchIcons.getChildren().add(btnElev);
-        searchIcons.getChildren().add(btnInfo);
+        searchIcons.getChildren().add(btnDarkMode);
         searchIcons.setAlignment(Pos.CENTER);
 
         VBox searchNear = new VBox();

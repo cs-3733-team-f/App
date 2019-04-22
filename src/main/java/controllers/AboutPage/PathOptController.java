@@ -6,7 +6,7 @@ import controllers.ScreenController;
 import helpers.UserHelpers;
 import javafx.scene.input.MouseEvent;
 import models.map.Location;
-import models.sanitation.SanitationRequest;
+import models.services.SanitationRequest;
 import java.net.URL;
 import java.util.ResourceBundle;
 
