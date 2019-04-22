@@ -3,6 +3,7 @@ package controllers.maps;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXNodesList;
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.JFXToggleButton;
 import controllers.ScreenController;
 import controllers.search.SearchEngineController;
 import helpers.Constants;
@@ -109,6 +110,24 @@ public class UserMapController extends MapController {
         btnSearch.setPrefHeight(60);
         btnSearch.setStyle("-fx-background-color: #022D5A;" + "-fx-background-radius: 30;");
         btnSearch.setTextOverrun(OverrunStyle.CLIP);
+
+        JFXToggleButton btnDarkMode = new JFXToggleButton();
+        btnDarkMode.setAlignment(Pos.CENTER);
+        btnDarkMode.setPrefWidth(60);
+        btnDarkMode.setPrefHeight(60);
+        btnDarkMode.setStyle("-fx-background-color: #022D5A;" + "-fx-background-radius: 30;");
+        btnDarkMode.setTextOverrun(OverrunStyle.CLIP);
+        btnDarkMode.setDisable(true);
+
+        btnDarkMode.setOnAction(event -> {
+            if (btnDarkMode.isDisable()) {
+                btnDarkMode.setDisable(false);
+                ScreenController.sceneThing.getStylesheets().add("dark-theme.css");
+            } else {
+                btnDarkMode.setDisable(true);
+                ScreenController.sceneThing.getStylesheets().remove("dark-theme.css");
+            }
+        });
 
         ImageView imgArrow = new ImageView();
         imgArrow.setImage(new Image("images/Icons/arrow.png"));
