@@ -5,11 +5,13 @@ import com.jfoenix.controls.JFXTabPane;
 import helpers.Constants;
 import images.ImageFactory;
 import javafx.animation.Interpolator;
+import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
@@ -61,7 +63,7 @@ public abstract class MapController implements Initializable {
 
     protected String floor;
     protected List<LineTuple> lstLineTransits;
-    private int transitIt;
+//    private int transitIt;
     protected static String tempStart;
     private static MapController currMapControl;
     public static Stack<Location> currentRoute;
@@ -71,7 +73,6 @@ public abstract class MapController implements Initializable {
     public MapController() {
         floor = "1";
         lstLineTransits = new LinkedList<>();
-        transitIt = 0;
         currMapControl = this;
         currentDirections = null;
         currentRoute = null;
@@ -162,7 +163,6 @@ public abstract class MapController implements Initializable {
         imgMap.setImage(ImageFactory.getImage(floor));
         updateLines();
 //        updateButtons();
-        displayHint();
     }
 
     public abstract void showFloor(String newFloor);
@@ -187,7 +187,6 @@ public abstract class MapController implements Initializable {
         public String getFloor() {
             return floor;
         }
-
     }
 
     public GesturePane getGesMap() {
@@ -210,7 +209,11 @@ public abstract class MapController implements Initializable {
             btn.getStyleClass().add("animated-option-button");
             btn.setOnMouseClicked((e) -> {
                 showFloor(strFloor);
+                updateButtons(btn);
             });
+            if (strFloor.equals(floor)) {
+                styleButton(btn, "highlight", "unhighlight");
+            }
 
             hbx.getChildren().add(btn);
             vbxButtons.getChildren().add(hbx);
@@ -235,7 +238,8 @@ public abstract class MapController implements Initializable {
             btn.getStyleClass().add("animated-option-button");
             btn.setOnMouseClicked((e) -> {
                 showFloorHelper(strFloor);
-                displayHint();
+                displayHint(hbx);
+                updateButtons(btn);
             });
 
             hbx.getChildren().add(btn);
@@ -279,7 +283,7 @@ public abstract class MapController implements Initializable {
 
     public void clearTransit() {
         lstLineTransits = new LinkedList<>();
-        transitIt = 0;
+//        transitIt = 0;
     }
 
     public void clearMap() {
@@ -288,10 +292,9 @@ public abstract class MapController implements Initializable {
 
     public void displayPath(Path line) {
         panMap.getChildren().add(0, line);
-        String startFloor = lstLineTransits.get(transitIt++).getFloor();
-        showFloorHelper(startFloor);
+        /*String startFloor = lstLineTransits.get(transitIt++).getFloor();
+        showFloorHelper(startFloor);*/
         addBreadCrumbs();
-        displayHint();
         updateLines();
     }
 
@@ -308,8 +311,20 @@ public abstract class MapController implements Initializable {
         }
     }
 
-    private void displayHint() {
-        if (lstLineTransits.size() > 0 && lstLineTransits.size() >= transitIt) {
+    private void displayHint(HBox btnHbox) {
+        if (lstLineTransits.size() > 0) {
+            ObservableList<Node> lstNodes = vbxButtons.getChildren();
+            for (int i = 0; i < lstNodes.size(); i++) {
+                Node n = lstNodes.get(i);
+                if (n.equals(btnHbox)) {
+                    Path line = lstLineTransits.get(i).getLine();
+                    panner(line);
+                    break;
+                }
+            }
+        }
+
+        /*if (lstLineTransits.size() > 0 && lstLineTransits.size() >= transitIt) {
             String lstFloor = lstLineTransits.get(transitIt - 1).getFloor();
             if (lstFloor.equals(floor)) {
 //                clearArrow();
@@ -322,7 +337,7 @@ public abstract class MapController implements Initializable {
                     transitIt++;
                 }
             }
-        }
+        }*/
     }
 
     public static void setTempStart(String tempStart) {
@@ -341,8 +356,19 @@ public abstract class MapController implements Initializable {
         return map;
     }
 
-    /*private void updateButtons() {
-        styleButton(btnFloor4, false);
+    private void updateButtons(JFXButton btn) {
+        for (Node n1 : vbxButtons.getChildren()) {
+            for (Node n2 : ((HBox) n1).getChildren()) {
+                JFXButton nBtn = (JFXButton) n2;
+                if (nBtn.equals(btn)) {
+                    styleButton(nBtn, "highlight", "unhighlight");
+                } else {
+                    styleButton(nBtn, "unhighlight", "highlight");
+                }
+            }
+        }
+
+        /*styleButton(btnFloor4, false);
         styleButton(btnFloor3, false);
         styleButton(btnFloor2, false);
         styleButton(btnFloor1, false);
@@ -371,8 +397,8 @@ public abstract class MapController implements Initializable {
             default:
                 styleButton(btnFloorL2, true);
                 break;
-        }
-    }*/
+        }*/
+    }
 
     /*private void clearArrow() {
         imgArrow3.setImage(null);
@@ -406,14 +432,10 @@ public abstract class MapController implements Initializable {
         }
     }*/
 
-    private void styleButton(JFXButton btn, boolean highlight) {
-        btn.getStyleClass().clear();
-        btn.getStyleClass().add("jfx-button");
-        btn.getStyleClass().add("animated-option-button");
-        if (highlight) {
-            btn.getStyleClass().add("highlight");
-        } else {
-            btn.getStyleClass().add("unhighlight");
+    private void styleButton(JFXButton btn, String add, String remove) {
+        btn.getStyleClass().remove(remove);
+        if (!btn.getStyleClass().contains(add)) {
+            btn.getStyleClass().add(add);
         }
     }
 
