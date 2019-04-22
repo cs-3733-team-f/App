@@ -55,8 +55,8 @@ public class EmployeeMapController extends MapController {
         super.initialize(location, resources);
         SearchEngineController.setParentController(this);
 
-        SearchAPI searchAPI = new SearchAPI(search, true);
-        searchAPI.searchable();
+        /*SearchAPI searchAPI = new SearchAPI(search, true);
+        searchAPI.searchable();*/
 
         MapDisplay.displayEmployee(this);
         initDirections();
@@ -97,12 +97,6 @@ public class EmployeeMapController extends MapController {
     @Override
     public void showFloor(String newFloor) {
         super.showFloorHelper(newFloor);
-        MapDisplay.displayEmployee(this);
-    }
-
-    @Override
-    public void displayPath(Path line) {
-        super.displayPath(line);
         MapDisplay.displayEmployee(this);
     }
 

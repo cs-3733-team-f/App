@@ -69,7 +69,6 @@ public abstract class MapController implements Initializable {
 
     protected String floor;
     protected List<LineTuple> lstLineTransits;
-//    private int transitIt;
     protected static String tempStart;
     private static MapController currMapControl;
     public static Stack<Location> currentRoute;
@@ -134,34 +133,6 @@ public abstract class MapController implements Initializable {
 
     public abstract void btnReturn_Click(MouseEvent mouseEvent) throws Exception;
 
-    public void btnFloor4_Click(MouseEvent mouseEvent) {
-        showFloor("4");
-    }
-
-    public void btnFloor3_Click(MouseEvent mouseEvent) {
-        showFloor("3");
-    }
-
-    public void btnFloor2_Click(MouseEvent mouseEvent) {
-        showFloor("2");
-    }
-
-    public void btnFloor1_Click(MouseEvent mouseEvent) {
-        showFloor("1");
-    }
-
-    public void btnFloorG_Click(MouseEvent mouseEvent) {
-        showFloor("G");
-    }
-
-    public void btnFloorL1_Click(MouseEvent mouseEvent) {
-        showFloor("L1");
-    }
-
-    public void btnFloorL2_Click(MouseEvent mouseEvent) {
-        showFloor("L2");
-    }
-
     public boolean isAdmin() {
         return false;
     }
@@ -170,7 +141,6 @@ public abstract class MapController implements Initializable {
         floor = newFloor;
         imgMap.setImage(ImageFactory.getImage(floor));
         updateLines();
-//        updateButtons();
     }
 
     public abstract void showFloor(String newFloor);
@@ -315,7 +285,6 @@ public abstract class MapController implements Initializable {
 
     public void clearTransit() {
         lstLineTransits = new LinkedList<>();
-//        transitIt = 0;
     }
 
     public void clearMap() {
@@ -324,8 +293,6 @@ public abstract class MapController implements Initializable {
 
     public void displayPath(Path line) {
         panMap.getChildren().add(0, line);
-        /*String startFloor = lstLineTransits.get(transitIt++).getFloor();
-        showFloorHelper(startFloor);*/
         addBreadCrumbs();
         updateLines();
     }
@@ -357,21 +324,6 @@ public abstract class MapController implements Initializable {
                 }
             }
         }
-
-        /*if (lstLineTransits.size() > 0 && lstLineTransits.size() >= transitIt) {
-            String lstFloor = lstLineTransits.get(transitIt - 1).getFloor();
-            if (lstFloor.equals(floor)) {
-//                clearArrow();
-                Path line = lstLineTransits.get(transitIt - 1).getLine();
-                panner(line);
-                if (lstLineTransits.size() > transitIt) {
-                    String nxtFloor = lstLineTransits.get(transitIt++).getFloor();
-//                    displayArrow(nxtFloor);
-                } else {
-                    transitIt++;
-                }
-            }
-        }*/
     }
 
     public static void setTempStart(String tempStart) {
@@ -466,41 +418,6 @@ public abstract class MapController implements Initializable {
             lstTls.add(tl);
         }
     }
-
-    /*private void panToLine(Path line) {
-        gesMap.reset();
-        Bounds lineBounds = line.getBoundsInLocal();
-        double startX = lineBounds.getMinX();
-        double startY = lineBounds.getMinY();
-        double endX = lineBounds.getMaxX();
-        double endY = lineBounds.getMaxY();
-        if (endX >= 0.0) {
-            Point2D middle = new Point2D((startX + endX) / 2, (startY + endY) / 2);
-
-            double lineWidth = lineBounds.getWidth();
-            double lineHeight = lineBounds.getHeight();
-            Bounds gesView = gesMap.getTargetViewport();
-            double gesWidth = gesView.getWidth();
-            double gesHeight = gesView.getHeight();
-            double zoomWidth = (gesWidth - lineWidth) / gesWidth;
-            double zoomHeight = (gesHeight - lineHeight) / gesHeight;
-            double zoom = zoomWidth < zoomHeight ? zoomWidth : zoomHeight;
-            if (zoom > 0) {
-                zoom *= 1 - ZOOM_BUFFER;
-            } else {
-                zoom *= 1 + ZOOM_BUFFER;
-            }
-            gesMap.animate(Duration.millis(ANIMATION_TIME)).afterFinished(() -> {
-                gesMap.animate(Duration.millis(ANIMATION_TIME)).centreOn(middle);
-            }).zoomBy(zoom, middle);
-        } else {
-            MoveTo mt = ((MoveTo) line.getElements().get(0));
-            Point2D pnt = new Point2D(mt.getX(), mt.getY());
-            gesMap.animate(Duration.millis(ANIMATION_TIME)).afterFinished(() -> {
-                gesMap.animate(Duration.millis(ANIMATION_TIME)).centreOn(pnt);
-            }).zoomBy(2 * MAX_ZOOM, pnt);
-        }
-    }*/
 
     private void panner(Path line) {
         Bounds beforeView = gesMap.getTargetViewport();
