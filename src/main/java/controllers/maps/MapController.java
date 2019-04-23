@@ -298,15 +298,24 @@ public abstract class MapController implements Initializable {
     }
 
     public void displayLocations(Stack<Location> path) {
-        Location start = path.pop();
-        Circle startCircle = MapDisplay.createCircle(this, start, MapDisplay.NodeStyle.REGULAR, 1, Constants.Routes.USER_INFO, false);
-        panMap.getChildren().add(startCircle);
+        String lstFloor = "";
+        Location lstLoc = null;
         while (!path.isEmpty()) {
-            Location loc = path.pop();
+            Location curLoc = path.pop();
+            String curFloor = curLoc.getFloor();
             if (path.size() == 0) {
-                Circle circle = MapDisplay.createCircle(this, loc, MapDisplay.NodeStyle.REGULAR, 1, Constants.Routes.USER_INFO, false);
+                Circle circle = MapDisplay.createCircle(this, curLoc, MapDisplay.NodeStyle.REGULAR, 1, Constants.Routes.USER_INFO, false);
                 panMap.getChildren().add(circle);
+            } else if (!curFloor.equals(lstFloor) ) {
+                if (lstLoc != null) {
+                    Circle circle1 = MapDisplay.createCircle(this, lstLoc, MapDisplay.NodeStyle.REGULAR, 1, Constants.Routes.USER_INFO, false);
+                    panMap.getChildren().add(circle1);
+                }
+                Circle circle2 = MapDisplay.createCircle(this, curLoc, MapDisplay.NodeStyle.REGULAR, 1, Constants.Routes.USER_INFO, false);
+                panMap.getChildren().add(circle2);
             }
+            lstFloor = curFloor;
+            lstLoc = curLoc;
         }
     }
 
