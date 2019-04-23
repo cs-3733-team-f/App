@@ -441,7 +441,7 @@ public abstract class PathFinder {
                 imgRight.setFitWidth(40);
                 imgRight.setPreserveRatio(true);
                 imgRight.setPickOnBounds(true);
-                imgRight.setStyle("-fx-background-color: green;");
+                imgRight.setStyle("-fx-background-color: reen;");
                 AnchorPane rightPane = new AnchorPane();
                 rightPane.getChildren().add(imgRight);
                 rightPane.setPrefWidth(40);

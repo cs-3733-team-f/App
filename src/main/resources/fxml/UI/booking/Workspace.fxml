@@ -2,67 +2,191 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXTabPane?>
 <?import com.jfoenix.controls.JFXTimePicker?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="700.0" minWidth="1200.0" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.booking.WorkspaceMapController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="674.0" minWidth="1200.0" prefHeight="674.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.booking.WorkspaceTable">
     <children>
-        <AnchorPane fx:id="workS" layoutX="-225.0" layoutY="-313.0" onMouseDragged="#floorOneMapOnMouseDragged" onMousePressed="#floorOneMapOnMousePressed" onScroll="#floorOneMapScroll" onZoom="#floorOneMapZoom" onZoomFinished="#floorOneMapZoomDone" prefHeight="400.0" prefWidth="700.0">
-                <AnchorPane prefHeight="896.0" prefWidth="1115.0">
-                    <ImageView blendMode="MULTIPLY" fitHeight="1620.0" fitWidth="2581.0" layoutX="-36.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
-                        <image>
-                            <Image url="@../../../images/Original/workspace.jpg" />
-                        </image>
-                    </ImageView>
-                </AnchorPane>
-        </AnchorPane>
-        <AnchorPane fx:id="outerProfilePane" layoutX="260.0" layoutY="15.0" prefHeight="584.0" prefWidth="341.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="30.0">
-            <AnchorPane fx:id="profilePane" layoutX="5.0" layoutY="14.0" prefHeight="124.0" prefWidth="345.0" style="-fx-background-color: #ffffff; -fx-background-radius: 10 10 10 10; -fx-border-width: 1px 1px 1px 1px; -fx-border-color: #022D5A; -fx-border-radius: 10;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                <children>
-               <GridPane layoutX="102.0" layoutY="17.0" prefHeight="76.0" prefWidth="132.0" AnchorPane.leftAnchor="101.0" AnchorPane.rightAnchor="108.0" AnchorPane.topAnchor="16.0">
-                 <columnConstraints>
-                   <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="88.0" minWidth="10.0" prefWidth="32.0" />
-                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="143.0" minWidth="10.0" prefWidth="85.0" />
-                 </columnConstraints>
-                 <rowConstraints>
-                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                 </rowConstraints>
-                  <children>
-                     <Circle fill="ORANGE" radius="10.0" stroke="BLACK" strokeType="INSIDE" />
-                     <Label text="My Bookings" GridPane.columnIndex="1" />
-                     <Circle fill="RED" radius="10.0" stroke="BLACK" strokeType="INSIDE" GridPane.rowIndex="1" />
-                     <Label text="Unavilable " GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                     <Circle fill="YELLOW" radius="10.0" stroke="BLACK" strokeType="INSIDE" GridPane.rowIndex="2" />
-                     <Label text="Available" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  </children>
-               </GridPane>
-               <JFXDatePicker fx:id="datStartDay" layoutX="77.0" layoutY="187.0" />
-               <JFXDatePicker fx:id="datEndDay" layoutX="77.0" layoutY="399.0" />
-               <JFXTimePicker fx:id="datStartTime" layoutX="78.0" layoutY="247.0" />
-               <JFXTimePicker fx:id="datEndTime" layoutX="77.0" layoutY="460.0" />
-               <JFXButton fx:id="btnSearch" buttonType="RAISED" layoutX="96.0" layoutY="510.0" onMouseClicked="#btnSearch" prefHeight="52.0" prefWidth="150.0" style="-fx-text-fill: WHITE; -fx-font-size: 24px;" text="Search" />
-               <Label alignment="CENTER" contentDisplay="CENTER" layoutX="36.0" layoutY="111.0" prefHeight="45.0" prefWidth="270.0" style="-fx-background-color: #022D5A;" text="Start Date and Time" textAlignment="CENTER" textFill="WHITE">
-                  <font>
-                     <Font size="24.0" />
-                  </font>
-               </Label>
-               <Label alignment="CENTER" contentDisplay="CENTER" layoutX="36.0" layoutY="319.0" prefHeight="45.0" prefWidth="270.0" style="-fx-background-color: #022D5A;" text="End Date and Time" textAlignment="CENTER" textFill="WHITE">
-                  <font>
-                     <Font size="24.0" />
-                  </font>
-               </Label>
-                </children>
-            </AnchorPane>
-        </AnchorPane>
+        <JFXTabPane prefHeight="707.0" prefWidth="1200.0" AnchorPane.bottomAnchor="-16.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <tabs>
+                <Tab text="Conference Room Booking">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="1200.0">
+                            <children>
+                                <JFXTabPane layoutY="-2.0" prefHeight="706.0" prefWidth="1200.0" side="BOTTOM" AnchorPane.bottomAnchor="15.0" AnchorPane.topAnchor="-2.0">
+                                    <tabs>
+                                        <Tab style="-fx-background-color: #022D5A;" text="Reserve Rooms">
+                                            <VBox layoutX="10.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+                                                <children>
+                                                    <SplitPane dividerPositions="0.25" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="613.0" prefWidth="1200.0" style="-fx-box-border: transparent;">
+                                                        <items>
+                                                            <VBox spacing="20.0">
+                                                                <children>
+                                                                    <Label alignment="CENTER" prefHeight="30.0" prefWidth="135.0" style="-fx-background-color: #022D5A;" text="Start Date" textFill="WHITE">
+                                                                        <font>
+                                                                            <Font size="24.0" />
+                                                                        </font>
+                                                                        <VBox.margin>
+                                                                            <Insets left="10.0" top="20.0" />
+                                                                        </VBox.margin>
+                                                                    </Label>
+                                                                    <JFXDatePicker fx:id="datStartDay" defaultColor="#022d5a" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="300.0" promptText="Start Date">
+                                                                        <VBox.margin>
+                                                                            <Insets left="20.0" right="20.0" top="10.0" />
+                                                                        </VBox.margin>
+                                                                    </JFXDatePicker>
+                                                                    <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="30.0" prefWidth="135.0" style="-fx-background-color: #022D5A;" text="Start Time" textFill="WHITE">
+                                                                        <font>
+                                                                            <Font size="24.0" />
+                                                                        </font>
+                                                                        <VBox.margin>
+                                                                            <Insets left="10.0" top="20.0" />
+                                                                        </VBox.margin>
+                                                                    </Label>
+                                                                    <JFXTimePicker fx:id="datStartTime" defaultColor="#022d5a" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="300.0" promptText="Start Time">
+                                                                        <VBox.margin>
+                                                                            <Insets left="20.0" right="20.0" top="10.0" />
+                                                                        </VBox.margin>
+                                                                    </JFXTimePicker>
+                                                                    <Label alignment="CENTER" prefHeight="30.0" prefWidth="135.0" style="-fx-background-color: #022D5A;" text="End Date" textFill="WHITE">
+                                                                        <font>
+                                                                            <Font size="24.0" />
+                                                                        </font>
+                                                                        <VBox.margin>
+                                                                            <Insets left="10.0" top="20.0" />
+                                                                        </VBox.margin>
+                                                                    </Label>
+                                                                    <JFXDatePicker fx:id="datEndDay" defaultColor="#022d5a" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="300.0" promptText="End Date">
+                                                                        <VBox.margin>
+                                                                            <Insets left="20.0" right="20.0" top="10.0" />
+                                                                        </VBox.margin>
+                                                                    </JFXDatePicker>
+                                                                    <Label alignment="CENTER" prefHeight="30.0" prefWidth="135.0" style="-fx-background-color: #022D5A;" text="End Time" textFill="WHITE">
+                                                                        <font>
+                                                                            <Font size="24.0" />
+                                                                        </font>
+                                                                        <VBox.margin>
+                                                                            <Insets left="10.0" top="20.0" />
+                                                                        </VBox.margin>
+                                                                    </Label>
+                                                                    <JFXTimePicker fx:id="datEndTime" defaultColor="#022d5a" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="300.0" promptText="End Time">
+                                                                        <VBox.margin>
+                                                                            <Insets left="20.0" right="20.0" top="10.0" />
+                                                                        </VBox.margin>
+                                                                    </JFXTimePicker>
+                                                                    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+                                                                        <children>
+                                                                            <JFXButton fx:id="btnBookSelected" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" onMouseClicked="#handleBooking" prefHeight="42.0" prefWidth="165.0" style="-fx-text-fill: WHITE; -fx-font-size: 24px;" text="Book Room" textAlignment="CENTER" />
+                                                                        </children>
+                                                                    </HBox>
+                                                                </children>
+                                                            </VBox>
+                                                            <TableView fx:id="tblRooms" onMouseClicked="#handleBookingSelection" prefHeight="643.0" prefWidth="850.0">
+                                                                <columns>
+                                                                    <TableColumn fx:id="tblRoomID" prefWidth="247.0" text="Room ID" />
+                                                                    <TableColumn fx:id="tblRoomCapacity" prefWidth="240.0" text="Capacity" />
+                                                                </columns>
+                                                            </TableView>
+                                                        </items>
+                                                        <VBox.margin>
+                                                            <Insets />
+                                                        </VBox.margin>
+                                                    </SplitPane>
+                                                </children>
+                                            </VBox>
+                                        </Tab>
+                                        <Tab style="-fx-background-color: #022D5A;" text="My Bookings">
+                                            <VBox layoutX="10.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+                                                <children>
+                                                    <SplitPane dividerPositions="0.7787979966611018" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="612.0" prefWidth="1200.0" style="-fx-box-border: transparent;">
+                                                        <items>
+                                                            <TableView fx:id="tblRoomsBooked" onMouseClicked="#handleBookingCancellationSelection" prefHeight="617.0" prefWidth="665.0">
+                                                                <columns>
+                                                                    <TableColumn fx:id="tblRoomIDBooked" prefWidth="247.0" text="Room ID" />
+                                                                    <TableColumn fx:id="tblRoomCapacityBooked" prefWidth="240.0" text="Capacity" />
+                                                                </columns>
+                                                            </TableView>
+                                                            <VBox alignment="CENTER" spacing="10.0">
+                                                                <children>
+                                                                    <JFXButton fx:id="btnCancel" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" onMouseClicked="#handleBookingCancellation" prefHeight="60.0" prefWidth="211.0" style="-fx-text-fill: WHITE; -fx-font-size: 24px;" text="Cancel Booking" textAlignment="CENTER">
+                                                                        <VBox.margin>
+                                                                            <Insets top="10.0" />
+                                                                        </VBox.margin>
+                                                                    </JFXButton>
+                                                                </children>
+                                                            </VBox>
+                                                        </items>
+                                                        <VBox.margin>
+                                                            <Insets />
+                                                        </VBox.margin>
+                                                    </SplitPane>
+                                                </children>
+                                            </VBox>
+                                        </Tab>
+                                    </tabs>
+                                </JFXTabPane>
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+                <Tab text="Workspace Booking">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="706.0" prefWidth="1200.0" style="-fx-background-color: white;">
+                            <JFXTabPane side="BOTTOM" AnchorPane.bottomAnchor="15.0" AnchorPane.topAnchor="-2.0">
+                                <tabs>
+                                    <Tab text="Reserve Workspace">
+                                        <content>
+                                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="1200.0">
+                                                <children>
+                                                    <fx:include source="Workspace.fxml" />
+                                                </children>
+                                            </AnchorPane>
+                                        </content>
+                                    </Tab>
+                                    <Tab style="-fx-background-color: #022D5A;" text="My Bookings">
+                                        <VBox layoutX="10.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+                                            <children>
+                                                <SplitPane dividerPositions="0.7787979966611018" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="612.0" prefWidth="1200.0" style="-fx-box-border: transparent;">
+                                                    <items>
+                                                        <TableView fx:id="tblWrkspcBooked" onMouseClicked="#handleBookingCancellationSelection" prefHeight="617.0" prefWidth="665.0">
+                                                            <columns>
+                                                                <TableColumn fx:id="tblwrkspcIDBooked" prefWidth="247.0" text="Room ID" />
+                                                                <TableColumn fx:id="tblwrkspcCapacityBooked" prefWidth="240.0" text="Capacity" />
+                                                            </columns>
+                                                        </TableView>
+                                                        <VBox alignment="CENTER" spacing="10.0">
+                                                            <children>
+                                                                <JFXButton fx:id="btnCancel" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" onMouseClicked="#handleBookingCancellation" prefHeight="60.0" prefWidth="211.0" style="-fx-text-fill: WHITE; -fx-font-size: 24px;" text="Cancel Booking" textAlignment="CENTER">
+                                                                    <VBox.margin>
+                                                                        <Insets top="10.0" />
+                                                                    </VBox.margin>
+                                                                </JFXButton>
+                                                            </children>
+                                                        </VBox>
+                                                    </items>
+                                                    <VBox.margin>
+                                                        <Insets />
+                                                    </VBox.margin>
+                                                </SplitPane>
+                                            </children>
+                                        </VBox>
+                                    </Tab>
+                                </tabs>
+                            </JFXTabPane>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+            </tabs>
+        </JFXTabPane>
     </children>
 </AnchorPane>

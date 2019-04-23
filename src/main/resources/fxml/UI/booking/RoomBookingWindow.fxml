@@ -118,7 +118,7 @@
                                              </TableView>
                                              <VBox alignment="CENTER" spacing="10.0">
                                                 <children>
-                                                   <JFXButton fx:id="btnCancel" onMouseClicked="#handleBookingCancellation" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" prefHeight="60.0" prefWidth="211.0" style="-fx-text-fill: WHITE; -fx-font-size: 24px;" text="Cancel Booking" textAlignment="CENTER">
+                                                   <JFXButton fx:id="btnCancel" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" onMouseClicked="#handleBookingCancellation" prefHeight="60.0" prefWidth="211.0" style="-fx-text-fill: WHITE; -fx-font-size: 24px;" text="Cancel Booking" textAlignment="CENTER">
                                                       <VBox.margin>
                                                          <Insets top="10.0" />
                                                       </VBox.margin>
@@ -144,6 +144,11 @@
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="700.0" prefWidth="1200.0" style="-fx-background-color: white;">
                     <fx:include source="Workspace.fxml" />
                  </AnchorPane>
+              </content>
+            </Tab>
+            <Tab text="Workspace Booking Table">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
               </content>
             </Tab>
          </tabs>
