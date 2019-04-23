@@ -1,10 +1,12 @@
 package controllers;
 
 import com.querydsl.sql.types.Null;
+import controllers.requests.LogoutController;
 import helpers.Caretaker;
 import helpers.Constants;
 import helpers.Memento;
 import helpers.Originator;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -29,12 +31,11 @@ import java.time.LocalTime;
 import java.util.*;
 
 public class ScreenController {
-
     private static HashMap<String, String> screenMap = new HashMap<>();
     public volatile static Stage stage;
     public static long mouseCnt = 0;
-    private long theCnt = 0;
-    private long secCnt = 0;
+    private static long theCnt = 0;
+    private static long secCnt = 0;
     static Originator org = new Originator();
     static Caretaker car = new Caretaker();
 
@@ -54,16 +55,23 @@ public class ScreenController {
         Thread t = new Thread(() -> {
             System.out.println("here");
             while(true) {
-                org.setState(mouseCnt);
+                LogoutController lc = new LogoutController() {
+                    @Override
+                    public void initialize(URL location, ResourceBundle resources) {
+                    }
+                };
+                int timeCnt = lc.getTime();
                 car.add(org.saveStateToMemento());
                 theCnt = mouseCnt;
-                if (secCnt == 20) {
-                    try {
-                        ScreenController.deactivate();
-                        ScreenController.activate(Constants.Routes.WELCOME);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                if (secCnt == timeCnt*60) {
+                        Platform.runLater(() -> {
+                            ScreenController.deactivate();
+                            try {
+                                ScreenController.activate(Constants.Routes.WELCOME);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        });
                     mouseCnt = 0L;
                     secCnt = 0;
                 }
@@ -143,6 +151,7 @@ public class ScreenController {
         @Override
         public void handle(MouseEvent mouseEvent) {
             mouseCnt += 1;
+            secCnt = 0;
             System.out.println(mouseCnt);
         }
     };
