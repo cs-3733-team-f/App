@@ -410,3 +410,6 @@ public class UserMapController extends MapController {
 
     }
 }
+
+
+//scenecontroller.scenething.getstyleclass.add"-fx-base: rgba(60, 63, 65, 255)";
