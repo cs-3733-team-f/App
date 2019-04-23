@@ -3,6 +3,9 @@ package controllers.maps;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTabPane;
 import helpers.Constants;
+import helpers.UIHelpers;
+import google.FirebaseAPI;
+import helpers.UserHelpers;
 import images.ImageFactory;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
@@ -65,6 +68,8 @@ public abstract class MapController implements Initializable {
     public Pane panMap;
     public ScrollPane txtPane;
     public JFXTabPane tabMenu;
+    public AnchorPane panRoot;
+    //public JFXButton btn;
     public VBox vbxButtons;
 
     protected String floor;
@@ -97,6 +102,8 @@ public abstract class MapController implements Initializable {
         Image img = ImageFactory.getImage(floor);
         imgMap.setImage(img);
         addDoc();
+        UIHelpers.addHover(panRoot);
+        //UIHelpers.btnRaise(btn);
 
         zoomOut();
     }

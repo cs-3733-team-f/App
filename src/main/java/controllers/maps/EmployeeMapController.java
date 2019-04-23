@@ -5,8 +5,12 @@ import com.jfoenix.controls.JFXNodesList;
 import com.jfoenix.controls.JFXTextField;
 import controllers.ScreenController;
 import controllers.search.SearchEngineController;
+import google.FirebaseAPI;
 import helpers.Constants;
+import helpers.UIHelpers;
 import javafx.fxml.FXML;
+import helpers.UserHelpers;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -89,12 +93,6 @@ public class EmployeeMapController extends MapController {
     }
 
     @Override
-    public void btnReturn_Click(MouseEvent mouseEvent) throws Exception {
-        ScreenController.logOut(btnLogOut);
-        ScreenController.activate(Constants.Routes.LOGIN);
-    }
-
-    @Override
     public void showFloor(String newFloor) {
         super.showFloorHelper(newFloor);
         MapDisplay.displayEmployee(this);
@@ -144,6 +142,8 @@ public class EmployeeMapController extends MapController {
         btnArrow.setStyle("-fx-background-color: #022D5A;" + "-fx-background-radius: 30;");
         btnArrow.setTextOverrun(OverrunStyle.CLIP);
 
+        UIHelpers.btnRaise(btnArrow);
+
         ImageView imgRoute = new ImageView();
         imgRoute.setImage(new Image("images/Icons/route.png"));
         imgRoute.setFitHeight(30);
@@ -165,7 +165,7 @@ public class EmployeeMapController extends MapController {
         imgRoom.setPreserveRatio(true);
         imgRoom.setPickOnBounds(true);
 
-        JFXButton btnRoom = new JFXButton("",imgRoom);
+        JFXButton btnRoom = new JFXButton("", imgRoom);
         btnRoom.setAlignment(Pos.CENTER);
         btnRoom.setPrefWidth(60);
         btnRoom.setPrefHeight(60);
@@ -179,7 +179,7 @@ public class EmployeeMapController extends MapController {
         imgCal.setPreserveRatio(true);
         imgCal.setPickOnBounds(true);
 
-        JFXButton btnCal = new JFXButton("",imgCal);
+        JFXButton btnCal = new JFXButton("", imgCal);
         btnCal.setAlignment(Pos.CENTER);
         btnCal.setPrefWidth(60);
         btnCal.setPrefHeight(60);
@@ -193,7 +193,7 @@ public class EmployeeMapController extends MapController {
         imgExl.setPreserveRatio(true);
         imgExl.setPickOnBounds(true);
 
-        JFXButton btnExl = new JFXButton("",imgExl);
+        JFXButton btnExl = new JFXButton("", imgExl);
         btnExl.setAlignment(Pos.CENTER);
         btnExl.setPrefWidth(60);
         btnExl.setPrefHeight(60);
@@ -207,12 +207,15 @@ public class EmployeeMapController extends MapController {
         imgComp1.setPreserveRatio(true);
         imgComp1.setPickOnBounds(true);
 
-        JFXButton btnComp1 = new JFXButton("",imgComp1);
+        JFXButton btnComp1 = new JFXButton("", imgComp1);
         btnComp1.setAlignment(Pos.CENTER);
         btnComp1.setPrefWidth(60);
         btnComp1.setPrefHeight(60);
         btnComp1.setStyle("-fx-background-color: #022D5A;" + "-fx-background-radius: 30;");
         btnComp1.setTextOverrun(OverrunStyle.CLIP);
+
+        UIHelpers.btnRaise(btnComp1);
+
 
         ImageView imgFlo = new ImageView();
         imgFlo.setImage(new Image("images/Icons/florist.png"));
@@ -221,12 +224,14 @@ public class EmployeeMapController extends MapController {
         imgFlo.setPreserveRatio(true);
         imgFlo.setPickOnBounds(true);
 
-        JFXButton btnFlo = new JFXButton("",imgFlo);
+        JFXButton btnFlo = new JFXButton("", imgFlo);
         btnFlo.setAlignment(Pos.CENTER);
         btnFlo.setPrefWidth(60);
         btnFlo.setPrefHeight(60);
         btnFlo.setStyle("-fx-background-color: #022D5A;" + "-fx-background-radius: 30;");
         btnFlo.setTextOverrun(OverrunStyle.CLIP);
+
+        UIHelpers.btnRaise(btnFlo);
 
         ImageView imgSign = new ImageView();
         imgSign.setImage(new Image("images/Icons/sign.png"));
@@ -235,12 +240,14 @@ public class EmployeeMapController extends MapController {
         imgSign.setPreserveRatio(true);
         imgSign.setPickOnBounds(true);
 
-        JFXButton btnSign = new JFXButton("",imgSign);
+        JFXButton btnSign = new JFXButton("", imgSign);
         btnSign.setAlignment(Pos.CENTER);
         btnSign.setPrefWidth(60);
         btnSign.setPrefHeight(60);
         btnSign.setStyle("-fx-background-color: #022D5A;" + "-fx-background-radius: 30;");
         btnSign.setTextOverrun(OverrunStyle.CLIP);
+
+        UIHelpers.btnRaise(btnSign);
 
         ImageView imgLock = new ImageView();
         imgLock.setImage(new Image("images/Icons/lock.png"));
@@ -249,12 +256,14 @@ public class EmployeeMapController extends MapController {
         imgLock.setPreserveRatio(true);
         imgLock.setPickOnBounds(true);
 
-        JFXButton btnLock = new JFXButton("",imgLock);
+        JFXButton btnLock = new JFXButton("", imgLock);
         btnLock.setAlignment(Pos.CENTER);
         btnLock.setPrefWidth(60);
         btnLock.setPrefHeight(60);
         btnLock.setStyle("-fx-background-color: #022D5A;" + "-fx-background-radius: 30;");
         btnLock.setTextOverrun(OverrunStyle.CLIP);
+
+        UIHelpers.btnRaise(btnLock);
 
         ImageView imgDrug = new ImageView();
         imgDrug.setImage(new Image("images/Icons/drug.png"));
@@ -263,12 +272,14 @@ public class EmployeeMapController extends MapController {
         imgDrug.setPreserveRatio(true);
         imgDrug.setPickOnBounds(true);
 
-        JFXButton btnDrug = new JFXButton("",imgDrug);
+        JFXButton btnDrug = new JFXButton("", imgDrug);
         btnDrug.setAlignment(Pos.CENTER);
         btnDrug.setPrefWidth(60);
         btnDrug.setPrefHeight(60);
         btnDrug.setStyle("-fx-background-color: #022D5A;" + "-fx-background-radius: 30;");
         btnDrug.setTextOverrun(OverrunStyle.CLIP);
+
+        UIHelpers.btnRaise(btnDrug);
 
         ImageView imgAv = new ImageView();
         imgAv.setImage(new Image("images/Icons/av.png"));
@@ -277,12 +288,14 @@ public class EmployeeMapController extends MapController {
         imgAv.setPreserveRatio(true);
         imgAv.setPickOnBounds(true);
 
-        JFXButton btnAv = new JFXButton("",imgAv);
+        JFXButton btnAv = new JFXButton("", imgAv);
         btnAv.setAlignment(Pos.CENTER);
         btnAv.setPrefWidth(60);
         btnAv.setPrefHeight(60);
         btnAv.setStyle("-fx-background-color: #022D5A;" + "-fx-background-radius: 30;");
         btnAv.setTextOverrun(OverrunStyle.CLIP);
+
+        UIHelpers.btnRaise(btnAv);
 
         ImageView imgIn = new ImageView();
         imgIn.setImage(new Image("images/Icons/in.png"));
@@ -291,12 +304,14 @@ public class EmployeeMapController extends MapController {
         imgIn.setPreserveRatio(true);
         imgIn.setPickOnBounds(true);
 
-        JFXButton btnIn = new JFXButton("",imgIn);
+        JFXButton btnIn = new JFXButton("", imgIn);
         btnIn.setAlignment(Pos.CENTER);
         btnIn.setPrefWidth(60);
         btnIn.setPrefHeight(60);
         btnIn.setStyle("-fx-background-color: #022D5A;" + "-fx-background-radius: 30;");
         btnIn.setTextOverrun(OverrunStyle.CLIP);
+
+        UIHelpers.btnRaise(btnIn);
 
         ImageView imgGift = new ImageView();
         imgGift.setImage(new Image("images/Icons/gift.png"));
@@ -305,12 +320,14 @@ public class EmployeeMapController extends MapController {
         imgGift.setPreserveRatio(true);
         imgGift.setPickOnBounds(true);
 
-        JFXButton btnGift = new JFXButton("",imgGift);
+        JFXButton btnGift = new JFXButton("", imgGift);
         btnGift.setAlignment(Pos.CENTER);
         btnGift.setPrefWidth(60);
         btnGift.setPrefHeight(60);
         btnGift.setStyle("-fx-background-color: #022D5A;" + "-fx-background-radius: 30;");
         btnGift.setTextOverrun(OverrunStyle.CLIP);
+
+        UIHelpers.btnRaise(btnGift);
 
         ImageView imgOut = new ImageView();
         imgOut.setImage(new Image("images/Icons/out.png"));
@@ -319,12 +336,14 @@ public class EmployeeMapController extends MapController {
         imgOut.setPreserveRatio(true);
         imgOut.setPickOnBounds(true);
 
-        JFXButton btnOut = new JFXButton("",imgOut);
+        JFXButton btnOut = new JFXButton("", imgOut);
         btnOut.setAlignment(Pos.CENTER);
         btnOut.setPrefWidth(60);
         btnOut.setPrefHeight(60);
         btnOut.setStyle("-fx-background-color: #022D5A;" + "-fx-background-radius: 30;");
         btnOut.setTextOverrun(OverrunStyle.CLIP);
+
+        UIHelpers.btnRaise(btnOut);
 
         ImageView imgInfo = new ImageView();
         imgInfo.setImage(new Image("images/Icons/info.png"));
@@ -333,12 +352,15 @@ public class EmployeeMapController extends MapController {
         imgInfo.setPreserveRatio(true);
         imgInfo.setPickOnBounds(true);
 
-        JFXButton btnInfo = new JFXButton("",imgInfo);
+        JFXButton btnInfo = new JFXButton("", imgInfo);
         btnInfo.setAlignment(Pos.CENTER);
         btnInfo.setPrefWidth(60);
         btnInfo.setPrefHeight(60);
         btnInfo.setStyle("-fx-background-color: #022D5A;" + "-fx-background-radius: 30;");
         btnInfo.setTextOverrun(OverrunStyle.CLIP);
+
+        UIHelpers.btnRaise(btnInfo);
+
 
         ImageView imgCoffee = new ImageView();
         imgCoffee.setImage(new Image("images/SearchIcons/coffee.png"));
@@ -354,6 +376,8 @@ public class EmployeeMapController extends MapController {
         btnCoffee.setStyle("-fx-background-color: #022D5A;" + "-fx-background-radius: 30;");
         btnCoffee.setTextOverrun(OverrunStyle.CLIP);
 
+        UIHelpers.btnRaise(btnCoffee);
+
         ImageView imgRest = new ImageView();
         imgRest.setImage(new Image("images/SearchIcons/rest.png"));
         imgRest.setFitHeight(30);
@@ -367,6 +391,8 @@ public class EmployeeMapController extends MapController {
         btnRest.setPrefHeight(60);
         btnRest.setStyle("-fx-background-color: #022D5A;" + "-fx-background-radius: 30;");
         btnRest.setTextOverrun(OverrunStyle.CLIP);
+
+        UIHelpers.btnRaise(btnRest);
 
         ImageView imgExit = new ImageView();
         imgExit.setImage(new Image("images/SearchIcons/exit.png"));
@@ -382,6 +408,10 @@ public class EmployeeMapController extends MapController {
         btnExit.setStyle("-fx-background-color: #022D5A;" + "-fx-background-radius: 30;");
         btnExit.setTextOverrun(OverrunStyle.CLIP);
 
+        UIHelpers.btnRaise(btnExit);
+
+
+
         ImageView imgElev = new ImageView();
         imgElev.setImage(new Image("images/SearchIcons/elev.png"));
         imgElev.setFitHeight(30);
@@ -395,6 +425,8 @@ public class EmployeeMapController extends MapController {
         btnElev.setPrefHeight(60);
         btnElev.setStyle("-fx-background-color: #022D5A;" + "-fx-background-radius: 30;");
         btnElev.setTextOverrun(OverrunStyle.CLIP);
+
+        UIHelpers.btnRaise(btnElev);
 
         ImageView imgInfo1 = new ImageView();
         imgInfo1.setImage(new Image("images/Icons/info.png"));
@@ -410,13 +442,24 @@ public class EmployeeMapController extends MapController {
         btnInfo1.setStyle("-fx-background-color: #022D5A;" + "-fx-background-radius: 30;");
         btnInfo1.setTextOverrun(OverrunStyle.CLIP);
 
+
+        UIHelpers.btnRaise(btnInfo1);
+
         btnLogOut.setStyle("-fx-background-radius: 30;" );
+        btnLogOut.setStyle("-fx-background-radius: 30;");
         btnLogOut.setButtonType(JFXButton.ButtonType.RAISED);
         imgLogOut.setImage(new Image("images/Icons/signout.png"));
+
+        UIHelpers.btnRaise(btnLogOut);
 
         btnText.setStyle("-fx-background-radius: 30;" );
         btnText.setButtonType(JFXButton.ButtonType.RAISED);
         imgText.setImage(new Image("images/Icons/text.png"));
+
+       UIHelpers.btnRaise(btnText);
+
+
+
 
         vboxDock.setSpacing(8);
 
@@ -826,5 +869,19 @@ public class EmployeeMapController extends MapController {
         vboxDock.getChildren().add(nodeListRoom);
         vboxDock.getChildren().add(nodeListCal);
         vboxDock.getChildren().add(nodeListExl);
+
+        Platform.runLater(() -> {
+            // Add listener for commands
+            FirebaseAPI.setCaller(EmployeeMapController.this);
+            FirebaseAPI.checkForCommands(UserHelpers.getCurrentUser().getUsername());
+        });
+
+    }
+
+    @Override
+    public void btnReturn_Click(MouseEvent mouseEvent) throws Exception {
+        ScreenController.logOut(btnLogOut);
+        FirebaseAPI.setCaller(null);
+        ScreenController.activate(Constants.Routes.LOGIN);
     }
 }
