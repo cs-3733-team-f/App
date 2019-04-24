@@ -89,12 +89,12 @@
         </HBox>
         <HBox layoutX="129.0" layoutY="300.0" prefHeight="50.0" prefWidth="1200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="370.0">
             <children>
-                <Label alignment="CENTER" contentDisplay="CENTER" prefWidth="600.0" text="Team" textFill="#022d5a">
+                <Label alignment="CENTER" contentDisplay="CENTER" prefWidth="600.0" text="Team G (D19)" textFill="#022d5a">
                     <font>
                         <Font size="14.0" />
                     </font>
                 </Label>
-                <Label alignment="CENTER" contentDisplay="CENTER" prefWidth="600.0" text="API2" textFill="#022d5a">
+                <Label alignment="CENTER" contentDisplay="CENTER" prefWidth="600.0" text="Floral Request" textFill="#022d5a">
                     <font>
                         <Font size="14.0" />
                     </font>
@@ -106,12 +106,12 @@
         </HBox>
         <HBox layoutX="213.0" layoutY="325.0" prefHeight="50.0" prefWidth="1200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="420.0">
             <children>
-                <Label alignment="CENTER" contentDisplay="CENTER" prefWidth="600.0" text="Team" textFill="#022d5a">
+                <Label alignment="CENTER" contentDisplay="CENTER" prefWidth="600.0" text="Team D (D19)" textFill="#022d5a">
                     <font>
                         <Font size="14.0" />
                     </font>
                 </Label>
-                <Label alignment="CENTER" contentDisplay="CENTER" prefWidth="600.0" text="API3" textFill="#022d5a">
+                <Label alignment="CENTER" contentDisplay="CENTER" prefWidth="600.0" text="Baby Sitting" textFill="#022d5a">
                     <font>
                         <Font size="14.0" />
                     </font>
