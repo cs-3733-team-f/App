@@ -53,8 +53,8 @@ public class CustodianMapController extends MapController {
         MapDisplay.displayCust(this);
         initDirections();
 
-//        SearchAPI searchAPI = new SearchAPI(search, true);
-//        searchAPI.searchable();
+        SearchAPI searchAPI = new SearchAPI(search, true);
+        searchAPI.searchable();
 
     }
 

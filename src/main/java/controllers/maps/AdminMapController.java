@@ -73,8 +73,14 @@ public class AdminMapController extends MapController {
         SearchEngineController.setParentController(this);
         MapDisplay.displayAdmin(this);
 
-//        SearchAPI searchAPI = new SearchAPI(search, true);
-//        searchAPI.searchable();
+        SearchAPI searchAPI = new SearchAPI(search, true);
+        searchAPI.searchable();
+
+        gesMap.setOnMouseMoved( (e) -> {
+                    mouseCnt += 1;
+                    secCnt = 0L;
+                }
+        );
 
         Delta deltaDragged = new Delta();
         panMap.setOnMousePressed((e) -> {
